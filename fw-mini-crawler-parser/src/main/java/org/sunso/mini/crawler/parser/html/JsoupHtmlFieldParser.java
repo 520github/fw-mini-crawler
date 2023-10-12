@@ -175,7 +175,11 @@ public class JsoupHtmlFieldParser extends AbstractHtmlFieldParser {
         if (element == null) {
             return null;
         }
-        return element.absUrl(attrKey);
+        String result = element.absUrl(attrKey);
+        if (StrUtil.isBlank(result)) {
+            result = element.attr(attrKey);
+        }
+        return result;
     }
 
 

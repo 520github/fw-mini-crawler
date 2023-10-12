@@ -29,6 +29,6 @@ public class CrawlerFieldParserRequest {
     }
 
     public String fetchResponseBody() {
-        return response.getBody();
+        return response.body();
     }
 }

@@ -27,13 +27,13 @@ public class HutoolCrawlerDownloader implements CrawlerDownloader {
         //HttpUtil.createRequest(Method.POST, "").cookie();
         System.out.println("do download:" + request.getUrl());
         //HttpResponse response = HttpUtil.createGet(request.getUrl(), true).execute();
-        System.out.println(response.body());
-        InputStream inputStream = response.bodyStream();
-        try {
-            System.out.println("available:" + inputStream.available());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        //System.out.println(response.body());
+//        InputStream inputStream = response.bodyStream();
+//        try {
+//            System.out.println("available:" + inputStream.available());
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
         return getCrawlerHttpResponse(response);
     }
 

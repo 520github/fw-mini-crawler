@@ -49,7 +49,8 @@ public class CrawlerHttpResponse {
         if (in == null) {
             return null;
         }
-        return IoUtil.readBytes(in);
+        bodyBytes = IoUtil.readBytes(in);
+        return bodyBytes;
     }
 
     public String body() {

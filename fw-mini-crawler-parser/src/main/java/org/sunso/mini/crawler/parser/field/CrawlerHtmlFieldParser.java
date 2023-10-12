@@ -37,7 +37,7 @@ public class CrawlerHtmlFieldParser implements CrawlerFieldParser{
     private CrawlerResult handleCrawlerResult(CrawlerFieldParserRequest request, HtmlFieldParser htmlFieldParser) {
         Field field = request.getField();
         String subHtml = htmlFieldParser.selectorHtml(field);
-        return request.getCrawlerParser().parse((Class<? extends CrawlerResult>)field.getType(), CrawlerHttpEmptyRequest.create(), CrawlerHttpResponse.create(subHtml));
+        return request.getCrawlerParser().parse((Class<? extends CrawlerResult>)field.getType(), request.getRequest(), CrawlerHttpResponse.create(subHtml));
     }
 
     private Object[] handleArray(CrawlerFieldParserRequest request, HtmlFieldParser htmlFieldParser) {
@@ -58,7 +58,7 @@ public class CrawlerHtmlFieldParser implements CrawlerFieldParser{
         if (containSuperType(genericClass, CrawlerResult.class)) {
             List<Object> resultList = new ArrayList<>();
             for(String html: htmlFieldParser.selectorHtmlList(field)) {
-                CrawlerResult crawlerResult = request.getCrawlerParser().parse(genericClass, CrawlerHttpEmptyRequest.create(), CrawlerHttpResponse.create(html));
+                CrawlerResult crawlerResult = request.getCrawlerParser().parse(genericClass, request.getRequest(), CrawlerHttpResponse.create(html));
                 resultList.add(crawlerResult);
             }
             return resultList;

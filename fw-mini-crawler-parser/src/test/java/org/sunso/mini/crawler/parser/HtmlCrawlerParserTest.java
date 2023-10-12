@@ -29,7 +29,7 @@ public class HtmlCrawlerParserTest extends BaseTest {
     }
 
     private CrawlerHttpResponse getResponse() {
-        CrawlerHttpResponse response = new CrawlerHttpResponse();
+
         StringBuilder body = new StringBuilder();
         body.append("<div id='test' age='100' >this is a test");
         body.append("<li>1</li>");
@@ -53,7 +53,7 @@ public class HtmlCrawlerParserTest extends BaseTest {
         body.append("</div>");
         body.append("</li>");
         body.append("</div>");
-        response.setBody(body.toString());
+        CrawlerHttpResponse response = new CrawlerHttpResponse(body.toString());
         return response;
     }
 

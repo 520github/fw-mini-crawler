@@ -22,7 +22,7 @@ public class HtmlCrawlerParser extends AbstractCrawlerParser {
     @Override
     public CrawlerResult parse(Class<? extends CrawlerResult> clazz, CrawlerHttpRequest request, CrawlerHttpResponse response) {
         Map<String, Object> dataMap = new HashMap<>();
-        HtmlFieldParser htmlFieldParser = getHtmlFieldParser(request.getUrl(), response.getBody());
+        HtmlFieldParser htmlFieldParser = getHtmlFieldParser(request.getUrl(), response.body());
         dataMap.putAll(parseHtml(clazz, htmlFieldParser));
 
         AjaxFieldParser ajaxFieldParser = getAjaxFieldParser();

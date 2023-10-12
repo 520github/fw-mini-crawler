@@ -13,7 +13,7 @@ public class HutoolCrawlerDownloaderTest extends BaseTest {
         String url = "http://www.zhongzhenglawyer.com/Content/2232432.html";
         CrawlerHttpGetRequest get = new CrawlerHttpGetRequest(url);
         CrawlerHttpResponse response = crawlerDownloader.download(get);
-        //
+        print(response.body());
     }
 
     @Test

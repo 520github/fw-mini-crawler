@@ -9,6 +9,8 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
 
     protected String contentType;
 
+    private Map<String, String> parameters = new HashMap<>();
+
     private Map<String, Object> data = new HashMap<>();
 
     private Map<String, String> cookies = new HashMap<>();
@@ -40,6 +42,22 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public void addParameter(String name, String value) {
+        parameters.put(name, value);
+    }
+
+    public void setParameters(Map<String, String> parameters) {
+        parameters.putAll(parameters);
+    }
+
+    public String getParameter(String name) {
+        return parameters.get(name);
+    }
+
+    public Map<String, String> getParameters() {
+        return parameters;
     }
 
     public void addData(String name, String value) {

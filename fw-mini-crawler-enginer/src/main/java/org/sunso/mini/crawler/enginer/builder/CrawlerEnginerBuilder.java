@@ -1,6 +1,7 @@
 package org.sunso.mini.crawler.enginer.builder;
 
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
+import org.sunso.mini.crawler.common.result.CrawlerResult;
 import org.sunso.mini.crawler.common.spider.CrawlerSpider;
 import org.sunso.mini.crawler.context.CrawlerContext;
 import org.sunso.mini.crawler.context.CrawlerContextBuilder;
@@ -13,7 +14,9 @@ import org.sunso.mini.crawler.queue.CrawlerQueue;
 import org.sunso.mini.crawler.spider.OneTimeCrawlerSpider;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CrawlerEnginerBuilder {
     private List<CrawlerHttpRequest> requestList = new ArrayList<>();
@@ -22,6 +25,8 @@ public class CrawlerEnginerBuilder {
     private CrawlerParser parser;
     private CrawlerHandler handler;
     private Class<? extends CrawlerSpider> spiderClassType;
+
+    private Map<String, Class<? extends CrawlerResult>> urlCrawlerResultMap;
     private int spiderNum;
 
 
@@ -67,6 +72,19 @@ public class CrawlerEnginerBuilder {
         return this;
     }
 
+    public CrawlerEnginerBuilder urlCrawlerResultMap(Map<String, Class<? extends CrawlerResult>> urlCrawlerResultMap) {
+        this.urlCrawlerResultMap = urlCrawlerResultMap;
+        return this;
+    }
+
+    public CrawlerEnginerBuilder urlCrawlerResult(String url, Class<? extends CrawlerResult> crawlerResult) {
+         if (this.urlCrawlerResultMap == null) {
+             this.urlCrawlerResultMap = new HashMap<>();
+         }
+         this.urlCrawlerResultMap.put(url, crawlerResult);
+        return this;
+    }
+
     public CrawlerEnginerBuilder spiderNum(int spiderNum) {
         this.spiderNum = spiderNum;
         return this;
@@ -90,6 +108,7 @@ public class CrawlerEnginerBuilder {
                 .parser(parser)
                 .handler(handler)
                 .spiderClassType(spiderClassType)
+                .urlCrawlerResultMap(urlCrawlerResultMap)
                 .spiderNum(spiderNum)
                 .build();
     }

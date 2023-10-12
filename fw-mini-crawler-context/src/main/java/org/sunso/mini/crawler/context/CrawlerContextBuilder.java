@@ -1,16 +1,19 @@
 package org.sunso.mini.crawler.context;
 
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
+import org.sunso.mini.crawler.common.result.CrawlerResult;
 import org.sunso.mini.crawler.common.spider.CrawlerSpider;
 import org.sunso.mini.crawler.downloader.CrawlerDownloader;
 import org.sunso.mini.crawler.downloader.HutoolCrawlerDownloader;
 import org.sunso.mini.crawler.handler.CrawlerHandler;
 import org.sunso.mini.crawler.parser.CrawlerParser;
+import org.sunso.mini.crawler.parser.UnionCrawlerParser;
 import org.sunso.mini.crawler.queue.CrawlerLinkedBlockingQueue;
 import org.sunso.mini.crawler.queue.CrawlerQueue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class CrawlerContextBuilder {
     private List<CrawlerHttpRequest> requestList = new ArrayList<>();
@@ -19,6 +22,8 @@ public class CrawlerContextBuilder {
     private CrawlerParser parser;
     private CrawlerHandler handler;
     private Class<? extends CrawlerSpider> spiderClassType;
+
+    private Map<String, Class<? extends CrawlerResult>> urlCrawlerResultMap;
     private int spiderNum;
 
     private CrawlerContextBuilder() {
@@ -64,6 +69,11 @@ public class CrawlerContextBuilder {
         return this;
     }
 
+    public CrawlerContextBuilder urlCrawlerResultMap(Map<String, Class<? extends CrawlerResult>> urlCrawlerResultMap) {
+        this.urlCrawlerResultMap = urlCrawlerResultMap;
+        return this;
+    }
+
     public CrawlerContextBuilder spiderNum(int spiderNum) {
         this.spiderNum = spiderNum;
         return this;
@@ -80,7 +90,7 @@ public class CrawlerContextBuilder {
             downloader = new HutoolCrawlerDownloader();
         }
         if (parser == null) {
-            parser = null;
+            parser = new UnionCrawlerParser();
         }
         if (handler == null) {
             handler = null;
@@ -92,6 +102,7 @@ public class CrawlerContextBuilder {
         context.setHandler(handler);
         context.setRequestList(requestList);
         context.setSpiderClassType(spiderClassType);
+        context.setUrlCrawlerResultMap(urlCrawlerResultMap);
         context.setSpiderNum(spiderNum);
         return context;
     }
