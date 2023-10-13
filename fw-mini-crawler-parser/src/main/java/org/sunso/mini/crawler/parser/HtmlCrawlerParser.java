@@ -1,9 +1,8 @@
 package org.sunso.mini.crawler.parser;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.StrUtil;
 import org.reflections.ReflectionUtils;
-import org.sunso.mini.crawler.common.annotation.html.HtmlCssPath;
+import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpEmptyRequest;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;

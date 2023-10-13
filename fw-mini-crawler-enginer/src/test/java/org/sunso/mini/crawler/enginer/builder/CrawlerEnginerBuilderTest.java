@@ -2,10 +2,10 @@ package org.sunso.mini.crawler.enginer.builder;
 
 import lombok.Data;
 import org.junit.Test;
-import org.sunso.mini.crawler.common.annotation.html.HtmlAttr;
-import org.sunso.mini.crawler.common.annotation.html.HtmlCssPath;
-import org.sunso.mini.crawler.common.annotation.html.HtmlText;
-import org.sunso.mini.crawler.common.annotation.html.HtmlUrl;
+import org.sunso.mini.crawler.annotation.html.HtmlAttr;
+import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
+import org.sunso.mini.crawler.annotation.html.HtmlText;
+import org.sunso.mini.crawler.annotation.html.HtmlUrl;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequestBuilder;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
 import org.sunso.mini.crawler.enginer.BaseTest;

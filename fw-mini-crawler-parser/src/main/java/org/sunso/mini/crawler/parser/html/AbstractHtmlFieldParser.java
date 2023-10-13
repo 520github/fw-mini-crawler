@@ -1,6 +1,6 @@
 package org.sunso.mini.crawler.parser.html;
 
-import org.sunso.mini.crawler.common.annotation.html.HtmlCssPath;
+import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
 
 import java.lang.reflect.Field;
 

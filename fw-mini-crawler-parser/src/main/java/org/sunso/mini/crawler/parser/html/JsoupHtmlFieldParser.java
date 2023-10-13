@@ -5,10 +5,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.sunso.mini.crawler.common.annotation.html.HtmlAttr;
-import org.sunso.mini.crawler.common.annotation.html.HtmlImage;
-import org.sunso.mini.crawler.common.annotation.html.HtmlText;
-import org.sunso.mini.crawler.common.annotation.html.HtmlUrl;
+import org.sunso.mini.crawler.annotation.html.HtmlAttr;
+import org.sunso.mini.crawler.annotation.html.HtmlImage;
+import org.sunso.mini.crawler.annotation.html.HtmlText;
+import org.sunso.mini.crawler.annotation.html.HtmlUrl;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
 import org.sunso.mini.crawler.parser.type.TypeConverters;
 

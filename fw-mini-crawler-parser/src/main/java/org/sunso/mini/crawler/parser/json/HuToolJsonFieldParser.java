@@ -2,7 +2,7 @@ package org.sunso.mini.crawler.parser.json;
 
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
-import org.sunso.mini.crawler.common.annotation.json.JsonPath;
+import org.sunso.mini.crawler.annotation.json.JsonPath;
 
 import java.lang.reflect.Field;
 

@@ -2,7 +2,7 @@ package org.sunso.mini.crawler.parser;
 
 import lombok.Data;
 import org.junit.Test;
-import org.sunso.mini.crawler.common.annotation.html.*;
+import org.sunso.mini.crawler.annotation.html.*;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpGetRequest;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
@@ -77,7 +77,6 @@ public class HtmlCrawlerParserTest extends BaseTest {
         private List<SubDemoCrawlerResult> subDemoCrawlerResult;
 
 
-        @HtmlAjax(value = "https://dev-cqb.lddstp.com/zz-official/employee/info/detail/40")
         private String name;
 
     }

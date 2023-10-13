@@ -17,6 +17,7 @@
         <module>fw-mini-crawler-downloader</module>
         <module>fw-mini-crawler-context</module>
         <module>fw-mini-crawler-queue</module>
+        <module>fw-mini-crawler-annotation</module>
     </modules>
 
     <properties>

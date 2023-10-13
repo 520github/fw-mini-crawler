@@ -1,4 +1,4 @@
-package org.sunso.mini.crawler.common.annotation.html;
+package org.sunso.mini.crawler.annotation.html;
 
 import java.lang.annotation.*;
 
