@@ -1,50 +1,64 @@
-package org.sunso.mini.crawler.parser.hutool;
+package org.sunso.mini.crawler.parser;
 
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import lombok.Data;
 import org.junit.Test;
-import org.sunso.mini.crawler.parser.BaseTest;
+import org.sunso.mini.crawler.annotation.json.JsonPath;
+import org.sunso.mini.crawler.common.http.request.CrawlerHttpEmptyRequest;
+import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
+import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
+import org.sunso.mini.crawler.common.result.CrawlerResult;
 
-public class JSONUtilTest extends BaseTest {
+import java.util.List;
 
-    @Test
-    public void jsonObjectTest() {
-        JSONObject jsonObject = getJSONObject();
-        Object total = JSONUtil.getByPath(jsonObject, "data.total");
-        print(total.getClass().getName());
-        print(total);
-        JSONArray dataList = (JSONArray) JSONUtil.getByPath(jsonObject, "data.list");
-        print(dataList.getClass().getName());
-        print(dataList);
-        for(Object data: dataList.toArray()) {
-            print(data.getClass().getName());
-            print(data.toString());
-        }
-        print(jsonObject.toString());
-    }
+public class UnionCrawlerParserJsonTest extends BaseTest {
+
+    private UnionCrawlerParser unionCrawlerParser = new UnionCrawlerParser();
 
     @Test
-    public void jsonArrayTest() {
-        Object result = JSONUtil.getByPath(getJSONArray(), "$");
-        print(result.getClass().getName());
-        print(result);
+    public void parseJsonTest() {
+        CrawlerResult crawlerResult  = unionCrawlerParser.parse(JsonDataResult.class, getRequest(), getResponse());
+        print(crawlerResult);
+        print(crawlerResult);
     }
 
-    private JSONObject getJSONObject() {
-        return JSONUtil.parseObj(jsonData());
+    private CrawlerHttpRequest getRequest() {
+        CrawlerHttpEmptyRequest request = new CrawlerHttpEmptyRequest();
+        request.setUrl("http://www.dd.com");
+        return request;
     }
 
-    private JSONArray getJSONArray() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        sb.append("{'id':1,'name':'name1'},");
-        sb.append("{'id':2,'name':'name2'},");
-        sb.append("{'id':3,'name':'name3'}");
-        sb.append("]");
-        return JSONUtil.parseArray(sb.toString());
+    private CrawlerHttpResponse getResponse() {
+        return CrawlerHttpResponse.create(jsonData());
     }
 
+    @Data
+    class JsonDataResult implements CrawlerResult {
+        @JsonPath("code")
+        private String code;
+        @JsonPath("msg")
+        private String msg;
+        @JsonPath("data.total")
+        private Integer total;
+        @JsonPath("data.list")
+        private List<JsonDataListResult> resultList;
+        @JsonPath("data.list")
+        private JsonDataListResult[] resultArray;
+        @JsonPath("data.list[3]")
+        private JsonDataListResult detail;
+    }
+
+    @Data
+    class JsonDataListResult implements CrawlerResult {
+        @JsonPath("id")
+        private Integer id;
+        @JsonPath("title")
+        private String title;
+        @JsonPath("coverImg")
+        private String imgUrl;
+        @JsonPath("viewNum")
+        private Integer count;
+
+    }
 
     private String jsonData() {
         return "{\n" +

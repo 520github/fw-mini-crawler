@@ -10,6 +10,7 @@ public class HuToolJsonFieldParser extends AbstractJsonFieldParser {
     JSON jsonObject = null;
     public HuToolJsonFieldParser(String jsonContent) {
         super(jsonContent);
+        initJson();
     }
 
     @Override
