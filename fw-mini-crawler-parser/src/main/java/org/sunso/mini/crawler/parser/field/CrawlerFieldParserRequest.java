@@ -23,6 +23,14 @@ public class CrawlerFieldParserRequest {
         return instance;
     }
 
+    public CrawlerFieldParserRequest cloneExcludeResponse() {
+        CrawlerFieldParserRequest instance = new CrawlerFieldParserRequest();
+        instance.setField(field);
+        instance.setCrawlerParser(crawlerParser);
+        instance.setRequest(request);
+        return instance;
+    }
+
 
     public String fetchRequestUrl() {
         return request.getUrl();

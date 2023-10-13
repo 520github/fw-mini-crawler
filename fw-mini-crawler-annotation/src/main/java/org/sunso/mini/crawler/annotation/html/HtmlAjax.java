@@ -1,5 +1,6 @@
 package org.sunso.mini.crawler.annotation.html;
 
+import org.sunso.mini.crawler.common.enums.ContentTypeEnum;
 import org.sunso.mini.crawler.common.enums.HttpRequestMethodEnum;
 import org.sunso.mini.crawler.downloader.CrawlerDownloader;
 
@@ -16,4 +17,6 @@ public @interface HtmlAjax {
     HttpRequestMethodEnum method() default HttpRequestMethodEnum.GET;
 
     Class<? extends CrawlerDownloader> downloader();
+
+    ContentTypeEnum contentType() default ContentTypeEnum.applicationXWwwForm;
 }
