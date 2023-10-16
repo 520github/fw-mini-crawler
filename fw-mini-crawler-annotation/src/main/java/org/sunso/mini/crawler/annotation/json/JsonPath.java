@@ -15,4 +15,6 @@ public @interface JsonPath {
     String value();
 
     Class<? extends Formatter>[] formatter() default NoneFormatter.class;
+
+    String expressionFilter() default "";
 }

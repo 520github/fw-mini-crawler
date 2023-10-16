@@ -82,7 +82,10 @@ public class CrawlerEnginerBuilderJsonTest extends BaseTest {
         @JsonPath(value = "data.total", formatter = {BigDecimalFormatter.class, Money2ChineseFormatter.class})
         private String chinese;
 
-        @JsonPath("data.list")
+        @JsonPath(value = "data.list.viewNum", expressionFilter = "viewNumList>0 && viewNumList<=5")
+        private List<Integer> viewNumList;
+
+        @JsonPath(value = "data.list", expressionFilter = "viewNum>0")
         private List<ArticleListOne> articleList;
     }
 

@@ -54,6 +54,16 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.eclipse.dirigible</groupId>-->
+<!--            <artifactId>dirigible-engine-javascript-graalvm</artifactId>-->
+<!--            <version>5.12.0</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-jexl3</artifactId>
+            <version>3.2.1</version>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

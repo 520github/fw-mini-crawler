@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CrawlerHtmlFieldParser implements CrawlerFieldParser{
+public class CrawlerHtmlFieldParser extends AbstractCrawlerFieldParser {
     @Override
     public Object parseField(CrawlerFieldParserRequest request) {
         HtmlFieldParser htmlFieldParser = getHtmlFieldParser(request);
@@ -59,18 +59,20 @@ public class CrawlerHtmlFieldParser implements CrawlerFieldParser{
             List<Object> resultList = new ArrayList<>();
             for(String html: htmlFieldParser.selectorHtmlList(field)) {
                 CrawlerResult crawlerResult = request.getCrawlerParser().parse(genericClass, request.getRequest(), CrawlerHttpResponse.create(html));
-                resultList.add(crawlerResult);
+                if (checkFilter(field, crawlerResult)) {
+                    resultList.add(crawlerResult);
+                }
             }
             return resultList;
         }
-        return htmlFieldParser.selectorObjectList(field);
+        return checkFilter(field, htmlFieldParser.selectorObjectList(field));
     }
 
     private HtmlFieldParser getHtmlFieldParser(CrawlerFieldParserRequest request) {
         return HtmlFieldParserFactory.getHtmlFieldParser(request.fetchRequestUrl(), request.fetchResponseBody(), JsoupHtmlFieldParser.class);
     }
 
-    private boolean containSuperType(Class<?> type, Class<?> superType) {
-        return ReflectUtils.containSuperType(type, superType);
-    }
+//    private boolean containSuperType(Class<?> type, Class<?> superType) {
+//        return ReflectUtils.containSuperType(type, superType);
+//    }
 }

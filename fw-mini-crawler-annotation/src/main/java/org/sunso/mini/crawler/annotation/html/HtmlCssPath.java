@@ -12,4 +12,6 @@ public @interface HtmlCssPath {
     String value();
 
     Class<? extends Formatter>[] formatter() default NoneFormatter.class;
+
+    String expressionFilter() default "";
 }

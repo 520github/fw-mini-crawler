@@ -53,13 +53,15 @@ public class CrawlerJsonFieldParser extends AbstractCrawlerFieldParser {
         Field field = request.getField();
         JsonFieldParser jsonFieldParser = getJsonFieldParser(request);
         if (!isCrawlerResult(genericClass)) {
-            return (List)jsonFieldParser.selectorObject(field);
+            return checkFilter(field, (List)jsonFieldParser.selectorObject(field));
         }
         JSONArray jsonArray = (JSONArray)jsonFieldParser.selectorObject(field);
         List<Object> resultList = new ArrayList<>();
         for(Object json: jsonArray.toArray()) {
             CrawlerResult crawlerResult = request.getCrawlerParser().parse(genericClass, request.getRequest(), CrawlerHttpResponse.create(json.toString()));
-            resultList.add(crawlerResult);
+            if (checkFilter(field, crawlerResult)) {
+                resultList.add(crawlerResult);
+            }
         }
         return resultList;
     }

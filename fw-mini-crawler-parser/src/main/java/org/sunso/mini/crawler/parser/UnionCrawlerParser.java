@@ -34,6 +34,8 @@ public class UnionCrawlerParser extends AbstractCrawlerParser {
                 continue;
             }
             Object fieldValue = crawlerFieldParser.parseField(parserRequest);
+            //过滤
+
             //格式化处理
             fieldValue = formatFieldValue(field, fieldValue);
             //类型转化处理
