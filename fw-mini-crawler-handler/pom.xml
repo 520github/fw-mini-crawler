@@ -23,6 +23,11 @@
             <artifactId>fw-mini-crawler-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.sunso.mini.crawler</groupId>
+            <artifactId>fw-mini-crawler-annotation</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

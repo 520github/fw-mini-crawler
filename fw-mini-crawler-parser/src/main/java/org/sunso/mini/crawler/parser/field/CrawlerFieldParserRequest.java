@@ -1,11 +1,15 @@
 package org.sunso.mini.crawler.parser.field;
 
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONUtil;
 import lombok.Data;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.parser.CrawlerParser;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.Map;
 
 @Data
 public class CrawlerFieldParserRequest {
@@ -39,4 +43,25 @@ public class CrawlerFieldParserRequest {
     public String fetchResponseBody() {
         return response.body();
     }
+
+    public <T extends Annotation> T fetchFieldAnnotation(Class<T> annotationClass) {
+        return getField().getAnnotation(annotationClass);
+    }
+
+    public String fetchFieldName() {
+        return getField().getName();
+    }
+
+    public String fetchRequestParameterValue(String name) {
+        return getRequest().getParameter(name);
+    }
+
+    public Map<String,Object> fetchRequestData() {
+        return getRequest().getData();
+    }
+
+    public JSON fetchRequestDataJson() {
+        return JSONUtil.parseObj(fetchRequestData());
+    }
+
 }

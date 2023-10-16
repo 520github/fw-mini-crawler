@@ -44,12 +44,14 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
         this.contentType = contentType;
     }
 
-    public void addParameter(String name, String value) {
+    public AbstractCrawlerHttpRequest addParameter(String name, String value) {
         parameters.put(name, value);
+        return this;
     }
 
-    public void setParameters(Map<String, String> parameters) {
+    public AbstractCrawlerHttpRequest setParameters(Map<String, String> parameters) {
         parameters.putAll(parameters);
+        return this;
     }
 
     public String getParameter(String name) {
@@ -60,12 +62,14 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
         return parameters;
     }
 
-    public void addData(String name, String value) {
+    public AbstractCrawlerHttpRequest addData(String name, String value) {
         data.put(name, value);
+        return this;
     }
 
-    public void addData(Map<String, Object> data) {
+    public AbstractCrawlerHttpRequest addData(Map<String, Object> data) {
         data.putAll(data);
+        return this;
     }
 
     public Map<String, Object> getData() {

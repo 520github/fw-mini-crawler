@@ -3,6 +3,8 @@ package org.sunso.mini.crawler.parser;
 import lombok.Data;
 import org.junit.Test;
 import org.sunso.mini.crawler.annotation.json.JsonPath;
+import org.sunso.mini.crawler.annotation.request.ResponseBody;
+import org.sunso.mini.crawler.annotation.request.ResponseStatus;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpEmptyRequest;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
@@ -33,6 +35,11 @@ public class UnionCrawlerParserJsonTest extends BaseTest {
 
     @Data
     class JsonDataResult implements CrawlerResult {
+        @ResponseBody
+        private String body;
+        @ResponseStatus
+        private Integer status;
+
         @JsonPath("code")
         private String code;
         @JsonPath("msg")

@@ -6,6 +6,7 @@ import org.sunso.mini.crawler.annotation.html.HtmlAttr;
 import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
 import org.sunso.mini.crawler.annotation.html.HtmlText;
 import org.sunso.mini.crawler.annotation.html.HtmlUrl;
+import org.sunso.mini.crawler.annotation.json.JsonPath;
 import org.sunso.mini.crawler.annotation.request.*;
 import org.sunso.mini.crawler.annotation.result.CrawlerResultDefine;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
@@ -18,16 +19,16 @@ import org.sunso.mini.crawler.handler.ConsoleCrawlerHandler;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-public class CrawlerEnginerBuilderTest extends BaseTest {
+public class CrawlerEnginerBuilderJsonTest extends BaseTest {
 
     @Test
     public void CrawlerEnginerBuilderTest() {
-        String url = "http://www.zhongzhenglawyer.com/Content/2232432.html";
+        String url = "https://dev-cqb.lddstp.com/zz-official/article/info/page/list";
         CrawlerEnginerBuilder.create()
                 .request(
-                        CrawlerHttpRequestBuilder.get(url)
-                                .addParameter("name", "你是我的家")
-                                .addParameter("age", "23")
+                        CrawlerHttpRequestBuilder.postContentTypeJson(url)
+                                .addData("pageNum", "1")
+                                .addData("pageSize", "3")
                 )
                 .urlCrawlerResult(url, ArticleList.class)
                 .defaultSingleCrawlerEnginer()
@@ -52,12 +53,25 @@ public class CrawlerEnginerBuilderTest extends BaseTest {
         //@ResponseBody
         private String responseBody;
 
-        @HtmlText
-        @HtmlCssPath("div.ModuleNewsListGiant div.BodyCenter li")
+        @RequestData("pageNum")
+        private Integer pageNum;
+
+        @RequestData("pageSize")
+        private Integer pageSize;
+
+        @JsonPath("code")
+        private String code;
+        @JsonPath("msg")
+        private String msg;
+        @JsonPath("data.total")
+        private Integer total;
+
+        @JsonPath("data.list")
         private List<ArticleListOne> articleList;
     }
 
     @Data
+    @CrawlerResultDefine(handlers = ConsoleCrawlerHandler.class)
     class ArticleListOne implements CrawlerResult {
         @Response
         private CrawlerHttpResponse response;
@@ -71,26 +85,22 @@ public class CrawlerEnginerBuilderTest extends BaseTest {
         @ResponseStatus
         private String responseStatus;
 
-        @RequestParameter
-        private String name;
+        @RequestData("pageNum")
+        private Integer pageNum;
 
-        @RequestParameter
-        private Integer age;
+        @RequestData("pageSize")
+        private Integer pageSize;
 
-        @HtmlUrl(value = "href")
-        @HtmlCssPath("a")
-        private String detailUrl;
-
-        @HtmlAttr("data-src")
-        @HtmlCssPath("img")
+        @JsonPath("coverImg")
         private String img;
 
-        @HtmlAttr("title")
-        @HtmlCssPath("img")
+        @JsonPath("title")
         private String title;
 
-        @HtmlText
-        @HtmlCssPath("time")
+        @JsonPath("createDate")
         private String time;
+
+        @JsonPath("viewNum")
+        private Integer viewNum;
     }
 }

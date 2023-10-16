@@ -11,17 +11,17 @@ public interface CrawlerHttpRequest {
 
     void setContentType(String contentType);
 
-    void addParameter(String name, String value);
+    CrawlerHttpRequest addParameter(String name, String value);
 
-    void setParameters(Map<String, String> parameters);
+    CrawlerHttpRequest setParameters(Map<String, String> parameters);
 
     String getParameter(String name);
 
     Map<String, String> getParameters();
 
-    void addData(String name, String value);
+    CrawlerHttpRequest addData(String name, String value);
 
-    void addData(Map<String, Object> data);
+    CrawlerHttpRequest addData(Map<String, Object> data);
 
     Map<String, Object> getData();
 
