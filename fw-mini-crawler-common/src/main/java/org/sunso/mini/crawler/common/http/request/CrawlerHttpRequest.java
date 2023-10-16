@@ -19,7 +19,7 @@ public interface CrawlerHttpRequest {
 
     Map<String, String> getParameters();
 
-    CrawlerHttpRequest addData(String name, String value);
+    CrawlerHttpRequest addData(String name, Object value);
 
     CrawlerHttpRequest addData(Map<String, Object> data);
 

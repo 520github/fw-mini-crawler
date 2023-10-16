@@ -62,7 +62,7 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
         return parameters;
     }
 
-    public AbstractCrawlerHttpRequest addData(String name, String value) {
+    public AbstractCrawlerHttpRequest addData(String name, Object value) {
         data.put(name, value);
         return this;
     }

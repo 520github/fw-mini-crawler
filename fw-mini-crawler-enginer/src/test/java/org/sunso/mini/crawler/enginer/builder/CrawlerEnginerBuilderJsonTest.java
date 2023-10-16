@@ -16,6 +16,7 @@ import org.sunso.mini.crawler.common.result.CrawlerResult;
 import org.sunso.mini.crawler.enginer.BaseTest;
 import org.sunso.mini.crawler.handler.ConsoleCrawlerHandler;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -29,6 +30,8 @@ public class CrawlerEnginerBuilderJsonTest extends BaseTest {
                         CrawlerHttpRequestBuilder.postContentTypeJson(url)
                                 .addData("pageNum", "1")
                                 .addData("pageSize", "3")
+                                .addData("config", Config.newInstance())
+                                .addData("configList", Arrays.asList(Config.newInstance(), Config.newInstance()))
                 )
                 .urlCrawlerResult(url, ArticleList.class)
                 .defaultSingleCrawlerEnginer()
@@ -58,6 +61,12 @@ public class CrawlerEnginerBuilderJsonTest extends BaseTest {
 
         @RequestData("pageSize")
         private Integer pageSize;
+
+        @RequestData("configList")
+        private List<Config> configList;
+
+        @RequestData("config.loadConfig")
+        private String loadConfig;
 
         @JsonPath("code")
         private String code;
@@ -102,5 +111,20 @@ public class CrawlerEnginerBuilderJsonTest extends BaseTest {
 
         @JsonPath("viewNum")
         private Integer viewNum;
+    }
+
+    @Data
+    static class Config implements CrawlerResult {
+        @JsonPath("loadConfig")
+        private String loadConfig;
+        @JsonPath("listConfig")
+        private String listConfig;
+
+        public static Config newInstance() {
+            Config config = new Config();
+            config.setLoadConfig("load");
+            config.setListConfig("list");
+            return config;
+        }
     }
 }
