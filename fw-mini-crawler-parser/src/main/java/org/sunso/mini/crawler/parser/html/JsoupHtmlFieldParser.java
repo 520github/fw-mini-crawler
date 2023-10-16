@@ -63,7 +63,8 @@ public class JsoupHtmlFieldParser extends AbstractHtmlFieldParser {
     }
 
     private Object convertValue(String result, Field field) {
-        return TypeConverters.getValue(field.getType(), result, null);
+        //return TypeConverters.getValue(field.getType(), result, null);
+        return result;
     }
 
     @Override

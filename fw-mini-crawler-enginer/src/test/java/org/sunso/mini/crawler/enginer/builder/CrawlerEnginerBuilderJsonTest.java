@@ -14,9 +14,13 @@ import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequestBuilder;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
 import org.sunso.mini.crawler.enginer.BaseTest;
+import org.sunso.mini.crawler.formatter.date.DateNormyyyyMMddFormatter;
+import org.sunso.mini.crawler.formatter.money.Money2ChineseFormatter;
+import org.sunso.mini.crawler.formatter.type.BigDecimalFormatter;
 import org.sunso.mini.crawler.handler.ConsoleCrawlerHandler;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -75,6 +79,9 @@ public class CrawlerEnginerBuilderJsonTest extends BaseTest {
         @JsonPath("data.total")
         private Integer total;
 
+        @JsonPath(value = "data.total", formatter = {BigDecimalFormatter.class, Money2ChineseFormatter.class})
+        private String chinese;
+
         @JsonPath("data.list")
         private List<ArticleListOne> articleList;
     }
@@ -106,8 +113,8 @@ public class CrawlerEnginerBuilderJsonTest extends BaseTest {
         @JsonPath("title")
         private String title;
 
-        @JsonPath("createDate")
-        private String time;
+        @JsonPath(value = "createDate", formatter = DateNormyyyyMMddFormatter.class)
+        private Date time;
 
         @JsonPath("viewNum")
         private Integer viewNum;

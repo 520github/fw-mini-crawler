@@ -18,6 +18,7 @@
         <module>fw-mini-crawler-context</module>
         <module>fw-mini-crawler-queue</module>
         <module>fw-mini-crawler-annotation</module>
+        <module>fw-mini-crawler-formatter</module>
     </modules>
 
     <properties>
