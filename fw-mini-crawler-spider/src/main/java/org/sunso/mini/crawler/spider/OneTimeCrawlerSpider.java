@@ -33,7 +33,7 @@ public class OneTimeCrawlerSpider extends AbstractCrawlerSpider {
             CrawlerResult crawlerResult = context.getParser().parse(getCrawlerResultClass(request), request, response);
             System.out.println("crawlerResult:" + crawlerResult);
 
-            CrawlerHandlerFactory.doCrawlerHandler(crawlerResult);
+            //CrawlerHandlerFactory.doCrawlerHandler(crawlerResult);
             Thread.sleep(i*1000);
         }
     }

@@ -5,6 +5,7 @@ import org.reflections.ReflectionUtils;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
+import org.sunso.mini.crawler.handler.CrawlerHandlerFactory;
 import org.sunso.mini.crawler.parser.field.CrawlerFieldParser;
 import org.sunso.mini.crawler.parser.field.CrawlerFieldParserFactory;
 import org.sunso.mini.crawler.parser.field.CrawlerFieldParserRequest;
@@ -29,7 +30,9 @@ public class UnionCrawlerParser extends AbstractCrawlerParser {
             }
             dataMap.put(field.getName(), crawlerFieldParser.parseField(parserRequest));
         }
-        return BeanUtil.mapToBean(dataMap, clazz, true);
+        CrawlerResult result = BeanUtil.mapToBean(dataMap, clazz, true);
+        CrawlerHandlerFactory.doCrawlerHandler(result);
+        return result;
     }
 
 }
