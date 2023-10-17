@@ -1,9 +1,12 @@
 package org.sunso.mini.crawler.parser;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import org.reflections.ReflectionUtils;
 import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
 import org.sunso.mini.crawler.annotation.json.JsonPath;
+import org.sunso.mini.crawler.annotation.request.RequestAttributeGet;
+import org.sunso.mini.crawler.annotation.request.RequestAttributeSet;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
@@ -26,6 +29,7 @@ public class UnionCrawlerParser extends AbstractCrawlerParser {
         Set<Field> fieldSet =  ReflectionUtils.getAllFields(clazz);
         Map<String, Object> dataMap = new HashMap<>();
         CrawlerFieldParserRequest parserRequest = CrawlerFieldParserRequest.newInstance(request, response, this);
+        //parserRequest.setBeanDataMap(dataMap);
         for(Field field: fieldSet) {
             parserRequest.setField(field);
             CrawlerFieldParser crawlerFieldParser = CrawlerFieldParserFactory.getCrawlerFieldParser(field);
@@ -40,11 +44,23 @@ public class UnionCrawlerParser extends AbstractCrawlerParser {
             fieldValue = formatFieldValue(field, fieldValue);
             //类型转化处理
             fieldValue = TypeConverters.getValue(field.getType(), fieldValue, null);
+            //设置request上下文属性
+            setRequestAttribute(field, fieldValue, parserRequest);
             dataMap.put(field.getName(), fieldValue);
         }
         CrawlerResult result = BeanUtil.mapToBean(dataMap, clazz, true);
         CrawlerHandlerFactory.doCrawlerHandler(result);
         return result;
+    }
+
+    private void setRequestAttribute(Field field, Object fieldValue, CrawlerFieldParserRequest parserRequest) {
+        if (field.isAnnotationPresent(RequestAttributeSet.class)) {
+            String name = field.getAnnotation(RequestAttributeSet.class).value();
+            if (StrUtil.isBlank(name)) {
+                name = field.getName();
+            }
+            parserRequest.commitRequestAttribute(name, fieldValue);
+        }
     }
 
     private Object formatFieldValue(Field field, Object fieldValue) {
@@ -57,6 +73,9 @@ public class UnionCrawlerParser extends AbstractCrawlerParser {
         }
         else if (field.isAnnotationPresent(JsonPath.class)) {
             return field.getAnnotation(JsonPath.class).formatter();
+        }
+        else if (field.isAnnotationPresent(RequestAttributeGet.class)) {
+            return field.getAnnotation(RequestAttributeGet.class).formatter();
         }
         return null;
     }

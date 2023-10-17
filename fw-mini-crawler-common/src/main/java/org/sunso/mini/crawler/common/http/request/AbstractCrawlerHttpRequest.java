@@ -13,6 +13,8 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
 
     private Map<String, Object> data = new HashMap<>();
 
+    private Map<String, Object> attributes = new HashMap<>();
+
     private Map<String, String> cookies = new HashMap<>();
 
     private Map<String, String> headers = new HashMap<>();
@@ -74,6 +76,19 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
 
     public Map<String, Object> getData() {
         return data;
+    }
+
+    public CrawlerHttpRequest setAttribute(String name, Object value) {
+        attributes.put(name, value);
+        return this;
+    }
+
+    public Object getAttribute(String name) {
+        return attributes.get(name);
+    }
+
+    public Map<String, Object> getAttributes() {
+        return attributes;
     }
 
     public void addHeader(String name, String value) {

@@ -2,7 +2,7 @@ package org.sunso.mini.crawler.enginer;
 
 import lombok.SneakyThrows;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
-import org.sunso.mini.crawler.common.spider.CrawlerSpider;
+import org.sunso.mini.crawler.spider.CrawlerSpider;
 import org.sunso.mini.crawler.context.CrawlerContext;
 
 import java.lang.reflect.Constructor;

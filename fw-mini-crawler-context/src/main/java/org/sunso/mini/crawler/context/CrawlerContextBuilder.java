@@ -2,7 +2,7 @@ package org.sunso.mini.crawler.context;
 
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
-import org.sunso.mini.crawler.common.spider.CrawlerSpider;
+import org.sunso.mini.crawler.spider.CrawlerSpider;
 import org.sunso.mini.crawler.downloader.CrawlerDownloader;
 import org.sunso.mini.crawler.downloader.HutoolCrawlerDownloader;
 import org.sunso.mini.crawler.handler.CrawlerHandler;

@@ -9,6 +9,7 @@ import org.sunso.mini.crawler.parser.CrawlerParser;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Map;
 
 @Data
@@ -17,6 +18,8 @@ public class CrawlerFieldParserRequest {
     private CrawlerHttpResponse response;
     private Field field;
     private CrawlerParser crawlerParser;
+
+    //private Map<String, Object> beanDataMap;
 
 
     public static CrawlerFieldParserRequest newInstance(CrawlerHttpRequest request, CrawlerHttpResponse response, CrawlerParser crawlerParser) {
@@ -64,4 +67,21 @@ public class CrawlerFieldParserRequest {
         return JSONUtil.parseObj(fetchRequestData());
     }
 
+
+    public Map<String,Object> fetchAllReplaceParams() {
+        Map<String,Object> parasMap = new HashMap<>();
+        parasMap.putAll(request.getAttributes());
+        return parasMap;
+    }
+
+    public void commitRequestAttribute(String name, Object value) {
+        if (getRequest() == null) {
+            return;
+        }
+        getRequest().setAttribute(name, value);
+    }
+
+    public Object fetchRequestAttributeValue(String name) {
+        return getRequest().getAttributes().get(name);
+    }
 }

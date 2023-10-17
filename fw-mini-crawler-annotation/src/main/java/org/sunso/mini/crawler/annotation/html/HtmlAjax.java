@@ -19,4 +19,6 @@ public @interface HtmlAjax {
     Class<? extends CrawlerDownloader> downloader();
 
     ContentTypeEnum contentType() default ContentTypeEnum.applicationXWwwForm;
+
+    String requestAttributeName() default "";
 }

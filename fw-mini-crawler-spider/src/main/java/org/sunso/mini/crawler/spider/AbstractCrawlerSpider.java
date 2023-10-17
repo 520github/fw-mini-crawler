@@ -1,8 +1,8 @@
 package org.sunso.mini.crawler.spider;
 
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
-import org.sunso.mini.crawler.common.spider.CrawlerSpider;
 import org.sunso.mini.crawler.context.CrawlerContext;
+import org.sunso.mini.crawler.context.CrawlerContextThreadLocal;
 import org.sunso.mini.crawler.downloader.CrawlerDownloader;
 
 public abstract class AbstractCrawlerSpider implements CrawlerSpider {

@@ -22,4 +22,16 @@ public class UrlUtilsTest extends BaseTest {
         Map<String, String> result = UrlUtils.urlMatch(matchUrl, targetUrl);
         print(result);
     }
+
+    @Test
+    public void getNextPageUrlTest() {
+        String pageKey = "pageNo";
+        String url = "http://gsgk.mnr.gov.cn/wQpjApi/qpj/qpjSearch?xzq={code}&wz=&pageNo=1&pageSize=10";
+        String result = UrlUtils.getNextPageUrl(url, pageKey, 2);
+        print(result);
+        url = "http://gsgk.mnr.gov.cn/wQpjApi/qpj/qpjSearch?xzq={code}&wz=&pageSize=10&pageNo=1";
+        result = UrlUtils.getNextPageUrl(url, pageKey, 2);
+        print(result);
+
+    }
 }

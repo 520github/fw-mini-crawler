@@ -19,6 +19,9 @@ public class CrawlerFieldParserFactory {
         else if (field.isAnnotationPresent(RequestData.class)) {
             return new CrawlerRequestDataFieldParser();
         }
+        else if (field.isAnnotationPresent(RequestAttributeGet.class)) {
+            return new CrawlerRequestAttributeGetFieldParser();
+        }
         else if (field.isAnnotationPresent(Response.class)) {
             return new CrawlerResponseFieldParser();
         }

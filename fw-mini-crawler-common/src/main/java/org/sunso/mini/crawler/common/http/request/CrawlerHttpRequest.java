@@ -25,6 +25,12 @@ public interface CrawlerHttpRequest {
 
     Map<String, Object> getData();
 
+    CrawlerHttpRequest setAttribute(String name, Object value);
+
+    Object getAttribute(String name);
+
+    Map<String, Object> getAttributes();
+
     void addHeader(String name, String value);
 
     Map<String, String> getHeaders();

@@ -1,7 +1,11 @@
 package org.sunso.mini.crawler.common.utils;
 
+import cn.hutool.core.util.StrUtil;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UrlUtils {
 
@@ -56,5 +60,39 @@ public class UrlUtils {
             return null;
         }
         return parameterMap;
+    }
+
+    public static String replaceParams(String srcUrl, Map<String, Object> params) {
+        return replaceRegexs(srcUrl, "\\{(.*?)\\}", params);
+    }
+
+    public static String replaceRegexs(String srcUrl, String regex, Map<String, Object> params) {
+        if(params == null) {
+            return srcUrl;
+        }
+        StringBuffer sb = new StringBuffer();
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(srcUrl);
+        while(matcher.find()) {
+            String name = matcher.group(1);
+            Object value = params.get(name);
+            if(value !=null) {
+                matcher.appendReplacement(sb, value.toString());
+            }
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+
+    public static String getNextPageUrl(String url, String pageKey, int currentPage) {
+        pageKey = pageKey + "=";
+        int pageIndex = url.indexOf(pageKey);
+        String pageBefore = url.substring(0, pageIndex + pageKey.length());
+        String pageAfter = url.substring(pageIndex + pageKey.length() + 1);
+        int endIndex = pageAfter.indexOf("&");
+        if (endIndex == -1) {
+            return pageBefore + currentPage;
+        }
+        return pageBefore + currentPage + pageAfter.substring(endIndex);
     }
 }

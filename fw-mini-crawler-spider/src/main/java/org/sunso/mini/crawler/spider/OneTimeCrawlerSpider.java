@@ -1,14 +1,12 @@
 package org.sunso.mini.crawler.spider;
 
 import lombok.SneakyThrows;
-import org.sunso.mini.crawler.annotation.result.CrawlerResultDefine;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
 import org.sunso.mini.crawler.common.utils.UrlUtils;
 import org.sunso.mini.crawler.context.CrawlerContext;
-import org.sunso.mini.crawler.handler.CrawlerHandler;
-import org.sunso.mini.crawler.handler.CrawlerHandlerFactory;
+import org.sunso.mini.crawler.context.CrawlerContextThreadLocal;
 
 import java.util.Map;
 
@@ -21,20 +19,21 @@ public class OneTimeCrawlerSpider extends AbstractCrawlerSpider {
     @SneakyThrows
     @Override
     public void run() {
-        for(int i=0; i<10; i++) {
+        CrawlerContextThreadLocal.set(this.context);
+        while (true) {
             CrawlerHttpRequest request = getRequestFromCrawlerQueue();
             if (request == null) {
                 System.out.println("没有需要爬取的url，退出");
                 break;
             }
-            System.out.println("start download");
+            System.out.println("start download:" + Thread.currentThread().getName());
             CrawlerHttpResponse response = getDownloader().download(request);
             //System.out.println("body:" + response.body());
             CrawlerResult crawlerResult = context.getParser().parse(getCrawlerResultClass(request), request, response);
             System.out.println("crawlerResult:" + crawlerResult);
 
             //CrawlerHandlerFactory.doCrawlerHandler(crawlerResult);
-            Thread.sleep(i*1000);
+            //Thread.sleep(i*1000);
         }
     }
 
