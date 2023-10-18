@@ -65,6 +65,10 @@ public class CrawlerHttpResponse {
         return new CrawlerHttpResponse(body);
     }
 
+    public InputStream getInputStream() {
+        return in;
+    }
+
 
 
 }

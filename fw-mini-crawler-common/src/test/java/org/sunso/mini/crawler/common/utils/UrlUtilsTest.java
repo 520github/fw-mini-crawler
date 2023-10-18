@@ -3,6 +3,7 @@ package org.sunso.mini.crawler.common.utils;
 import org.junit.Test;
 import org.sunso.mini.crawler.common.BaseTest;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class UrlUtilsTest extends BaseTest {
@@ -32,6 +33,13 @@ public class UrlUtilsTest extends BaseTest {
         url = "http://gsgk.mnr.gov.cn/wQpjApi/qpj/qpjSearch?xzq={code}&wz=&pageSize=10&pageNo=1";
         result = UrlUtils.getNextPageUrl(url, pageKey, 2);
         print(result);
+    }
 
+    @Test
+    public void replaceParamsTest() {
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("url", "http://www.zzz.com");
+        String result = UrlUtils.replaceParams("{url}", dataMap);
+        print(result);
     }
 }
