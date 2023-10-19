@@ -5,19 +5,19 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.sunso.mini.crawler.annotation.html.HtmlAttr;
-import org.sunso.mini.crawler.annotation.html.HtmlImage;
-import org.sunso.mini.crawler.annotation.html.HtmlText;
-import org.sunso.mini.crawler.annotation.html.HtmlUrl;
+import org.sunso.mini.crawler.annotation.html.*;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
 import org.sunso.mini.crawler.parser.type.TypeConverters;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JsoupHtmlFieldParser extends AbstractHtmlFieldParser {
 
+    private static String attrKeyFlag = "attr.";
     private Document document;
 
     public JsoupHtmlFieldParser(String url, String htmlContent) {
@@ -48,6 +48,9 @@ public class JsoupHtmlFieldParser extends AbstractHtmlFieldParser {
 
     @Override
     public Object selectorObject(Field field) {
+        if (field.isAnnotationPresent(HtmlMap.class)) {
+            return valueMap(field);
+        }
         String result = elementOneValue(elementOne(field), field);
         return convertValue(result, field);
     }
@@ -109,6 +112,64 @@ public class JsoupHtmlFieldParser extends AbstractHtmlFieldParser {
         return null;
     }
 
+    public Map<String,String> valueMap(Field field) {
+        Map<String,String> resultMap = new HashMap<>();
+        Elements elements = elementList(field);
+        for(Element element: elements) {
+            valueMap(element, field, resultMap);
+        }
+        return resultMap;
+    }
+
+    private Map<String, String> valueMap(Element element, Field field, Map<String,String> resultMap) {
+        HtmlMap htmlMap = field.getAnnotation(HtmlMap.class);
+        String keyValue = getValueByKeyTypes(element, htmlMap.key());
+        if (StrUtil.isBlank(keyValue)) {
+            return resultMap;
+        }
+        keyValue = keyValue.trim();
+        if (!evalExpression(htmlMap.keyExpressionFilter(), "key", keyValue)) {
+            return resultMap;
+        }
+        if (!resultMap.containsKey(keyValue)) {
+            String valueValue = getValueByKeyTypes(element, htmlMap.value());
+            if (StrUtil.isBlank(valueValue)) {
+                valueValue = "not found any value";
+            }
+            if (!evalExpression(htmlMap.valueExpressionFilter(), "value", valueValue)) {
+                return resultMap;
+            }
+            resultMap.put(keyValue, valueValue);
+        }
+        return resultMap;
+    }
+
+    private String getValueByKeyTypes(Element element, String keys[]) {
+        if (keys == null || keys.length < 1) {
+            return null;
+        }
+        String result = null;
+        for(String key: keys) {
+            result = getValueByKeyType(element,  key);
+            if (StrUtil.isNotBlank(result)) {
+                return result;
+            }
+        }
+        return result;
+    }
+    private String getValueByKeyType(Element element, String key) {
+        if (StrUtil.isBlank(key)) {
+            return null;
+        }
+        if (key.startsWith(attrKeyFlag)) {
+            return valueAttr(element, key.substring(attrKeyFlag.length()));
+        }
+        else if ("text".equals(key)) {
+            return valueText(element, false);
+        }
+        return null;
+    }
+
     private String valueHtml(Field field) {
         return valueHtml(elementOne(field), false);
     }
@@ -148,6 +209,9 @@ public class JsoupHtmlFieldParser extends AbstractHtmlFieldParser {
     private String valueAttr(Element element, String attrKey) {
         if (element == null) {
             return null;
+        }
+        if ("href".equals(attrKey)) {
+            return valueAbsUrl(element, attrKey);
         }
         return element.attr(attrKey);
     }

@@ -17,8 +17,16 @@ public class ExpressionUtilTest extends BaseTest {
         print(result);
     }
 
+    @Test
+    public void expressionContainTest() {
+        Object result = ExpressionUtil.eval("url.startsWith('http')", getMap());
+        print(result.getClass().getName());
+        print(result);
+    }
+
     private Map<String,Object> getMap() {
         Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("url", "http://www.baidu.com");
         dataMap.put("name", "liming");
         dataMap.put("age", 40);
         Map<String, Object> config = new HashMap<>();
