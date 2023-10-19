@@ -1,6 +1,8 @@
 package org.sunso.mini.crawler.annotation.result;
 
 import org.sunso.mini.crawler.handler.CrawlerHandler;
+import org.sunso.mini.crawler.storage.data.CrawlerDataStorage;
+import org.sunso.mini.crawler.storage.data.EmptyCrawlerDataStorage;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,4 +13,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CrawlerResultDefine {
     Class<? extends CrawlerHandler>[] handlers();
+
+    Class<? extends CrawlerDataStorage>[] dataStorages() default EmptyCrawlerDataStorage.class;
 }

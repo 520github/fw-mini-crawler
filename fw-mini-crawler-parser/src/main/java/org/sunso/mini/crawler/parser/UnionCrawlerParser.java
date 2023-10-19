@@ -18,6 +18,7 @@ import org.sunso.mini.crawler.parser.field.CrawlerFieldParser;
 import org.sunso.mini.crawler.parser.field.CrawlerFieldParserFactory;
 import org.sunso.mini.crawler.parser.field.CrawlerFieldParserRequest;
 import org.sunso.mini.crawler.parser.type.TypeConverters;
+import org.sunso.mini.crawler.storage.data.CrawlerDataStorageFactory;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -48,6 +49,7 @@ public class UnionCrawlerParser extends AbstractCrawlerParser {
         }
         CrawlerResult result = BeanUtil.mapToBean(dataMap, clazz, true);
         CrawlerHandlerFactory.doCrawlerHandler(result);
+        CrawlerDataStorageFactory.doDataStorage(result);
         return result;
     }
 
