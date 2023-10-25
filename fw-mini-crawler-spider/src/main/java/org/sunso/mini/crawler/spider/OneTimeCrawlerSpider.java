@@ -27,9 +27,10 @@ public class OneTimeCrawlerSpider extends AbstractCrawlerSpider {
                 break;
             }
             System.out.println("start download:" + Thread.currentThread().getName());
-            CrawlerHttpResponse response = getDownloader().download(request);
+            Class<? extends CrawlerResult> clazz = getCrawlerResultClass(request);
+            CrawlerHttpResponse response = getDownloader(clazz).download(request);
             //System.out.println("body:" + response.body());
-            CrawlerResult crawlerResult = context.getParser().parse(getCrawlerResultClass(request), request, response);
+            CrawlerResult crawlerResult = context.getParser().parse(clazz, request, response);
             System.out.println("crawlerResult:" + crawlerResult);
 
             //CrawlerHandlerFactory.doCrawlerHandler(crawlerResult);

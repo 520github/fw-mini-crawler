@@ -101,6 +101,9 @@ public class JsoupHtmlFieldParser extends AbstractHtmlFieldParser {
         else if (field.isAnnotationPresent(HtmlUrl.class)) {
             result = valueUrl(element, field);
         }
+        else {
+            result = valueText(element, false);
+        }
         return result;
     }
 

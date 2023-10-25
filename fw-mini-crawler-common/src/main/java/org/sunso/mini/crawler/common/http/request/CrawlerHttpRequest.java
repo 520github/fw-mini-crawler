@@ -1,5 +1,7 @@
 package org.sunso.mini.crawler.common.http.request;
 
+import org.sunso.mini.crawler.common.http.event.CrawlerHttpRequestEvent;
+
 import java.util.Map;
 
 public interface CrawlerHttpRequest {
@@ -29,7 +31,15 @@ public interface CrawlerHttpRequest {
 
     Object getAttribute(String name);
 
+    String getAttributeString(String name);
+
     Map<String, Object> getAttributes();
+
+    CrawlerHttpRequest setEvent(String eventKey, CrawlerHttpRequestEvent eventValue);
+
+    CrawlerHttpRequestEvent getEvent(String eventKey);
+
+    Map<String, CrawlerHttpRequestEvent> getEvents();
 
     void addHeader(String name, String value);
 

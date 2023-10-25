@@ -37,13 +37,17 @@ public class UnionCrawlerParser extends AbstractCrawlerParser {
                 continue;
             }
             Object fieldValue = handleField(field, parserRequest);
-
+            if (fieldValue == null) {
+                continue;
+            }
             dataMap.put(field.getName(), fieldValue);
         }
         for(Integer sort: orderFieldMap.keySet()) {
             for(Field field: orderFieldMap.get(sort)) {
                 Object fieldValue = handleField(field, parserRequest);
-
+                if (fieldValue == null) {
+                    continue;
+                }
                 dataMap.put(field.getName(), fieldValue);
             }
         }

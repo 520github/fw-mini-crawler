@@ -1,5 +1,7 @@
 package org.sunso.mini.crawler.common.http.request;
 
+import org.sunso.mini.crawler.common.http.event.CrawlerHttpRequestEvent;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +16,8 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
     private Map<String, Object> data = new HashMap<>();
 
     private Map<String, Object> attributes = new HashMap<>();
+
+    private Map<String, CrawlerHttpRequestEvent> events = new HashMap<>();
 
     private Map<String, String> cookies = new HashMap<>();
 
@@ -87,8 +91,29 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
         return attributes.get(name);
     }
 
+    public String getAttributeString(String name) {
+        Object value = getAttribute(name);
+        if (value == null) {
+            return null;
+        }
+        return value.toString();
+    }
+
     public Map<String, Object> getAttributes() {
         return attributes;
+    }
+
+    public CrawlerHttpRequest setEvent(String eventKey, CrawlerHttpRequestEvent eventValue) {
+        events.put(eventKey, eventValue);
+        return this;
+    }
+
+    public CrawlerHttpRequestEvent getEvent(String eventKey) {
+        return events.get(eventKey);
+    }
+
+    public Map<String, CrawlerHttpRequestEvent> getEvents() {
+        return events;
     }
 
     public void addHeader(String name, String value) {
