@@ -12,6 +12,7 @@ import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.downloader.enums.DownloaderExtendKeyEnum;
 
+import java.time.Duration;
 import java.util.Map;
 
 public class SeleniumCrawlerDownloader implements CrawlerDownloader {
@@ -20,6 +21,7 @@ public class SeleniumCrawlerDownloader implements CrawlerDownloader {
         WebDriver webDriver = getWebDriver(request);
         webDriver.get(request.getUrl());
         doEvent(webDriver, request);
+        waitTime(webDriver, request);
         return getCrawlerHttpResponse(webDriver);
     }
 
@@ -30,6 +32,13 @@ public class SeleniumCrawlerDownloader implements CrawlerDownloader {
         }
         for(String eventKey: events.keySet()) {
             doOneEvent(eventKey, events.get(eventKey), webDriver);
+        }
+    }
+
+    private void waitTime(WebDriver webDriver, CrawlerHttpRequest request) {
+        long waitTime = request.getWaitTime();
+        if (waitTime > 0) {
+            webDriver.manage().timeouts().implicitlyWait(Duration.ofMillis(waitTime));
         }
     }
 

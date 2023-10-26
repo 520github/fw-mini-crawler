@@ -92,6 +92,9 @@ public class JsoupHtmlFieldParser extends AbstractHtmlFieldParser {
         if (field.isAnnotationPresent(HtmlText.class)) {
             result = valueText(element, field);
         }
+        else if (field.isAnnotationPresent(HtmlHtml.class)) {
+            result = valueHtml(element, field);
+        }
         else if (field.isAnnotationPresent(HtmlAttr.class)) {
             result = valueAttr(element, field);
         }
@@ -175,6 +178,11 @@ public class JsoupHtmlFieldParser extends AbstractHtmlFieldParser {
 
     private String valueHtml(Field field) {
         return valueHtml(elementOne(field), false);
+    }
+
+    private String valueHtml(Element element, Field field) {
+        HtmlHtml htmlHtml = field.getAnnotation(HtmlHtml.class);
+        return valueHtml(element, htmlHtml.isOwn());
     }
 
     private String valueHtml(Element element, boolean isOuter) {

@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import org.reflections.ReflectionUtils;
 import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
+import org.sunso.mini.crawler.annotation.html.HtmlUrl;
 import org.sunso.mini.crawler.annotation.json.JsonPath;
 import org.sunso.mini.crawler.annotation.order.FieldOrder;
 import org.sunso.mini.crawler.annotation.request.RequestAttributeGet;
@@ -11,6 +12,7 @@ import org.sunso.mini.crawler.annotation.request.RequestAttributeSet;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
+import org.sunso.mini.crawler.context.CrawlerContextThreadLocal;
 import org.sunso.mini.crawler.formatter.Formatter;
 import org.sunso.mini.crawler.formatter.FormatterFactory;
 import org.sunso.mini.crawler.handler.CrawlerHandlerFactory;
@@ -36,19 +38,11 @@ public class UnionCrawlerParser extends AbstractCrawlerParser {
                 setFiled2OrderFieldList(field, orderFieldMap);
                 continue;
             }
-            Object fieldValue = handleField(field, parserRequest);
-            if (fieldValue == null) {
-                continue;
-            }
-            dataMap.put(field.getName(), fieldValue);
+            handleField2Map(field, parserRequest, dataMap);
         }
         for(Integer sort: orderFieldMap.keySet()) {
             for(Field field: orderFieldMap.get(sort)) {
-                Object fieldValue = handleField(field, parserRequest);
-                if (fieldValue == null) {
-                    continue;
-                }
-                dataMap.put(field.getName(), fieldValue);
+                handleField2Map(field, parserRequest, dataMap);
             }
         }
         CrawlerResult result = BeanUtil.mapToBean(dataMap, clazz, true);
@@ -65,6 +59,37 @@ public class UnionCrawlerParser extends AbstractCrawlerParser {
         }
         fieldList.add(field);
         orderFieldMap.put(fieldOrder.sort(), fieldList);
+    }
+
+    private void handleField2Map(Field field, CrawlerFieldParserRequest parserRequest, Map<String, Object> dataMap) {
+        Object fieldValue = handleField(field, parserRequest);
+        if (fieldValue == null) {
+            return;
+        }
+        if (field.isAnnotationPresent(HtmlUrl.class)) {
+            handleHtmlUrlTriggerClick(field, fieldValue, parserRequest);
+        }
+        dataMap.put(field.getName(), fieldValue);
+    }
+
+    private void handleHtmlUrlTriggerClick(Field field, Object fieldValue, CrawlerFieldParserRequest parserRequest) {
+        HtmlUrl htmlUrl = field.getAnnotation(HtmlUrl.class);
+        if (!htmlUrl.triggerClick()) {
+            return;
+        }
+        if (fieldValue instanceof List) {
+            for(String subUrl: (List<String>)fieldValue) {
+                handleHtmlUrlTriggerClick(htmlUrl, subUrl, parserRequest);
+            }
+        }
+        else {
+            handleHtmlUrlTriggerClick(htmlUrl, fieldValue.toString(), parserRequest);
+        }
+    }
+
+    private void handleHtmlUrlTriggerClick(HtmlUrl htmlUrl, String subUrl, CrawlerFieldParserRequest parserRequest) {
+        CrawlerHttpRequest subRequest = parserRequest.subRequest(htmlUrl, subUrl);
+        CrawlerContextThreadLocal.offerRequest(subRequest);
     }
 
     private Object handleField(Field field, CrawlerFieldParserRequest parserRequest) {

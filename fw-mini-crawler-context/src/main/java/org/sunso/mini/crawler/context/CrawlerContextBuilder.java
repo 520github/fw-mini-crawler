@@ -4,10 +4,8 @@ import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
 import org.sunso.mini.crawler.spider.CrawlerSpider;
 import org.sunso.mini.crawler.downloader.CrawlerDownloader;
-import org.sunso.mini.crawler.downloader.HutoolCrawlerDownloader;
 import org.sunso.mini.crawler.handler.CrawlerHandler;
 import org.sunso.mini.crawler.parser.CrawlerParser;
-import org.sunso.mini.crawler.parser.UnionCrawlerParser;
 import org.sunso.mini.crawler.queue.CrawlerLinkedBlockingQueue;
 import org.sunso.mini.crawler.queue.CrawlerQueue;
 
@@ -86,15 +84,15 @@ public class CrawlerContextBuilder {
         if (queue == null) {
             queue = new CrawlerLinkedBlockingQueue();
         }
-        if (downloader == null) {
-            downloader = new HutoolCrawlerDownloader();
-        }
-        if (parser == null) {
-            parser = new UnionCrawlerParser();
-        }
-        if (handler == null) {
-            handler = null;
-        }
+//        if (downloader == null) {
+//            downloader = new HutoolCrawlerDownloader();
+//        }
+//        if (parser == null) {
+//            parser = new UnionCrawlerParser();
+//        }
+//        if (handler == null) {
+//            handler = null;
+//        }
         CrawlerContext context = new CrawlerContext();
         context.setQueue(queue);
         context.setDownloader(downloader);

@@ -11,5 +11,15 @@ public @interface HtmlUrl {
 
     String[] value() default "href";
 
+    String urlAlias() default "";
+
     boolean triggerClick() default false;
+
+    long waitTime() default 0;
+
+    boolean copyHeader() default false;
+
+    boolean copyCookies() default false;
+
+    boolean copyAttribute() default false;
 }

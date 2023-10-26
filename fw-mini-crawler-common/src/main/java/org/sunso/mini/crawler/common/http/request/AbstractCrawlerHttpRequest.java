@@ -9,6 +9,10 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
 
     protected String url;
 
+    protected String urlAlias;
+
+    protected long waitTime = 0;
+
     protected String contentType;
 
     private Map<String, String> parameters = new HashMap<>();
@@ -40,6 +44,24 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
     @Override
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getUrlAlias() {
+        return urlAlias;
+    }
+
+    public CrawlerHttpRequest setUrlAlias(String urlAlias) {
+        this.urlAlias = urlAlias;
+        return this;
+    }
+
+    public long getWaitTime() {
+        return this.waitTime;
+    }
+
+    public CrawlerHttpRequest setWaitTime(long waitTime) {
+        this.waitTime = waitTime;
+        return this;
     }
 
     public String getContentType() {
@@ -87,6 +109,11 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
         return this;
     }
 
+    public CrawlerHttpRequest setAttributes(Map<String, Object> attributes) {
+        this.attributes.putAll(attributes);
+        return this;
+    }
+
     public Object getAttribute(String name) {
         return attributes.get(name);
     }
@@ -116,8 +143,14 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
         return events;
     }
 
-    public void addHeader(String name, String value) {
+    public CrawlerHttpRequest addHeader(String name, String value) {
         headers.put(name, value);
+        return this;
+    }
+
+    public CrawlerHttpRequest addHeaders(Map<String, String> headerMap) {
+        headers.putAll(headerMap);
+        return this;
     }
 
     public Map<String, String> getHeaders() {
@@ -128,8 +161,14 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
         return cookies;
     }
 
-    public void addCookie(String name, String value) {
+    public CrawlerHttpRequest addCookie(String name, String value) {
         cookies.put(name, value);
+        return this;
+    }
+
+    public CrawlerHttpRequest addCookies(Map<String, String> cookiesMap) {
+        this.cookies.putAll(cookiesMap);
+        return this;
     }
 
     public String getCookiesString() {

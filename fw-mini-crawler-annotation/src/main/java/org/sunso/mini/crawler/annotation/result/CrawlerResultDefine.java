@@ -3,6 +3,8 @@ package org.sunso.mini.crawler.annotation.result;
 import org.sunso.mini.crawler.downloader.CrawlerDownloader;
 import org.sunso.mini.crawler.downloader.EmptyCrawlerDownloader;
 import org.sunso.mini.crawler.handler.CrawlerHandler;
+import org.sunso.mini.crawler.parser.CrawlerParser;
+import org.sunso.mini.crawler.parser.EmptyCrawlerParser;
 import org.sunso.mini.crawler.storage.data.CrawlerDataStorage;
 import org.sunso.mini.crawler.storage.data.EmptyCrawlerDataStorage;
 
@@ -19,4 +21,6 @@ public @interface CrawlerResultDefine {
     Class<? extends CrawlerDataStorage>[] dataStorages() default EmptyCrawlerDataStorage.class;
 
     Class<? extends CrawlerDownloader> downloader() default EmptyCrawlerDownloader.class;
+
+    Class<? extends CrawlerParser> parser() default EmptyCrawlerParser.class;
 }

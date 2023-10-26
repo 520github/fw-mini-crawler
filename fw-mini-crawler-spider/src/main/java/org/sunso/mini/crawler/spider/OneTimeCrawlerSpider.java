@@ -1,6 +1,8 @@
 package org.sunso.mini.crawler.spider;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
@@ -10,6 +12,7 @@ import org.sunso.mini.crawler.context.CrawlerContextThreadLocal;
 
 import java.util.Map;
 
+@Slf4j
 public class OneTimeCrawlerSpider extends AbstractCrawlerSpider {
 
     public OneTimeCrawlerSpider(CrawlerContext context) {
@@ -28,9 +31,13 @@ public class OneTimeCrawlerSpider extends AbstractCrawlerSpider {
             }
             System.out.println("start download:" + Thread.currentThread().getName());
             Class<? extends CrawlerResult> clazz = getCrawlerResultClass(request);
+            if (clazz == null) {
+                log.error("url[{}] not found crawlerResult define", request.getUrl());
+                continue;
+            }
             CrawlerHttpResponse response = getDownloader(clazz).download(request);
             //System.out.println("body:" + response.body());
-            CrawlerResult crawlerResult = context.getParser().parse(clazz, request, response);
+            CrawlerResult crawlerResult = getCrawlerParser(clazz).parse(clazz, request, response);
             System.out.println("crawlerResult:" + crawlerResult);
 
             //CrawlerHandlerFactory.doCrawlerHandler(crawlerResult);
@@ -50,8 +57,11 @@ public class OneTimeCrawlerSpider extends AbstractCrawlerSpider {
                 return urlCrawlerResultMap.get(url);
             }
         }
+        String urlAlias = request.getUrlAlias();
+        if (StrUtil.isNotBlank(urlAlias)) {
+            return urlCrawlerResultMap.get(urlAlias);
+        }
         return null;
     }
-
 
 }

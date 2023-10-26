@@ -1,9 +1,12 @@
 package org.sunso.mini.crawler.parser.field;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import lombok.Data;
+import org.sunso.mini.crawler.annotation.html.HtmlUrl;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
+import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequestBuilder;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.parser.CrawlerParser;
 
@@ -83,5 +86,23 @@ public class CrawlerFieldParserRequest {
 
     public Object fetchRequestAttributeValue(String name) {
         return getRequest().getAttributes().get(name);
+    }
+
+    public CrawlerHttpRequest subRequest(HtmlUrl htmlUrl, String subUrl) {
+        CrawlerHttpRequest subRequest = CrawlerHttpRequestBuilder.get(subUrl);
+        subRequest.setWaitTime(htmlUrl.waitTime());
+        if (htmlUrl.copyHeader()) {
+            subRequest.addHeaders(getRequest().getHeaders());
+        }
+        if (htmlUrl.copyCookies()) {
+            subRequest.addCookies(getRequest().getCookies());
+        }
+        if (htmlUrl.copyAttribute()) {
+            subRequest.setAttributes(getRequest().getAttributes());
+        }
+        if (StrUtil.isNotBlank(htmlUrl.urlAlias())) {
+            subRequest.setUrlAlias(htmlUrl.urlAlias());
+        }
+        return subRequest;
     }
 }
