@@ -9,6 +9,7 @@ import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequestBuilder;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.parser.CrawlerParser;
+import org.sunso.mini.crawler.parser.dto.HtmlAjaxDTO;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -21,6 +22,8 @@ public class CrawlerFieldParserRequest {
     private CrawlerHttpResponse response;
     private Field field;
     private CrawlerParser crawlerParser;
+
+    private HtmlAjaxDTO htmlAjaxDTO;
 
     //private Map<String, Object> beanDataMap;
 

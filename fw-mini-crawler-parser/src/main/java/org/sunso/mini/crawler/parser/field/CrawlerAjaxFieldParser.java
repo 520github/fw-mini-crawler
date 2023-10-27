@@ -11,6 +11,8 @@ import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.common.utils.ReflectUtils;
 import org.sunso.mini.crawler.common.utils.UrlUtils;
 import org.sunso.mini.crawler.downloader.CrawlerDownloaderFactory;
+import org.sunso.mini.crawler.parser.dto.HtmlAjaxDTO;
+
 import java.lang.reflect.Field;
 
 public class CrawlerAjaxFieldParser extends AbstractCrawlerFieldParser {
@@ -63,12 +65,16 @@ public class CrawlerAjaxFieldParser extends AbstractCrawlerFieldParser {
 
     private CrawlerHttpResponse ajaxDownload(CrawlerFieldParserRequest request) {
         HtmlAjax htmlAjax = request.getField().getAnnotation(HtmlAjax.class);
-        String url = htmlAjax.url();
+        HtmlAjaxDTO ajaxDTO = request.getHtmlAjaxDTO();
+        if (ajaxDTO == null) {
+            ajaxDTO = HtmlAjaxDTO.newInstance(htmlAjax);
+        }
+        String url = ajaxDTO.getUrl();
         url = UrlUtils.replaceParams(url, request.fetchAllReplaceParams());
-        setHtmlAjaxUrl2RequestAttribute(request, htmlAjax.requestAttributeName(), url);
-        CrawlerHttpRequest ajaxRequest = CrawlerHttpRequestFactory.getCrawlerHttpRequest(url, htmlAjax.method());
-        ajaxRequest.setContentType(htmlAjax.contentType().getKey());
-        return CrawlerDownloaderFactory.getCrawlerDownloader(htmlAjax.downloader()).download(ajaxRequest);
+        setHtmlAjaxUrl2RequestAttribute(request, ajaxDTO.getRequestAttributeName(), url);
+        CrawlerHttpRequest ajaxRequest = CrawlerHttpRequestFactory.getCrawlerHttpRequest(url, ajaxDTO.getMethod());
+        ajaxRequest.setContentType(ajaxDTO.getContentType().getKey());
+        return CrawlerDownloaderFactory.getCrawlerDownloader(ajaxDTO.getDownloader()).download(ajaxRequest);
     }
 
     private void setHtmlAjaxUrl2RequestAttribute(CrawlerFieldParserRequest request, String name, String url) {

@@ -2,6 +2,7 @@ package org.sunso.mini.crawler.parser.field;
 
 import org.sunso.mini.crawler.annotation.html.HtmlAjax;
 import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
+import org.sunso.mini.crawler.annotation.html.HtmlPageUrl;
 import org.sunso.mini.crawler.annotation.json.JsonPath;
 import org.sunso.mini.crawler.annotation.request.*;
 
@@ -30,6 +31,9 @@ public class CrawlerFieldParserFactory {
         }
         else if (field.isAnnotationPresent(ResponseStatus.class)) {
             return new CrawlerResponseStatusFieldParser();
+        }
+        else if (field.isAnnotationPresent(HtmlPageUrl.class)) {
+            return new CrawlerPageUrlFieldParser();
         }
         else if (field.isAnnotationPresent(HtmlCssPath.class)) {
             return new CrawlerHtmlFieldParser();
