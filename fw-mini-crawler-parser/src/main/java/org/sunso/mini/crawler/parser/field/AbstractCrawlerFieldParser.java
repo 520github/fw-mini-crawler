@@ -60,7 +60,7 @@ public abstract class AbstractCrawlerFieldParser implements CrawlerFieldParser {
         }
         List<Object> resultList = new ArrayList<>();
         for(Object value: list) {
-            if (checkFilter(field, value)) {
+            if (checkFilter(field, value) && !resultList.contains(value)) {
                 resultList.add(value);
             }
         }

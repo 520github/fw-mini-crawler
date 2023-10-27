@@ -5,6 +5,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.safari.SafariDriver;
 import org.sunso.mini.crawler.common.enums.HttpRequestEventTypeEnum;
 import org.sunso.mini.crawler.common.http.event.CrawlerHttpRequestEvent;
@@ -20,6 +22,8 @@ public class SeleniumCrawlerDownloader implements CrawlerDownloader {
     public CrawlerHttpResponse download(CrawlerHttpRequest request) {
         WebDriver webDriver = getWebDriver(request);
         webDriver.get(request.getUrl());
+
+        webDriver.manage().logs().getAvailableLogTypes();
         doEvent(webDriver, request);
         waitTime(webDriver, request);
         return getCrawlerHttpResponse(webDriver);
@@ -40,11 +44,19 @@ public class SeleniumCrawlerDownloader implements CrawlerDownloader {
         if (waitTime > 0) {
             webDriver.manage().timeouts().implicitlyWait(Duration.ofMillis(waitTime));
         }
+        try {
+            Thread.sleep(waitTime);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void doOneEvent(String eventKey, CrawlerHttpRequestEvent eventValue, WebDriver webDriver) {
         if (HttpRequestEventTypeEnum.click.getKey().equalsIgnoreCase(eventValue.getEventType())) {
             doClickEvent(eventKey, eventValue, webDriver);
+        }
+        else if (HttpRequestEventTypeEnum.inputSetAndMoveCursor.getKey().equalsIgnoreCase(eventValue.getEventType())) {
+            doInputSetAndMoveCursor(eventKey, eventValue, webDriver);
         }
     }
 
@@ -62,6 +74,22 @@ public class SeleniumCrawlerDownloader implements CrawlerDownloader {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void doInputSetAndMoveCursor(String eventKey, CrawlerHttpRequestEvent eventValue, WebDriver webDriver) {
+        try {
+            WebElement webElement = getWebElement(webDriver, eventKey);
+            webElement.clear();
+            webElement.sendKeys(eventValue.getEventValue());
+            emptyClick(webDriver);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void emptyClick(WebDriver webDriver) {
+        Actions actions = new Actions(webDriver);
+        actions.click().perform();
     }
 
     private WebElement getWebElement(WebDriver webDriver, String eventKey) {

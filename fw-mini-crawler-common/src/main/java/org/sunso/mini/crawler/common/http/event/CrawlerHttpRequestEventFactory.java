@@ -4,4 +4,8 @@ public class CrawlerHttpRequestEventFactory {
     public static CrawlerHttpRequestEvent getClickEvent(String eventEndFlag, int eventDoMaxNum) {
         return new CrawlerHttpRequestClickEvent().setEventDoMaxNum(eventDoMaxNum).setEventEndFlag(eventEndFlag);
     }
+
+    public static CrawlerHttpRequestEvent getInputSetAndMoveCursorEvent(String value) {
+        return new CrawlerHttpRequestInputSetAndMoveCursorEvent(value);
+    }
 }

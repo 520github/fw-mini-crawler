@@ -6,6 +6,10 @@ public interface CrawlerHttpRequestEvent {
 
     String getEventType();
 
+    CrawlerHttpRequestEvent setEventValue(String eventValue);
+
+    String getEventValue();
+
 
     CrawlerHttpRequestEvent setEventDoMaxNum(int eventDoMaxNum);
 

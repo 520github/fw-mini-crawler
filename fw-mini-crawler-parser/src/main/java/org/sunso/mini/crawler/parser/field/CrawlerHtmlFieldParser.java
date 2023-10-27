@@ -59,7 +59,7 @@ public class CrawlerHtmlFieldParser extends AbstractCrawlerFieldParser {
             List<Object> resultList = new ArrayList<>();
             for(String html: htmlFieldParser.selectorHtmlList(field)) {
                 CrawlerResult crawlerResult = request.getCrawlerParser().parse(genericClass, request.getRequest(), CrawlerHttpResponse.create(html));
-                if (checkFilter(field, crawlerResult)) {
+                if (checkFilter(field, crawlerResult) ) {
                     resultList.add(crawlerResult);
                 }
             }
