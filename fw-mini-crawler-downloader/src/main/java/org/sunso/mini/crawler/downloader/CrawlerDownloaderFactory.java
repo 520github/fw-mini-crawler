@@ -15,4 +15,8 @@ public class CrawlerDownloaderFactory {
     public static CrawlerDownloader getDefaultCrawlerDownloader() {
         return new HutoolCrawlerDownloader();
     }
+
+    public static CrawlerDownloader getSeleniumCrawlerDownloader() {
+        return new SeleniumCrawlerDownloader();
+    }
 }
