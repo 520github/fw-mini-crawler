@@ -50,6 +50,9 @@ public class CrawlerFieldParserRequest {
     }
 
     public String fetchResponseBody() {
+        if (response == null) {
+            return null;
+        }
         return response.body();
     }
 
@@ -76,6 +79,7 @@ public class CrawlerFieldParserRequest {
 
     public Map<String,Object> fetchAllReplaceParams() {
         Map<String,Object> parasMap = new HashMap<>();
+        parasMap.putAll(request.getParameters());
         parasMap.putAll(request.getAttributes());
         return parasMap;
     }

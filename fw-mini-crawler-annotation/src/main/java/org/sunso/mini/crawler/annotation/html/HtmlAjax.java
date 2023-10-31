@@ -3,6 +3,7 @@ package org.sunso.mini.crawler.annotation.html;
 import org.sunso.mini.crawler.common.enums.ContentTypeEnum;
 import org.sunso.mini.crawler.common.enums.HttpRequestMethodEnum;
 import org.sunso.mini.crawler.downloader.CrawlerDownloader;
+import org.sunso.mini.crawler.downloader.EmptyCrawlerDownloader;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -16,9 +17,15 @@ public @interface HtmlAjax {
 
     HttpRequestMethodEnum method() default HttpRequestMethodEnum.GET;
 
-    Class<? extends CrawlerDownloader> downloader();
+    Class<? extends CrawlerDownloader> downloader() default EmptyCrawlerDownloader.class;
 
     ContentTypeEnum contentType() default ContentTypeEnum.applicationXWwwForm;
 
     String requestAttributeName() default "";
+
+    boolean copyHeader() default false;
+
+    boolean copyCookies() default false;
+
+    boolean copyAttribute() default false;
 }

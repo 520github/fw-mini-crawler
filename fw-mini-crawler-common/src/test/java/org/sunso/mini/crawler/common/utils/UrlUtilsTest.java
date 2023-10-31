@@ -10,8 +10,8 @@ public class UrlUtilsTest extends BaseTest {
 
     @Test
     public void urlMatchTest() {
-        String matchUrl = "http://weixin.sogou.com/weixin?type=2&query={keyword}";
-        String targetUrl = "http://weixin.sogou.com/weixin?type=2&query=9999";
+        String matchUrl = "http://www.zhongzhenglawyer.com/NewsDetail/{articleNo}.html";
+        String targetUrl = "http://www.zhongzhenglawyer.com/NewsDetail/4272935.html";
         Map<String, String> result = UrlUtils.urlMatch(matchUrl, targetUrl);
         print(result);
     }

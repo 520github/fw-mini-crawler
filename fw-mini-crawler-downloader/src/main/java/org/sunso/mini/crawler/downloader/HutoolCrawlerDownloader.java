@@ -41,6 +41,7 @@ public class HutoolCrawlerDownloader implements CrawlerDownloader {
         CrawlerHttpResponse crawlerHttpResponse = new CrawlerHttpResponse();
         crawlerHttpResponse.setIn(response.bodyStream());
         crawlerHttpResponse.setStatus(response.getStatus());
+        //System.out.println("do download body:" + crawlerHttpResponse.body());
         return crawlerHttpResponse;
     }
 

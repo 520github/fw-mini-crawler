@@ -46,7 +46,7 @@ public class UrlUtils {
             }
             String nextMatchStr = matchUrl.substring(endIndex + matchEndFlag.length(), endIndex + matchEndFlag.length() + nextMatchLength);
             matchUrl = matchUrl.substring(endIndex+1);
-            targetUrl = targetUrl.substring(beginIndex+1);
+            targetUrl = targetUrl.substring(beginIndex);
             int nextMatchIndex = targetUrl.indexOf(nextMatchStr);
             if (nextMatchIndex == -1) {
                 return null;

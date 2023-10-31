@@ -24,6 +24,12 @@ public class HtmlAjaxDTO {
 
     private String requestAttributeName;
 
+    private boolean copyHeader;
+
+    private boolean copyCookies;
+
+    private boolean copyAttribute;
+
 
     public static HtmlAjaxDTO newInstance(HtmlAjax htmlAjax) {
         HtmlAjaxDTO dto = new HtmlAjaxDTO();
@@ -32,6 +38,9 @@ public class HtmlAjaxDTO {
         dto.setContentType(htmlAjax.contentType());
         dto.setDownloader(htmlAjax.downloader());
         dto.setRequestAttributeName(htmlAjax.requestAttributeName());
+        dto.setCopyHeader(htmlAjax.copyHeader());
+        dto.setCopyCookies(htmlAjax.copyCookies());
+        dto.setCopyAttribute(htmlAjax.copyAttribute());
         return dto;
     }
 }

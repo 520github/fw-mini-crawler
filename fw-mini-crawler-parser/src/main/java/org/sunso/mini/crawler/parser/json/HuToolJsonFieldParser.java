@@ -1,9 +1,6 @@
 package org.sunso.mini.crawler.parser.json;
 
-import cn.hutool.json.JSON;
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import cn.hutool.json.*;
 import org.checkerframework.checker.units.qual.A;
 import org.sunso.mini.crawler.annotation.json.JsonPath;
 import org.sunso.mini.crawler.common.utils.JsonUtils;
@@ -23,7 +20,14 @@ public class HuToolJsonFieldParser extends AbstractJsonFieldParser {
     public Object selectorObject(Field field) {
         String jsonPath = getJsonPath(field);
         if (!jsonPath.contains(",")) {
-            return jsonObject.getByPath(jsonPath);
+            Object result = jsonObject.getByPath(jsonPath);
+            if (result == null) {
+                return null;
+            }
+            if (result instanceof JSONNull) {
+                return null;
+            }
+            return result;
         }
         List<String> jsonPathList = getMultiJsonPath(jsonPath);
         List<Object> list = null;
@@ -63,6 +67,9 @@ public class HuToolJsonFieldParser extends AbstractJsonFieldParser {
         }
         else if (jsonContent.startsWith("[")) {
             jsonObject = JSONUtil.parseArray(jsonContent);
+        }
+        else  {
+            System.out.println("未知的json数据格式："  + jsonContent);
         }
     }
 }

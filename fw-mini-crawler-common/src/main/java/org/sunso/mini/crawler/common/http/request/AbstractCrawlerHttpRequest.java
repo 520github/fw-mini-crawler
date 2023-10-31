@@ -78,7 +78,7 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
     }
 
     public AbstractCrawlerHttpRequest setParameters(Map<String, String> parameters) {
-        parameters.putAll(parameters);
+        this.parameters.putAll(parameters);
         return this;
     }
 
@@ -96,7 +96,7 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
     }
 
     public AbstractCrawlerHttpRequest addData(Map<String, Object> data) {
-        data.putAll(data);
+        this.data.putAll(data);
         return this;
     }
 

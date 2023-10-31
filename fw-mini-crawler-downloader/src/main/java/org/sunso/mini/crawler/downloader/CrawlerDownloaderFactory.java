@@ -9,6 +9,9 @@ public class CrawlerDownloaderFactory {
         if (clazz == null) {
             return getDefaultCrawlerDownloader();
         }
+        if (EmptyCrawlerDownloader.class.equals(clazz)) {
+            return getDefaultCrawlerDownloader();
+        }
         return clazz.newInstance();
     }
 
