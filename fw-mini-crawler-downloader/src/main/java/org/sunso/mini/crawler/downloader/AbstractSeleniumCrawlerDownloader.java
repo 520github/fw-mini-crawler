@@ -30,8 +30,8 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
             webDriver = getWebDriver(request);
             webDriver.get(request.getUrl());
 
-            doEvent(webDriver, request);
             waitTime(webDriver, request);
+            doEvent(webDriver, request);
             return getCrawlerHttpResponse(webDriver);
         } catch (Exception e) {
             e.printStackTrace();

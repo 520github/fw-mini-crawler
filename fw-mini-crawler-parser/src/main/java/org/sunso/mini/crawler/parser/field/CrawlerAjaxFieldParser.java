@@ -27,15 +27,7 @@ public class CrawlerAjaxFieldParser extends AbstractCrawlerFieldParser {
     }
 
     private CrawlerFieldParserRequest newCrawlerFieldParserRequest(CrawlerFieldParserRequest request) {
-        CrawlerFieldParserRequest instance = request.cloneExcludeResponse();
-        instance.setResponse(ajaxDownload(request));
-//        if (isFileStorage(request.getField())) {
-//            instance.setResponse(ajaxDownload(request));
-//        }
-//        else {
-//            instance.setResponse(CrawlerHttpResponse.create(ajaxDownloadBody(request)));
-//        }
-        return instance;
+        return newCrawlerFieldParserRequest(request, ajaxDownload(request));
     }
 
     private  CrawlerFieldParser getCrawlerFieldParser(Field field) {

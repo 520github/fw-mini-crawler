@@ -5,6 +5,7 @@ import cn.hutool.extra.expression.ExpressionUtil;
 import cn.hutool.json.JSONUtil;
 import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
 import org.sunso.mini.crawler.annotation.json.JsonPath;
+import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
 import org.sunso.mini.crawler.common.utils.ReflectUtils;
 
@@ -90,6 +91,12 @@ public abstract class AbstractCrawlerFieldParser implements CrawlerFieldParser {
             return (Boolean) result;
         }
         return true;
+    }
+
+    protected CrawlerFieldParserRequest newCrawlerFieldParserRequest(CrawlerFieldParserRequest request, CrawlerHttpResponse response) {
+        CrawlerFieldParserRequest instance = request.cloneExcludeResponse();
+        instance.setResponse(response);
+        return instance;
     }
 
 }
