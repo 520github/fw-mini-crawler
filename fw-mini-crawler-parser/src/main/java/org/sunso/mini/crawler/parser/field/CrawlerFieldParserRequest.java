@@ -99,10 +99,10 @@ public class CrawlerFieldParserRequest {
         CrawlerHttpRequest subRequest = CrawlerHttpRequestBuilder.get(subUrl);
         subRequest.setWaitTime(htmlUrl.waitTime());
         if (htmlUrl.copyHeader()) {
-            subRequest.addHeaders(getRequest().getHeaders());
+            subRequest.setHeaders(getRequest().getHeaders());
         }
         if (htmlUrl.copyCookies()) {
-            subRequest.addCookies(getRequest().getCookies());
+            subRequest.setCookies(getRequest().getCookies());
         }
         if (htmlUrl.copyAttribute()) {
             subRequest.setAttributes(getRequest().getAttributes());

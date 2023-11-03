@@ -13,6 +13,16 @@ public interface CrawlerHttpRequest {
 
     CrawlerHttpRequest setUrlAlias(String urlAlias);
 
+    String getRequestId();
+
+    String getAndSetRequestIdIfEmpty();
+
+    CrawlerHttpRequest setRequestId(String requestId);
+
+    int getSort();
+
+    CrawlerHttpRequest setSort(int sort);
+
     long getWaitTime();
 
     CrawlerHttpRequest setWaitTime(long waitTime);
@@ -31,7 +41,7 @@ public interface CrawlerHttpRequest {
 
     CrawlerHttpRequest addData(String name, Object value);
 
-    CrawlerHttpRequest addData(Map<String, Object> data);
+    CrawlerHttpRequest setData(Map<String, Object> data);
 
     Map<String, Object> getData();
 
@@ -47,13 +57,15 @@ public interface CrawlerHttpRequest {
 
     CrawlerHttpRequest setEvent(String eventKey, CrawlerHttpRequestEvent eventValue);
 
+    CrawlerHttpRequest setEvents(Map<String, CrawlerHttpRequestEvent> events);
+
     CrawlerHttpRequestEvent getEvent(String eventKey);
 
     Map<String, CrawlerHttpRequestEvent> getEvents();
 
     CrawlerHttpRequest addHeader(String name, String value);
 
-    CrawlerHttpRequest addHeaders(Map<String, String> headerMap);
+    CrawlerHttpRequest setHeaders(Map<String, String> headerMap);
 
     Map<String, String> getHeaders();
 
@@ -63,7 +75,7 @@ public interface CrawlerHttpRequest {
 
     CrawlerHttpRequest addCookie(String name, String value);
 
-    CrawlerHttpRequest addCookies(Map<String, String> cookiesMap);
+    CrawlerHttpRequest setCookies(Map<String, String> cookiesMap);
 
 
 }

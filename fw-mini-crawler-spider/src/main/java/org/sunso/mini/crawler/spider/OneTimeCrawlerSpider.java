@@ -24,7 +24,7 @@ public class OneTimeCrawlerSpider extends AbstractCrawlerSpider {
     public void run() {
         CrawlerContextThreadLocal.set(this.context);
         while (true) {
-            CrawlerHttpRequest request = getRequestFromCrawlerQueue();
+            CrawlerHttpRequest request = getRequestFromCrawlerTask();
             if (request == null) {
                 System.out.println("没有需要爬取的url，退出");
                 break;
@@ -39,6 +39,8 @@ public class OneTimeCrawlerSpider extends AbstractCrawlerSpider {
             //System.out.println("body:" + response.body());
             CrawlerResult crawlerResult = getCrawlerParser(clazz).parse(clazz, request, response);
             System.out.println("crawlerResult:" + crawlerResult);
+
+            getCrawlerTask().doneTask(request, response, crawlerResult);
 
             //CrawlerHandlerFactory.doCrawlerHandler(crawlerResult);
             //Thread.sleep(i*1000);

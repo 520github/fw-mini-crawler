@@ -8,17 +8,21 @@ import org.sunso.mini.crawler.handler.CrawlerHandler;
 import org.sunso.mini.crawler.parser.CrawlerParser;
 import org.sunso.mini.crawler.queue.CrawlerLinkedBlockingQueue;
 import org.sunso.mini.crawler.queue.CrawlerQueue;
+import org.sunso.mini.crawler.task.CrawlerTask;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class CrawlerContextBuilder {
+    private String bizType;
     private List<CrawlerHttpRequest> requestList = new ArrayList<>();
+
+    private CrawlerTask task;
     private CrawlerQueue queue;
     private CrawlerDownloader downloader;
     private CrawlerParser parser;
-    private CrawlerHandler handler;
+    //private CrawlerHandler handler;
     private Class<? extends CrawlerSpider> spiderClassType;
 
     private Map<String, Class<? extends CrawlerResult>> urlCrawlerResultMap;
@@ -32,6 +36,11 @@ public class CrawlerContextBuilder {
         return new CrawlerContextBuilder();
     }
 
+    public CrawlerContextBuilder bizType(String bizType) {
+        this.bizType = bizType;
+        return this;
+    }
+
     public CrawlerContextBuilder request(CrawlerHttpRequest request) {
         requestList.add(request);
         return this;
@@ -39,6 +48,11 @@ public class CrawlerContextBuilder {
 
     public CrawlerContextBuilder requestList(List<CrawlerHttpRequest> requestList) {
         this.requestList.addAll(requestList);
+        return this;
+    }
+
+    public CrawlerContextBuilder task(CrawlerTask task) {
+        this.task = task;
         return this;
     }
 
@@ -57,10 +71,10 @@ public class CrawlerContextBuilder {
         return this;
     }
 
-    public CrawlerContextBuilder handler(CrawlerHandler handler) {
-        this.handler = handler;
-        return this;
-    }
+//    public CrawlerContextBuilder handler(CrawlerHandler handler) {
+//        this.handler = handler;
+//        return this;
+//    }
 
     public CrawlerContextBuilder spiderClassType(Class<? extends CrawlerSpider> spiderClassType) {
         this.spiderClassType = spiderClassType;
@@ -94,10 +108,12 @@ public class CrawlerContextBuilder {
 //            handler = null;
 //        }
         CrawlerContext context = new CrawlerContext();
+        context.setBizType(bizType);
+        context.setTask(task);
         context.setQueue(queue);
         context.setDownloader(downloader);
         context.setParser(parser);
-        context.setHandler(handler);
+        //context.setHandler(handler);
         context.setRequestList(requestList);
         context.setSpiderClassType(spiderClassType);
         context.setUrlCrawlerResultMap(urlCrawlerResultMap);

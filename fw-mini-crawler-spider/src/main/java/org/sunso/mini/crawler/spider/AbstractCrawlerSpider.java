@@ -1,5 +1,6 @@
 package org.sunso.mini.crawler.spider;
 
+import cn.hutool.core.util.StrUtil;
 import org.sunso.mini.crawler.annotation.result.CrawlerResultDefine;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
@@ -10,6 +11,7 @@ import org.sunso.mini.crawler.downloader.EmptyCrawlerDownloader;
 import org.sunso.mini.crawler.parser.CrawlerParser;
 import org.sunso.mini.crawler.parser.CrawlerParserFactory;
 import org.sunso.mini.crawler.parser.EmptyCrawlerParser;
+import org.sunso.mini.crawler.task.CrawlerTask;
 
 public abstract class AbstractCrawlerSpider implements CrawlerSpider {
     protected CrawlerContext context;
@@ -43,6 +45,16 @@ public abstract class AbstractCrawlerSpider implements CrawlerSpider {
     protected CrawlerHttpRequest getRequestFromCrawlerQueue() {
         return context.getQueue().poll();
     }
+
+
+    protected CrawlerHttpRequest getRequestFromCrawlerTask() {
+        return context.getTask().pollTask();
+    }
+
+    protected CrawlerTask getCrawlerTask() {
+        return context.fetchTask();
+    }
+
 
     protected CrawlerResultDefine getCrawlerResultDefine(Class<? extends CrawlerResult> clazz) {
         return clazz.getAnnotation(CrawlerResultDefine.class);

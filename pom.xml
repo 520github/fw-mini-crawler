@@ -20,6 +20,7 @@
         <module>fw-mini-crawler-annotation</module>
         <module>fw-mini-crawler-formatter</module>
         <module>fw-mini-crawler-storage</module>
+        <module>fw-mini-crawler-task</module>
     </modules>
 
     <properties>

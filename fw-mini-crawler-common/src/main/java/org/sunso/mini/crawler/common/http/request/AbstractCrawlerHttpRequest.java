@@ -1,5 +1,8 @@
 package org.sunso.mini.crawler.common.http.request;
 
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import org.sunso.mini.crawler.common.http.event.CrawlerHttpRequestEvent;
 
 import java.util.HashMap;
@@ -10,6 +13,10 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
     protected String url;
 
     protected String urlAlias;
+
+    protected String requestId;
+
+    protected int sort = 0;
 
     protected long waitTime = 0;
 
@@ -55,6 +62,31 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
         return this;
     }
 
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public String getAndSetRequestIdIfEmpty() {
+        if (StrUtil.isBlank(requestId)) {
+            setRequestId(IdUtil.fastSimpleUUID());
+        }
+        return requestId;
+    }
+
+    public CrawlerHttpRequest setRequestId(String requestId) {
+        this.requestId = requestId;
+        return this;
+    }
+
+    public int getSort() {
+        return this.sort;
+    }
+
+    public CrawlerHttpRequest setSort(int sort) {
+        this.sort = sort;
+        return this;
+    }
+
     public long getWaitTime() {
         return this.waitTime;
     }
@@ -95,7 +127,7 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
         return this;
     }
 
-    public AbstractCrawlerHttpRequest addData(Map<String, Object> data) {
+    public AbstractCrawlerHttpRequest setData(Map<String, Object> data) {
         this.data.putAll(data);
         return this;
     }
@@ -135,6 +167,11 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
         return this;
     }
 
+    public CrawlerHttpRequest setEvents(Map<String, CrawlerHttpRequestEvent> events) {
+        this.events.putAll(events);
+        return this;
+    }
+
     public CrawlerHttpRequestEvent getEvent(String eventKey) {
         return events.get(eventKey);
     }
@@ -148,7 +185,7 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
         return this;
     }
 
-    public CrawlerHttpRequest addHeaders(Map<String, String> headerMap) {
+    public CrawlerHttpRequest setHeaders(Map<String, String> headerMap) {
         headers.putAll(headerMap);
         return this;
     }
@@ -166,7 +203,7 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
         return this;
     }
 
-    public CrawlerHttpRequest addCookies(Map<String, String> cookiesMap) {
+    public CrawlerHttpRequest setCookies(Map<String, String> cookiesMap) {
         this.cookies.putAll(cookiesMap);
         return this;
     }

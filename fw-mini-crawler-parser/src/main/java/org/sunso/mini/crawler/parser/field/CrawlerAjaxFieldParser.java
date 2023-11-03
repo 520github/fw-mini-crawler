@@ -66,10 +66,10 @@ public class CrawlerAjaxFieldParser extends AbstractCrawlerFieldParser {
         setHtmlAjaxUrl2RequestAttribute(request, ajaxDTO.getRequestAttributeName(), url);
         CrawlerHttpRequest ajaxRequest = CrawlerHttpRequestFactory.getCrawlerHttpRequest(url, ajaxDTO.getMethod());
         if (ajaxDTO.isCopyHeader()) {
-            ajaxRequest.addHeaders(request.getRequest().getHeaders());
+            ajaxRequest.setHeaders(request.getRequest().getHeaders());
         }
         if (ajaxDTO.isCopyCookies()) {
-            ajaxRequest.addCookies(request.getRequest().getCookies());
+            ajaxRequest.setCookies(request.getRequest().getCookies());
         }
         if (ajaxDTO.isCopyAttribute()) {
             ajaxRequest.setAttributes(request.getRequest().getAttributes());

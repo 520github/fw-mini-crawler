@@ -9,6 +9,12 @@ import java.util.regex.Pattern;
 
 public class UrlUtils {
 
+    public static void test(String key, Object... params) {
+        for(Object para: params) {
+            System.out.println("" + para);
+        }
+    }
+
     public static Map<String, String> urlMatch(String matchUrl, String targetUrl) {
         return urlMatch(matchUrl, targetUrl, "{", "}", 3);
     }

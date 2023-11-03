@@ -15,7 +15,8 @@ public abstract class AbstractCrawlerEnginer extends Thread implements CrawlerEn
     protected List<CrawlerSpider> spiderList;
 
     public void run() {
-        setHttpRequest2Queue();
+        //setHttpRequest2Queue();
+        setHttpRequest2Task();
         initCrawlerSpider();
         doRun();
     }
@@ -47,6 +48,12 @@ public abstract class AbstractCrawlerEnginer extends Thread implements CrawlerEn
     protected void setHttpRequest2Queue() {
         for(CrawlerHttpRequest request: context.getRequestList()) {
             context.getQueue().offer(request);
+        }
+    }
+
+    protected void setHttpRequest2Task() {
+        for(CrawlerHttpRequest request: context.getRequestList()) {
+            context.fetchTask().offerTask(request);
         }
     }
 

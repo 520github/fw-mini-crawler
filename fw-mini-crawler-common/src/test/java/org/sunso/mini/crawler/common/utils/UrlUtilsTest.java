@@ -9,6 +9,12 @@ import java.util.Map;
 public class UrlUtilsTest extends BaseTest {
 
     @Test
+    public void testTest() {
+        String[] params = new String[]{"33", "999", "999"};
+        UrlUtils.test("ddd", params);
+    }
+
+    @Test
     public void urlMatchTest() {
         String matchUrl = "http://www.zhongzhenglawyer.com/NewsDetail/{articleNo}.html";
         String targetUrl = "http://www.zhongzhenglawyer.com/NewsDetail/4272935.html";

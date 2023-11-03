@@ -61,12 +61,31 @@ public class CrawlerHttpResponse {
         return status;
     }
 
+    public Charset charset() {
+        return charset;
+    }
+
     public static CrawlerHttpResponse create(String body) {
         return new CrawlerHttpResponse(body);
     }
 
     public InputStream getInputStream() {
         return in;
+    }
+
+    public boolean isHtml() {
+        String body = body();
+        if (body != null && body.contains("<html>")) {
+            return true;
+        }
+        return false;
+    }
+
+    public String getResponseDataType() {
+        if (isHtml()) {
+            return "html";
+        }
+        return "json";
     }
 
 
