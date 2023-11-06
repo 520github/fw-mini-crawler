@@ -58,12 +58,14 @@ public abstract class AbstractCrawlerEnginer extends Thread implements CrawlerEn
     }
 
     protected void initCrawlerSpider() {
-        spiderList = new ArrayList<>();
-        for(int i=0; i<context.getSpiderNum(); i++) {
-            CrawlerSpider spider = newCrawlerSpider();
-            spiderList.add(spider);
-            Thread thread = new Thread(spider, "spider-"+i);
-            thread.start();
-        }
+        Thread thread = new Thread(newCrawlerSpider(), "spider-boot");
+        thread.start();
+//        spiderList = new ArrayList<>();
+//        for(int i=0; i<context.getSpiderNum(); i++) {
+//            CrawlerSpider spider = newCrawlerSpider();
+//            spiderList.add(spider);
+//            Thread thread = new Thread(spider, "spider-"+i);
+//            thread.start();
+//        }
     }
 }

@@ -24,46 +24,30 @@ public class OneTimeCrawlerSpider extends AbstractCrawlerSpider {
     public void run() {
         CrawlerContextThreadLocal.set(this.context);
         while (true) {
-            CrawlerHttpRequest request = getRequestFromCrawlerTask();
-            if (request == null) {
-                System.out.println("没有需要爬取的url，退出");
-                break;
-            }
-            System.out.println("start download:" + Thread.currentThread().getName());
-            Class<? extends CrawlerResult> clazz = getCrawlerResultClass(request);
-            if (clazz == null) {
-                log.error("url[{}] not found crawlerResult define", request.getUrl());
-                continue;
-            }
-            CrawlerHttpResponse response = getDownloader(clazz).download(request);
-            //System.out.println("body:" + response.body());
-            CrawlerResult crawlerResult = getCrawlerParser(clazz).parse(clazz, request, response);
-            System.out.println("crawlerResult:" + crawlerResult);
-
-            getCrawlerTask().doneTask(request, response, crawlerResult);
+            doRequest();
+//            CrawlerHttpRequest request = getRequestFromCrawlerTask();
+//            if (request == null) {
+//                System.out.println("没有需要爬取的url，退出");
+//                break;
+//            }
+//            System.out.println("start download:" + Thread.currentThread().getName());
+//            Class<? extends CrawlerResult> clazz = getCrawlerResultClass(request);
+//            if (clazz == null) {
+//                log.error("url[{}] not found crawlerResult define", request.getUrl());
+//                continue;
+//            }
+//            CrawlerHttpResponse response = getDownloader(clazz).download(request);
+//            //System.out.println("body:" + response.body());
+//            CrawlerResult crawlerResult = getCrawlerParser(clazz).parse(clazz, request, response);
+//            System.out.println("crawlerResult:" + crawlerResult);
+//
+//            getCrawlerTask().doneTask(request, response, crawlerResult);
 
             //CrawlerHandlerFactory.doCrawlerHandler(crawlerResult);
             //Thread.sleep(i*1000);
         }
     }
 
-    private Class<? extends CrawlerResult> getCrawlerResultClass(CrawlerHttpRequest request) {
-        Map<String, Class<? extends CrawlerResult>> urlCrawlerResultMap =  context.getUrlCrawlerResultMap();
-        if (urlCrawlerResultMap == null || urlCrawlerResultMap.size() == 0) {
-            return null;
-        }
-        for(String url: urlCrawlerResultMap.keySet()) {
-            Map<String,String> parameterMap = UrlUtils.urlMatch(url, request.getUrl());
-            if (parameterMap != null) {
-                request.setParameters(parameterMap);
-                return urlCrawlerResultMap.get(url);
-            }
-        }
-        String urlAlias = request.getUrlAlias();
-        if (StrUtil.isNotBlank(urlAlias)) {
-            return urlCrawlerResultMap.get(urlAlias);
-        }
-        return null;
-    }
+
 
 }

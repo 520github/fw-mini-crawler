@@ -80,7 +80,7 @@ public class CrawlerEnginerBuilder {
 //        return this;
 //    }
 
-    public CrawlerEnginerBuilder spiderClassType(Class<CrawlerSpider> spiderClassType) {
+    public CrawlerEnginerBuilder spiderClassType(Class<? extends CrawlerSpider> spiderClassType) {
         this.spiderClassType = spiderClassType;
         return this;
     }
