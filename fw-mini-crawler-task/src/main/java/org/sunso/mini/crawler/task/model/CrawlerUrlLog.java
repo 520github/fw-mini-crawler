@@ -26,7 +26,8 @@ public class CrawlerUrlLog {
     private String requestClass;
     private String requestJsonData;
     private String requestExtendJsonData;
-    private String requestSpider;
+    private String requestReadSpider;
+    private String requestHandleSpider;
     private String urlResponseStatus;
     private String urlResponseData;
     private String crawlerResult;
@@ -48,7 +49,7 @@ public class CrawlerUrlLog {
         instance.setRequestClass(request.getClass().getName());
         instance.setRequestJsonData(JSONUtil.toJsonStr(request));
         instance.setRequestExtendJsonData(getRequestExtendJsonData(request));
-        instance.setRequestSpider("default");
+        instance.setRequestReadSpider("default");
         instance.setCrawlerStep("");
         instance.setRetryNum(0);
         instance.setSort(request.getSort());

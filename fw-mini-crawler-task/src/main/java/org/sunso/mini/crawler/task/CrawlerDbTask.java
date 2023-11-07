@@ -83,6 +83,9 @@ public class CrawlerDbTask extends AbstractCrawlerTask {
 
     @SneakyThrows
     private CrawlerHttpRequest parse2CrawlerHttpRequest(CrawlerUrlLog crawlerUrlLog) {
+
+        System.out.println("crawlerUrlLog: " + crawlerUrlLog);
+
         DbDataSqlUpdate update = new DbDataSqlUpdate();
         update.setSql(getDoingSql(crawlerUrlLog.getRequestId()));
         HuToolDb.updateData(update);
@@ -99,6 +102,9 @@ public class CrawlerDbTask extends AbstractCrawlerTask {
         Map<String, CrawlerHttpRequestEvent> eventMap = getCrawlerHttpRequestEventMap(eventsJsonData, crawlerUrlLog.getRequestExtendJsonData());
         if (eventMap != null && !eventMap.isEmpty()) {
             request.setEvents(eventMap);
+        }
+        if (!crawlerUrlLog.getRequestId().equalsIgnoreCase(request.getRequestId())) {
+            request.setRequestId(crawlerUrlLog.getRequestId());
         }
         return request;
     }
@@ -135,15 +141,15 @@ public class CrawlerDbTask extends AbstractCrawlerTask {
     }
 
     private String getCurrentSpiderSql() {
-        return String.format(getSqlTable() + " where biz_type='%s' and request_spider='%s' and status in ('init') order by sort desc limit 1", getBizType(), currentSpider());
+        return String.format(getSqlTable() + " where biz_type='%s' and request_read_spider='%s' and status in ('init') order by sort desc limit 1", getBizType(), currentSpider());
     }
 
     private String getDefaultSpiderSql() {
-        return String.format(getSqlTable() + " where biz_type='%s' and request_spider='default' and status in ('init') order by sort desc limit 1", getBizType());
+        return String.format(getSqlTable() + " where biz_type='%s' and request_read_spider='default' and status in ('init') order by sort desc limit 1", getBizType());
     }
 
     private String getFailSql() {
-        return String.format(getSqlTable() + " where biz_type='%s' and request_spider='%s' and status in ('fail','exception') order by sort desc limit 1", getBizType(), currentSpider());
+        return String.format(getSqlTable() + " where biz_type='%s' and request_handle_spider='%s' and status in ('fail','exception') order by sort desc limit 1", getBizType(), currentSpider());
     }
 
     private String getSqlTable() {
@@ -170,7 +176,7 @@ public class CrawlerDbTask extends AbstractCrawlerTask {
         StringBuilder sb = new StringBuilder();
         sb.append("update ").append(tableName).append(" set ");
         sb.append("status=").append(getFlagValue(CrawlerUrlLogStatusEnum.doing.getKey())).append(",");
-        sb.append("request_spider=").append(getFlagValue(currentSpider())).append(", ");
+        sb.append("request_read_spider=").append(getFlagValue(currentSpider())).append(", ");
         sb.append("update_time=").append(getFlagValue(getNowDateTime())).append(",");
         sb.append("crawler_start_time=").append(getFlagValue(getNowDateTime()));
         sb.append(" where request_id=").append(getFlagValue(requestId));
@@ -195,11 +201,12 @@ public class CrawlerDbTask extends AbstractCrawlerTask {
         sb.append("url_response_data").append("=?,");//.append("'%s',");
         sb.append("crawler_result").append("=?,");//.append("'%s',");
         sb.append("status").append("=").append("'%s',");
+        sb.append("request_handle_spider=").append("'%s',");
         sb.append("update_time='%s',");
         sb.append("crawler_end_time='%s' ");
         sb.append(" where request_id=").append("'%s'");
         return String.format(sb.toString(), response.status(), getStatus(response, crawlerResult),
-                getNowDateTime(), getNowDateTime(),
+                currentSpider(), getNowDateTime(), getNowDateTime(),
                 request.getRequestId());
     }
 

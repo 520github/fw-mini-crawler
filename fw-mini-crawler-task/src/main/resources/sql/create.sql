@@ -7,7 +7,8 @@ create table zz_official.crawler_url_log (
   `request_class` varchar(512)  COMMENT '请求url对应class类',
   `request_json_data` varchar(5000)  not null COMMENT '请求json数据',
   `request_extend_json_data` varchar(5000)  COMMENT '请求扩展json数据',
-  `request_spider` varchar(128) not null COMMENT '请求对应处理的spider',
+  `request_read_spider` varchar(128) not null COMMENT '读取url的spider',
+  `request_handle_spider` varchar(128)  COMMENT '处理url的spider',
   `url_response_status` int  COMMENT '请求url返回状态码',
   `url_response_data` text  COMMENT '请求url返回数据',
   `crawler_result` text  COMMENT '爬取的结果数据',
@@ -22,7 +23,81 @@ create table zz_official.crawler_url_log (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT '更新时间',
   PRIMARY KEY (`id`),
   unique key `unique_requestId` (`request_id`),
-  index `index_bizType_requestSpider_status` (`biz_type`, `request_spider`, `status`)
+  index `index_bizType_requestSpider_status` (`biz_type`, `request_read_spider`, `status`)
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='爬取url日志';
+;
+
+
+insert into zz_official.crawler_url_log
+(biz_type,request_id,request_url,request_class,request_json_data,request_extend_json_data,request_read_spider,retry_num,sort,status)
+select
+biz_type, replace(uuid(),"-",""), request_url, request_class, request_json_data, request_extend_json_data, 'default', retry_num, sort, 'init'
+from zz_official.crawler_url_log
+where request_id='0553ad86d38a490db7fba10ac302d725'
+;
+
+
+
+insert into zz_official.crawler_url_log
+(biz_type,request_id,request_url,request_class,request_json_data,request_extend_json_data,request_read_spider,retry_num,sort,status)
+
+  select
+       biz_type,
+      requestId,
+      request_url,
+      request_class,
+      replace(request_json_data, "5e4c2e6338f94de3889ff95b0351be72", requestId),
+      request_extend_json_data,
+      request_read_spider,
+      retry_num,
+      sort,
+      status
+  from (
+    select
+      biz_type,
+      replace(uuid(), "-", "") as requestId,
+      request_url,
+      request_class,
+      request_json_data,
+      request_extend_json_data,
+      'default' as request_read_spider,
+      retry_num,
+      sort,
+      'init' as status
+    from zz_official.crawler_url_log
+    where request_id = '5e4c2e6338f94de3889ff95b0351be72'
+  ) as t
+;
+
+
+    with temp as
+    (select
+       biz_type,
+       uuid() as requestId,
+       request_url,
+       request_class,
+       request_json_data,
+       request_extend_json_data,
+       'default'                as request_read_spider,
+       retry_num,
+       sort,
+       'init'                   as status
+     from zz_official.crawler_url_log
+     where request_id = '5e4c2e6338f94de3889ff95b0351be72'
+    )
+
+  select
+       biz_type,
+      requestId,
+      request_url,
+      requestId as d2,
+      request_class,
+      replace(request_json_data, "5e4c2e6338f94de3889ff95b0351be72", requestId),
+      request_extend_json_data,
+      request_read_spider,
+      retry_num,
+      sort,
+      status
+  from temp
 ;

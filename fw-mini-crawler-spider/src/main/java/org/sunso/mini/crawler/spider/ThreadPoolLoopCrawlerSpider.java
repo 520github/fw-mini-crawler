@@ -22,7 +22,7 @@ public class ThreadPoolLoopCrawlerSpider extends AbstractCrawlerSpider {
     public ThreadPoolLoopCrawlerSpider(CrawlerContext context) {
         super(context);
         //Executors.newFixedThreadPool()
-        executorService = new ThreadPoolExecutor(1, 5, 1, TimeUnit.MINUTES, new LinkedBlockingQueue<>(), new SpiderThreadFactory());
+        executorService = new ThreadPoolExecutor(5, 10, 1, TimeUnit.MINUTES, new LinkedBlockingQueue<>(), new SpiderThreadFactory());
     }
 
     @Override
