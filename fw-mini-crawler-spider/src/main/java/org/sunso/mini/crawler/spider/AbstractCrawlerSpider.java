@@ -76,7 +76,7 @@ public abstract class AbstractCrawlerSpider implements CrawlerSpider {
         CrawlerHttpResponse response = getDownloader(clazz).download(request);
         //System.out.println("body:" + response.body());
         CrawlerResult crawlerResult = getCrawlerParser(clazz).parse(clazz, request, response);
-        System.out.println("crawlerResult:" + crawlerResult);
+        //System.out.println("crawlerResult:" + crawlerResult);
 
         getCrawlerTask().doneTask(request, response, crawlerResult);
     }

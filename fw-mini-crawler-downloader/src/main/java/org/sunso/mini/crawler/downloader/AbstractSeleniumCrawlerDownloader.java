@@ -1,9 +1,6 @@
 package org.sunso.mini.crawler.downloader;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.safari.SafariDriver;
@@ -70,6 +67,9 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
         else if (HttpRequestEventTypeEnum.inputSetAndMoveCursor.getKey().equalsIgnoreCase(eventValue.getEventType())) {
             doInputSetAndMoveCursor(eventKey, eventValue, webDriver);
         }
+        else if (HttpRequestEventTypeEnum.scrollToBottom.getKey().equalsIgnoreCase(eventValue.getEventType())) {
+            doScrollToBottom(eventKey, eventValue, webDriver);
+        }
     }
 
     protected void doClickEvent(String eventKey, CrawlerHttpRequestEvent eventValue, WebDriver webDriver) {
@@ -97,6 +97,38 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
         }catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    protected void doScrollToBottom(String eventKey, CrawlerHttpRequestEvent eventValue, WebDriver webDriver) {
+        int lastHeight = getScrollHeight(webDriver);
+        System.out.println("lastHeight:" + lastHeight);
+        int doMaxNum = eventValue.getEventDoMaxNum();
+        while (doMaxNum > 0) {
+            try {
+                doMaxNum--;
+                getJavascriptExecutor(webDriver).executeScript("window.scrollTo(0,document.body.scrollHeight);");
+                Thread.sleep(2000);
+                int newHeight = getScrollHeight(webDriver);
+                if (lastHeight == newHeight) {
+                    break;
+                }
+                lastHeight = newHeight;
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private int getScrollHeight(WebDriver webDriver) {
+        Object scrollHeight = getJavascriptExecutor(webDriver).executeScript("return document.body.scrollHeight");
+        if (scrollHeight == null) {
+            return 0;
+        }
+        return Integer.parseInt(scrollHeight.toString());
+    }
+
+    protected JavascriptExecutor getJavascriptExecutor(WebDriver webDriver) {
+        return (JavascriptExecutor)webDriver;
     }
 
     protected void emptyClick(WebDriver webDriver) {

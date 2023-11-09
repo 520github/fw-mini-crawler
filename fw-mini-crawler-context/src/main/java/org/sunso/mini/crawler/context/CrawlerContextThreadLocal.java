@@ -23,6 +23,6 @@ public class CrawlerContextThreadLocal {
             System.out.println("offerRequest thread name:" + Thread.currentThread().getName() + " find CrawlerContext is null");
             return;
         }
-        get().getQueue().offer(request);
+        get().fetchTask().offerTask(request);
     }
 }

@@ -8,4 +8,8 @@ public class CrawlerHttpRequestEventFactory {
     public static CrawlerHttpRequestEvent getInputSetAndMoveCursorEvent(String value) {
         return new CrawlerHttpRequestInputSetAndMoveCursorEvent(value);
     }
+
+    public static CrawlerHttpRequestEvent getCrawlerHttpRequestScrollToBottomEvent(int eventDoMaxNum) {
+        return new CrawlerHttpRequestScrollToBottomEvent().setEventDoMaxNum(eventDoMaxNum);
+    }
 }
