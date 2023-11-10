@@ -25,9 +25,9 @@ public class CrawlerPageUrlFieldParser extends AbstractCrawlerFieldParser {
         while(currentPage <= htmlPageUrl.endPageNo()) {
             List<Object> pageList = getPageDataList(htmlPageUrl, currentPage, request);
             currentPage++;
-            System.out.println("currentPage: " + currentPage);
-            System.out.println("currentPage data: " + pageList);
+            //System.out.println("currentPage data: " + pageList);
             if (pageList == null || pageList.isEmpty()) {
+                System.out.println("currentPage: " + currentPage);
                 break;
             }
             dataList.addAll(pageList);

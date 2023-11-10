@@ -49,6 +49,12 @@ public class HuToolDb {
         return db.query(query.getSql(), beanClass, query.getParams());
     }
 
+    @SneakyThrows
+    public static long countSql(DbSqlCount count) {
+        Db db = getDb(count);
+        return db.count(count.getSql(), count.getParams());
+    }
+
     public static boolean checkExistData(DbDataInsert insert, Db db, Entity entity) {
         String[] columns = insert.getCheckExistColumns();
         if (columns == null || columns.length < 1) {
