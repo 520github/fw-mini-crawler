@@ -25,6 +25,12 @@ public class HuToolDb {
         return db.execute(update.getSql(), update.getParams());
     }
 
+    @SneakyThrows
+    public static int insertSql(DbSqlInsert insert) {
+        Db db = getDb(insert);
+        return db.execute(insert.getSql(), insert.getParams());
+    }
+
     public static Long insertData(DbDataInsert insert, Object data) {
         Db db = getDb(insert);
         Entity entity = getEntity(insert, data);

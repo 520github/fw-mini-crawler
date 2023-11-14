@@ -9,9 +9,12 @@ import org.sunso.mini.crawler.annotation.json.JsonPath;
 import org.sunso.mini.crawler.annotation.order.FieldOrder;
 import org.sunso.mini.crawler.annotation.request.RequestAttributeGet;
 import org.sunso.mini.crawler.annotation.request.RequestAttributeSet;
+import org.sunso.mini.crawler.annotation.result.CrawlerResultChecker;
+import org.sunso.mini.crawler.checker.CrawlerCheckerFactory;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
+import org.sunso.mini.crawler.common.result.FieldCheckFailCrawlerResult;
 import org.sunso.mini.crawler.context.CrawlerContextThreadLocal;
 import org.sunso.mini.crawler.formatter.Formatter;
 import org.sunso.mini.crawler.formatter.FormatterFactory;
@@ -39,16 +42,30 @@ public class UnionCrawlerParser extends AbstractCrawlerParser {
                 continue;
             }
             handleField2Map(field, parserRequest, dataMap);
+            if (!checker(field, dataMap, clazz)) {
+                return FieldCheckFailCrawlerResult.newInstance(field.getName());
+            }
         }
         for(Integer sort: orderFieldMap.keySet()) {
             for(Field field: orderFieldMap.get(sort)) {
                 handleField2Map(field, parserRequest, dataMap);
+                if (!checker(field, dataMap, clazz)) {
+                    return FieldCheckFailCrawlerResult.newInstance(field.getName());
+                }
             }
         }
         CrawlerResult result = BeanUtil.mapToBean(dataMap, clazz, true);
         CrawlerHandlerFactory.doCrawlerHandler(result);
         CrawlerDataStorageFactory.doDataStorage(result);
         return result;
+    }
+
+    private boolean checker(Field field, Map<String, Object> dataMap, Class<? extends CrawlerResult> clazz) {
+        CrawlerResultChecker checker = field.getAnnotation(CrawlerResultChecker.class);
+        if (checker == null) {
+            return true;
+        }
+        return CrawlerCheckerFactory.getCrawlerChecker(checker.checker()).check(BeanUtil.mapToBean(dataMap, clazz, true));
     }
 
     private void setFiled2OrderFieldList(Field field, Map<Integer, List<Field>> orderFieldMap) {

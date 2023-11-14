@@ -7,6 +7,7 @@ import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
 import org.sunso.mini.crawler.annotation.json.JsonPath;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
+import org.sunso.mini.crawler.common.result.FieldCheckFailCrawlerResult;
 import org.sunso.mini.crawler.common.utils.ReflectUtils;
 
 import java.lang.reflect.Field;
@@ -46,6 +47,9 @@ public abstract class AbstractCrawlerFieldParser implements CrawlerFieldParser {
 
     protected boolean checkFilter(Field field, CrawlerResult crawlerResult) {
         if (crawlerResult == null) {
+            return false;
+        }
+        if (crawlerResult instanceof FieldCheckFailCrawlerResult) {
             return false;
         }
         String expression = getExpression(field);
