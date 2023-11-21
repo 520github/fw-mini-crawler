@@ -14,4 +14,6 @@ public @interface HtmlCssPath {
     Class<? extends Formatter>[] formatter() default NoneFormatter.class;
 
     String expressionFilter() default "";
+
+    HtmlRepairTypeEnum repairType() default HtmlRepairTypeEnum.none;
 }

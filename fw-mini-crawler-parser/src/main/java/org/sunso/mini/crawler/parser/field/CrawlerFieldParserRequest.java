@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import lombok.Data;
+import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
 import org.sunso.mini.crawler.annotation.html.HtmlUrl;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequestBuilder;
@@ -58,6 +59,10 @@ public class CrawlerFieldParserRequest {
 
     public <T extends Annotation> T fetchFieldAnnotation(Class<T> annotationClass) {
         return getField().getAnnotation(annotationClass);
+    }
+
+    public HtmlCssPath fetchHtmlCssPath() {
+        return fetchFieldAnnotation(HtmlCssPath.class);
     }
 
     public String fetchFieldName() {

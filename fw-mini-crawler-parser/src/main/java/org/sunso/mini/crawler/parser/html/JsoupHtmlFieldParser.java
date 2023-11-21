@@ -79,7 +79,7 @@ public class JsoupHtmlFieldParser extends AbstractHtmlFieldParser {
         return elementList(getCssPath(field));
     }
 
-    private Elements elementList(String selector) {
+    public Elements elementList(String selector) {
         return document.select(selector);
     }
 
@@ -110,7 +110,7 @@ public class JsoupHtmlFieldParser extends AbstractHtmlFieldParser {
         return result;
     }
 
-    private Element elementOne(String selector) {
+    public Element elementOne(String selector) {
         Elements elementList = elementList(selector);
         if (elementList != null && elementList.size() > 0) {
             return elementList.first();
