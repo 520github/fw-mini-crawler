@@ -1,5 +1,9 @@
 package org.sunso.mini.crawler.parser.field;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
+import io.netty.util.internal.StringUtil;
 import org.sunso.mini.crawler.annotation.html.HtmlPageSingleButton;
 import org.sunso.mini.crawler.common.enums.HttpRequestEventTypeEnum;
 import org.sunso.mini.crawler.common.http.event.CrawlerHttpRequestEvent;
@@ -83,6 +87,27 @@ public class CrawlerPageSingleButtonFieldParser extends AbstractCrawlerFieldPars
         }
         else if (HttpRequestEventTypeEnum.inputSetAndMoveCursor == htmlPageButton.eventType()) {
             return CrawlerHttpRequestEventFactory.getInputSetAndMoveCursorEvent(String.valueOf(currentPage));
+        }
+        else if (HttpRequestEventTypeEnum.inputSetAndClickButton == htmlPageButton.eventType()) {
+            return CrawlerHttpRequestEventFactory.getCrawlerHttpRequestInputSetAndClickButtonEvent(getInputCssPath(htmlPageButton), String.valueOf(currentPage));
+        }
+        return null;
+    }
+
+    private String getInputCssPath(HtmlPageSingleButton htmlPageButton) {
+        if (htmlPageButton == null) {
+            return null;
+        }
+        String extendData = htmlPageButton.extendData();
+        if (StrUtil.isBlank(extendData)) {
+            return null;
+        }
+        try {
+            JSONObject jsonObject = JSONUtil.parseObj(extendData);
+            return jsonObject.getStr("inputCssPath");
+        }catch (Exception e) {
+            e.printStackTrace();
+            // todo  log
         }
         return null;
     }

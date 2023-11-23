@@ -15,5 +15,5 @@ public @interface HtmlCssPath {
 
     String expressionFilter() default "";
 
-    HtmlRepairTypeEnum repairType() default HtmlRepairTypeEnum.none;
+    HtmlRepairTypeEnum repairType() default HtmlRepairTypeEnum.empty;
 }

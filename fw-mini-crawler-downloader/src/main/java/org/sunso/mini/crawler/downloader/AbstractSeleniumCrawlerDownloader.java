@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.safari.SafariDriver;
 import org.sunso.mini.crawler.common.enums.HttpRequestEventTypeEnum;
 import org.sunso.mini.crawler.common.http.event.CrawlerHttpRequestEvent;
+import org.sunso.mini.crawler.common.http.event.CrawlerHttpRequestInputSetAndClickButtonEvent;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.downloader.enums.DownloaderExtendKeyEnum;
@@ -70,6 +71,17 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
         else if (HttpRequestEventTypeEnum.scrollToBottom.getKey().equalsIgnoreCase(eventValue.getEventType())) {
             doScrollToBottom(eventKey, eventValue, webDriver);
         }
+        else if (HttpRequestEventTypeEnum.inputSetAndClickButton.getKey().equalsIgnoreCase(eventValue.getEventType())) {
+            doInputSetAndClickButton(eventKey, (CrawlerHttpRequestInputSetAndClickButtonEvent)eventValue, webDriver);
+        }
+    }
+
+    protected void doInputSetAndClickButton(String eventKey, CrawlerHttpRequestInputSetAndClickButtonEvent eventValue, WebDriver webDriver) {
+        WebElement inputElement = getWebElement(webDriver, eventValue.getInputCssPath());
+        inputElement.clear();
+        inputElement.sendKeys(eventValue.getEventValue());
+        WebElement webElement = getWebElement(webDriver, eventKey);
+        webElement.click();
     }
 
     protected void doClickEvent(String eventKey, CrawlerHttpRequestEvent eventValue, WebDriver webDriver) {

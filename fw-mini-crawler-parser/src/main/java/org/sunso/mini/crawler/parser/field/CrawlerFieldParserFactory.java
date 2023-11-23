@@ -1,5 +1,6 @@
 package org.sunso.mini.crawler.parser.field;
 
+import org.sunso.mini.crawler.annotation.custom.CustomUrl;
 import org.sunso.mini.crawler.annotation.html.HtmlAjax;
 import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
 import org.sunso.mini.crawler.annotation.html.HtmlPageSingleButton;
@@ -12,7 +13,10 @@ import java.lang.reflect.Field;
 public class CrawlerFieldParserFactory {
 
     public static CrawlerFieldParser getCrawlerFieldParser(Field field) {
-        if (field.isAnnotationPresent(Request.class)) {
+        if (field.isAnnotationPresent(CustomUrl.class)) {
+            return new CrawlerCustomUrlFieldParser();
+        }
+        else if (field.isAnnotationPresent(Request.class)) {
             return new CrawlerRequestFieldParser();
         }
         else if (field.isAnnotationPresent(RequestUrl.class)) {

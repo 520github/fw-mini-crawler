@@ -27,4 +27,6 @@ public @interface HtmlPageSingleButton {
     HttpRequestEventEndFlagEnum eventEndFlag() default HttpRequestEventEndFlagEnum.noSuchElement;
 
     int eventDoMaxNum() default 100;
+
+    String extendData() default "";
 }

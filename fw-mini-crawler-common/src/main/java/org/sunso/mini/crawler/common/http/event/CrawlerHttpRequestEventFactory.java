@@ -12,4 +12,8 @@ public class CrawlerHttpRequestEventFactory {
     public static CrawlerHttpRequestEvent getCrawlerHttpRequestScrollToBottomEvent(int eventDoMaxNum) {
         return new CrawlerHttpRequestScrollToBottomEvent().setEventDoMaxNum(eventDoMaxNum);
     }
+
+    public static CrawlerHttpRequestEvent getCrawlerHttpRequestInputSetAndClickButtonEvent(String inputCssPath, String inputValue) {
+        return new CrawlerHttpRequestInputSetAndClickButtonEvent(inputCssPath, inputValue);
+    }
 }

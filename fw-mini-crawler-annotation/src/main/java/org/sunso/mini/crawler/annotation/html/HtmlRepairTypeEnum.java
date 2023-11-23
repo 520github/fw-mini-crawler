@@ -10,6 +10,7 @@ import lombok.Getter;
  */
 @Getter
 public enum HtmlRepairTypeEnum {
+    empty("empty", "默认值"),
     none("none", "不需要做任何修补处理"),
     tableTag("tableTag" , "需要补充table标签"),
     ;

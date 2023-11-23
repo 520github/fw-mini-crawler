@@ -3,6 +3,7 @@ package org.sunso.mini.crawler.parser.field;
 import cn.hutool.core.util.StrUtil;
 import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
 import org.sunso.mini.crawler.annotation.html.HtmlRepairTypeEnum;
+import org.sunso.mini.crawler.annotation.result.CrawlerResultDefine;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpEmptyRequest;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
@@ -72,21 +73,24 @@ public class CrawlerHtmlFieldParser extends AbstractCrawlerFieldParser {
     }
 
     private HtmlFieldParser getHtmlFieldParser(CrawlerFieldParserRequest request) {
-        HtmlCssPath htmlCssPath = request.fetchHtmlCssPath();
-        String body = getResponseBody(request, htmlCssPath);
+        String body = getResponseBody(request);
         return HtmlFieldParserFactory.getHtmlFieldParser(request.fetchRequestUrl(), body, JsoupHtmlFieldParser.class);
     }
 
-    private String getResponseBody(CrawlerFieldParserRequest request, HtmlCssPath htmlCssPath) {
+    private String getResponseBody(CrawlerFieldParserRequest request) {
         String body = request.fetchResponseBody();
         if (StrUtil.isBlank(body)) {
             return body;
         }
-        if (htmlCssPath == null) {
+//        HtmlCssPath htmlCssPath = request.fetchHtmlCssPath();
+//        if (htmlCssPath == null) {
+//            return body;
+//        }
+        HtmlRepairTypeEnum repairTypeEnum = getHtmlRepairTypeEnum(request);
+        if (repairTypeEnum == null) {
             return body;
         }
-        HtmlRepairTypeEnum repairTypeEnum = htmlCssPath.repairType();
-        if (repairTypeEnum == null) {
+        if (HtmlRepairTypeEnum.empty == repairTypeEnum ) {
             return body;
         }
         if (HtmlRepairTypeEnum.none == repairTypeEnum ) {
@@ -96,6 +100,19 @@ public class CrawlerHtmlFieldParser extends AbstractCrawlerFieldParser {
             return "<table>" + body + "</table>";
         }
         return body;
+    }
+
+    private HtmlRepairTypeEnum getHtmlRepairTypeEnum(CrawlerFieldParserRequest request) {
+        HtmlRepairTypeEnum repairTypeEnum = null;
+        CrawlerResultDefine crawlerResultDefine = request.fetchCrawlerResultDefine();
+        if (crawlerResultDefine != null && HtmlRepairTypeEnum.empty != crawlerResultDefine.repairType()) {
+            repairTypeEnum = crawlerResultDefine.repairType();
+        }
+        HtmlCssPath htmlCssPath = request.fetchHtmlCssPath();
+        if (htmlCssPath != null && HtmlRepairTypeEnum.empty != htmlCssPath.repairType()) {
+            repairTypeEnum = htmlCssPath.repairType();
+        }
+        return repairTypeEnum;
     }
 
 //    private boolean containSuperType(Class<?> type, Class<?> superType) {

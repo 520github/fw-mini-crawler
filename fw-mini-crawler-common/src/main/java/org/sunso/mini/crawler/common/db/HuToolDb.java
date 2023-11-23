@@ -41,6 +41,13 @@ public class HuToolDb {
     }
 
     @SneakyThrows
+    public static int insertOrUpdateData(DbDataInsertOrUpdate insertOrUpdate, Object data) {
+        Db db = getDb(insertOrUpdate);
+        Entity entity = getEntity(insertOrUpdate, data);
+        return db.upsert(entity, insertOrUpdate.getCheckExistColumns());
+    }
+
+    @SneakyThrows
     public static <T> T getDataOne(DbDataSqlQuery query, Class<T> beanClass) {
         List<T> list =  getDataList(query, beanClass);
         if (list == null || list.isEmpty()) {
@@ -61,12 +68,17 @@ public class HuToolDb {
         return db.count(count.getSql(), count.getParams());
     }
 
+    public static Entity queryOneData() {
+        return null;
+    }
+
     public static boolean checkExistData(DbDataInsert insert, Db db, Entity entity) {
         String[] columns = insert.getCheckExistColumns();
         if (columns == null || columns.length < 1) {
             return false;
         }
         try {
+
             List<Entity> list = db.find(Arrays.asList(columns), entity);
             if (list!= null && list.size() > 0) {
                 return true;

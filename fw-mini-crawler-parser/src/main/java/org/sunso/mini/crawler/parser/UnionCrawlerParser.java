@@ -33,7 +33,7 @@ public class UnionCrawlerParser extends AbstractCrawlerParser {
     public CrawlerResult parse(Class<? extends CrawlerResult> clazz, CrawlerHttpRequest request, CrawlerHttpResponse response) {
         Set<Field> fieldSet =  ReflectionUtils.getAllFields(clazz);
         Map<String, Object> dataMap = new HashMap<>();
-        CrawlerFieldParserRequest parserRequest = CrawlerFieldParserRequest.newInstance(request, response, this);
+        CrawlerFieldParserRequest parserRequest = CrawlerFieldParserRequest.newInstance(request, response, this, clazz);
         //parserRequest.setBeanDataMap(dataMap);
         Map<Integer, List<Field>> orderFieldMap = new TreeMap<>();
         for(Field field: fieldSet) {

@@ -1,5 +1,6 @@
 package org.sunso.mini.crawler.annotation.result;
 
+import org.sunso.mini.crawler.annotation.html.HtmlRepairTypeEnum;
 import org.sunso.mini.crawler.downloader.CrawlerDownloader;
 import org.sunso.mini.crawler.downloader.EmptyCrawlerDownloader;
 import org.sunso.mini.crawler.handler.CrawlerHandler;
@@ -23,4 +24,6 @@ public @interface CrawlerResultDefine {
     Class<? extends CrawlerDownloader> downloader() default EmptyCrawlerDownloader.class;
 
     Class<? extends CrawlerParser> parser() default EmptyCrawlerParser.class;
+
+    HtmlRepairTypeEnum repairType() default HtmlRepairTypeEnum.empty;
 }
