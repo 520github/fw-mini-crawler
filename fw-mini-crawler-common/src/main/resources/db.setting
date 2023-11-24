@@ -1,0 +1,11 @@
+url = jdbc:mysql://192.168.5.23:3306/zz?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+user = lv
+pass = Ld
+
+showSql = true
+
+formatSql = false
+
+showParams = true
+
+sqlLevel = debug
