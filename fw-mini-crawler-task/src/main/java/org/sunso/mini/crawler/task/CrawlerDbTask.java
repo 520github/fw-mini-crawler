@@ -36,10 +36,17 @@ public class CrawlerDbTask extends AbstractCrawlerTask {
 
     private boolean responseBodySave2File = false;
 
+    private boolean ignoreResponseBody = false;
+
     private String fileBasePath = "/tmp";
 
     public CrawlerDbTask setResponseBodySave2File(boolean responseBodySave2File) {
         this.responseBodySave2File = responseBodySave2File;
+        return this;
+    }
+
+    public CrawlerDbTask setIgnoreResponseBody(boolean ignoreResponseBody) {
+        this.ignoreResponseBody = ignoreResponseBody;
         return this;
     }
 
@@ -213,6 +220,9 @@ public class CrawlerDbTask extends AbstractCrawlerTask {
     private String getResponseBody(CrawlerHttpRequest request, CrawlerHttpResponse response) {
         if (response == null) {
             return null;
+        }
+        if (ignoreResponseBody) {
+            return "ignore";
         }
         if (responseBodySave2File) {
             String filePathName = getFilePath()+getFileName(request,response);
