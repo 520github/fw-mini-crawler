@@ -78,6 +78,9 @@ public class CrawlerPageSingleButtonFieldParser extends AbstractCrawlerFieldPars
         CrawlerHttpRequest pageRequest = CrawlerHttpRequestBuilder.get(url);
         pageRequest.setEvent(htmlPageButton.cssSelector(), getCrawlerHttpRequestEvent(htmlPageButton, currentPage));
         pageRequest.setWaitTime(htmlPageButton.waitTime());
+        if (htmlPageButton.copyOption()) {
+            pageRequest.setOption(request.fetchOption());
+        }
         return CrawlerDownloaderFactory.getSeleniumCrawlerDownloader().download(pageRequest);
     }
 

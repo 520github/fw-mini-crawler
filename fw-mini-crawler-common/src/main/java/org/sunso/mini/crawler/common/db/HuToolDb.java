@@ -77,6 +77,9 @@ public class HuToolDb {
         if (columns == null || columns.length < 1) {
             return false;
         }
+        if (columns.length == 1 && StrUtil.isBlank(columns[0])) {
+            return false;
+        }
         try {
 
             List<Entity> list = db.find(Arrays.asList(columns), entity);
@@ -92,7 +95,13 @@ public class HuToolDb {
     public static Entity getEntity(DbDataTable table, Object data) {
         Entity entity = Entity.create(table.getTableName()).parseBean(data, table.isToUnderlineCase(), table.isIgnoreNullValue());
         String filterColumns[] = table.getFilterColumns();
-        if (filterColumns != null && filterColumns.length > 0) {
+        if (filterColumns != null && filterColumns.length == 1) {
+            if (StrUtil.isBlank(filterColumns[0])) {
+                return entity;
+            }
+            return entity.filter(filterColumns);
+        }
+        if (filterColumns != null && filterColumns.length > 1) {
             return entity.filter(filterColumns);
         }
         return entity;

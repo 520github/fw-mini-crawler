@@ -1,6 +1,7 @@
 package org.sunso.mini.crawler.common.http.request;
 
 import org.sunso.mini.crawler.common.http.event.CrawlerHttpRequestEvent;
+import org.sunso.mini.crawler.common.http.option.Option;
 
 import java.util.Map;
 
@@ -76,6 +77,11 @@ public interface CrawlerHttpRequest {
     CrawlerHttpRequest addCookie(String name, String value);
 
     CrawlerHttpRequest setCookies(Map<String, String> cookiesMap);
+
+
+    CrawlerHttpRequest setOption(Option option);
+
+    Option getOption();
 
 
 }

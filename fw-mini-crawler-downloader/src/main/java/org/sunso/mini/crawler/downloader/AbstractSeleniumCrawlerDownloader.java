@@ -2,6 +2,8 @@ package org.sunso.mini.crawler.downloader;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.chromium.ChromiumOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.safari.SafariDriver;
 import org.sunso.mini.crawler.common.enums.HttpRequestEventTypeEnum;
@@ -168,12 +170,13 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
 
     protected WebDriver getWebDriver(CrawlerHttpRequest request) {
         String browserType = request.getAttributeString(DownloaderExtendKeyEnum.browserType.getKey());
-        if ("chrome".equalsIgnoreCase(browserType)) {
-            return new ChromeDriver();
+        ChromiumOptions options = SeleniumOption.getOption(request);
+        if (SeleniumOption.isChrome(browserType)) {
+            return new ChromeDriver((ChromeOptions) options);
         }
-        else if ("safari".equalsIgnoreCase(browserType)) {
+        else if (SeleniumOption.isSafari(browserType)) {
             return new SafariDriver();
         }
-        return new ChromeDriver();
+        return new ChromeDriver((ChromeOptions)options);
     }
 }

@@ -29,4 +29,6 @@ public @interface HtmlPageSingleButton {
     int eventDoMaxNum() default 100;
 
     String extendData() default "";
+
+    boolean copyOption() default false;
 }

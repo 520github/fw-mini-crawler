@@ -8,6 +8,7 @@ import org.sunso.mini.crawler.annotation.custom.CustomUrl;
 import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
 import org.sunso.mini.crawler.annotation.html.HtmlUrl;
 import org.sunso.mini.crawler.annotation.result.CrawlerResultDefine;
+import org.sunso.mini.crawler.common.http.option.Option;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequestBuilder;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
@@ -82,6 +83,9 @@ public class CrawlerFieldParserRequest {
     }
 
 
+    public Option fetchOption() {
+        return request.getOption();
+    }
 
     public String fetchFieldName() {
         return getField().getName();

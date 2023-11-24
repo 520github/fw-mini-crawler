@@ -4,6 +4,8 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import org.sunso.mini.crawler.common.http.event.CrawlerHttpRequestEvent;
+import org.sunso.mini.crawler.common.http.option.Option;
+import org.sunso.mini.crawler.common.http.option.OptionFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +35,8 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
     private Map<String, String> cookies = new HashMap<>();
 
     private Map<String, String> headers = new HashMap<>();
+
+    private Option option = OptionFactory.getDefaultSwitchArgTrue();
 
 
     protected AbstractCrawlerHttpRequest() {
@@ -218,5 +222,14 @@ public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
             sb.delete(sb.length()-flag.length(), sb.length());
         }
         return sb.toString();
+    }
+
+    public CrawlerHttpRequest setOption(Option option) {
+        this.option = option;
+        return this;
+    }
+
+    public Option getOption() {
+        return this.option;
     }
 }
