@@ -23,4 +23,6 @@ public @interface CommonRelationDb {
     boolean isToUnderlineCase() default true;
 
     boolean ignoreNullValue() default true;
+
+    boolean insertOrUpdate() default false;
 }

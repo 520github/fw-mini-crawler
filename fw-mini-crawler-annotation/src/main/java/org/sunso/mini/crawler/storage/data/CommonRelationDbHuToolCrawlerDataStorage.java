@@ -1,27 +1,23 @@
 package org.sunso.mini.crawler.storage.data;
 
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.db.Db;
-import cn.hutool.db.Entity;
-import cn.hutool.db.ds.simple.SimpleDataSource;
-import lombok.SneakyThrows;
 import org.sunso.mini.crawler.annotation.db.CommonRelationDb;
-import org.sunso.mini.crawler.common.db.DbDataInsert;
+import org.sunso.mini.crawler.common.db.DbDataInsertOrUpdate;
 import org.sunso.mini.crawler.common.db.HuToolDb;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
-
-import javax.sql.DataSource;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
 
 public class CommonRelationDbHuToolCrawlerDataStorage implements CrawlerDataStorage {
     @Override
     public boolean storage(CrawlerResult crawlerResult) {
         CommonRelationDb commonRelationDb = crawlerResult.getClass().getAnnotation(CommonRelationDb.class);
-        DbDataInsert insert = getDbDataInsert(commonRelationDb);
-        Long id = HuToolDb.insertData(insert, crawlerResult);
-        if (id != null && id >0) {
+        DbDataInsertOrUpdate insert = getDbDataInsert(commonRelationDb);
+        Long result;
+        if (commonRelationDb.insertOrUpdate()) {
+            result = Long.valueOf(HuToolDb.insertOrUpdateData(insert, crawlerResult));
+        }
+        else {
+            result = HuToolDb.insertData(insert, crawlerResult);
+        }
+        if (result != null && result >0) {
             return true;
         }
         return false;
@@ -75,8 +71,8 @@ public class CommonRelationDbHuToolCrawlerDataStorage implements CrawlerDataStor
 //        return Db.use(dataSource);
 //    }
 
-    private DbDataInsert getDbDataInsert(CommonRelationDb commonRelationDb) {
-        DbDataInsert insert = new DbDataInsert();
+    private DbDataInsertOrUpdate getDbDataInsert(CommonRelationDb commonRelationDb) {
+        DbDataInsertOrUpdate insert = new DbDataInsertOrUpdate();
         insert.setUrl(commonRelationDb.url());
         insert.setUser(commonRelationDb.user());
         insert.setPassword(commonRelationDb.password());
