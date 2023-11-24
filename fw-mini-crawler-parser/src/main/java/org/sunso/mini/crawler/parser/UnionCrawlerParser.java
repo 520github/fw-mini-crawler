@@ -105,6 +105,9 @@ public class UnionCrawlerParser extends AbstractCrawlerParser {
     }
 
     private void handleHtmlUrlTriggerClick(HtmlUrl htmlUrl, String subUrl, CrawlerFieldParserRequest parserRequest) {
+        if(StrUtil.isBlank(subUrl) || !subUrl.startsWith("http")) {
+            return;
+        }
         CrawlerHttpRequest subRequest = parserRequest.subRequest(htmlUrl, subUrl);
         CrawlerContextThreadLocal.offerRequest(subRequest);
     }
