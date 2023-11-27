@@ -92,12 +92,25 @@ public class CrawlerPageSingleButtonFieldParser extends AbstractCrawlerFieldPars
             return CrawlerHttpRequestEventFactory.getInputSetAndMoveCursorEvent(String.valueOf(currentPage));
         }
         else if (HttpRequestEventTypeEnum.inputSetAndClickButton == htmlPageButton.eventType()) {
-            return CrawlerHttpRequestEventFactory.getCrawlerHttpRequestInputSetAndClickButtonEvent(getInputCssPath(htmlPageButton), String.valueOf(currentPage));
+            return CrawlerHttpRequestEventFactory.getCrawlerHttpRequestInputSetAndClickButtonEvent(getInputCssPath(htmlPageButton), String.valueOf(currentPage), getClickWait(htmlPageButton));
         }
         return null;
     }
 
+    private long getClickWait(HtmlPageSingleButton htmlPageButton) {
+        String clickWait = getExtendDataValue(htmlPageButton, "clickWait");
+        try {
+            return Long.parseLong(clickWait);
+        }catch (Exception e) {
+            return 0;
+        }
+    }
+
     private String getInputCssPath(HtmlPageSingleButton htmlPageButton) {
+        return getExtendDataValue(htmlPageButton, "inputCssPath");
+    }
+
+    private String getExtendDataValue(HtmlPageSingleButton htmlPageButton, String key) {
         if (htmlPageButton == null) {
             return null;
         }
@@ -107,7 +120,7 @@ public class CrawlerPageSingleButtonFieldParser extends AbstractCrawlerFieldPars
         }
         try {
             JSONObject jsonObject = JSONUtil.parseObj(extendData);
-            return jsonObject.getStr("inputCssPath");
+            return jsonObject.getStr(key);
         }catch (Exception e) {
             e.printStackTrace();
             // todo  log

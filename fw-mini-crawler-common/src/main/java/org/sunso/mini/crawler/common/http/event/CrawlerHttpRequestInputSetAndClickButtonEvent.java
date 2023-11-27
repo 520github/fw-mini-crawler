@@ -12,9 +12,11 @@ import org.sunso.mini.crawler.common.enums.HttpRequestEventTypeEnum;
 @Data
 public class CrawlerHttpRequestInputSetAndClickButtonEvent extends AbstractCrawlerHttpRequestEvent {
     private String inputCssPath;
+    private long clickWait;
 
-    public CrawlerHttpRequestInputSetAndClickButtonEvent(String inputCssPath, String inputValue) {
+    public CrawlerHttpRequestInputSetAndClickButtonEvent(String inputCssPath, String inputValue, long clickWait) {
         this.inputCssPath = inputCssPath;
+        this.clickWait = clickWait;
         setEventType(HttpRequestEventTypeEnum.inputSetAndClickButton.getKey());
         setEventValue(inputValue);
     }

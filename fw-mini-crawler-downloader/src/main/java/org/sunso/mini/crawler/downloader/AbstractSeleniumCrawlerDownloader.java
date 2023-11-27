@@ -56,6 +56,13 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
         if (waitTime > 0) {
             webDriver.manage().timeouts().implicitlyWait(Duration.ofMillis(waitTime));
         }
+        sleep(waitTime);
+    }
+
+    protected void sleep(long waitTime) {
+        if (waitTime <=0) {
+            return;
+        }
         try {
             Thread.sleep(waitTime);
         } catch (InterruptedException e) {
@@ -84,6 +91,7 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
         inputElement.sendKeys(eventValue.getEventValue());
         WebElement webElement = getWebElement(webDriver, eventKey);
         webElement.click();
+        sleep(eventValue.getClickWait());
     }
 
     protected void doClickEvent(String eventKey, CrawlerHttpRequestEvent eventValue, WebDriver webDriver) {
