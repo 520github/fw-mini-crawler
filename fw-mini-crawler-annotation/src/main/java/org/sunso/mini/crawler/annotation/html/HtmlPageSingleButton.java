@@ -31,4 +31,6 @@ public @interface HtmlPageSingleButton {
     String extendData() default "";
 
     boolean copyOption() default false;
+
+    int startPage() default 1;
 }

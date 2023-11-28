@@ -61,7 +61,7 @@ public class CrawlerPageSingleButtonFieldParser extends AbstractCrawlerFieldPars
 
     private List<Object> handleAlonePageData(HtmlPageSingleButton htmlPageButton, CrawlerFieldParserRequest request) {
         List<Object> resultList = new ArrayList<>();
-        for(int i=1; i<=htmlPageButton.eventDoMaxNum(); i++) {
+        for(int i=htmlPageButton.startPage(); i<=htmlPageButton.eventDoMaxNum(); i++) {
             CrawlerHttpResponse response = seleniumDownload(htmlPageButton, request, i);
             List<Object> dataList = parseResponse(request, response);
             if (dataList == null || dataList.isEmpty()) {

@@ -3,6 +3,7 @@ package org.sunso.mini.crawler.parser;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import org.reflections.ReflectionUtils;
+import org.sunso.mini.crawler.annotation.field.FieldDefine;
 import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
 import org.sunso.mini.crawler.annotation.html.HtmlUrl;
 import org.sunso.mini.crawler.annotation.json.JsonPath;
@@ -79,14 +80,24 @@ public class UnionCrawlerParser extends AbstractCrawlerParser {
     }
 
     private void handleField2Map(Field field, CrawlerFieldParserRequest parserRequest, Map<String, Object> dataMap) {
-        Object fieldValue = handleField(field, parserRequest);
-        if (fieldValue == null) {
-            return;
+        try {
+            Object fieldValue = handleField(field, parserRequest);
+            if (fieldValue == null) {
+                return;
+            }
+            if (field.isAnnotationPresent(HtmlUrl.class)) {
+                handleHtmlUrlTriggerClick(field, fieldValue, parserRequest);
+            }
+            dataMap.put(field.getName(), fieldValue);
+        }catch (Exception e) {
+            FieldDefine fieldDefine = field.getAnnotation(FieldDefine.class);
+            if (fieldDefine == null || fieldDefine.defaultValue() == null) {
+                System.out.println("fieldName[" + field.getName() + "]获取值发送异常:" + e.getMessage());
+                throw e;
+            }
+            Object fieldValue = TypeConverters.getValue(field.getType(), fieldDefine.defaultValue(), null);
+            dataMap.put(field.getName(), fieldValue);
         }
-        if (field.isAnnotationPresent(HtmlUrl.class)) {
-            handleHtmlUrlTriggerClick(field, fieldValue, parserRequest);
-        }
-        dataMap.put(field.getName(), fieldValue);
     }
 
     private void handleHtmlUrlTriggerClick(Field field, Object fieldValue, CrawlerFieldParserRequest parserRequest) {
