@@ -12,6 +12,12 @@ public class CrawlerHttpRequestBuilder {
         return new CrawlerHttpRequestBuilder();
     }
 
+    public static CrawlerHttpRequest postContentTypeXWwwFormUrlEncoded(String url) {
+        CrawlerHttpPostRequest postRequest = new CrawlerHttpPostRequest(url);
+        postRequest.setContentType(ContentTypeEnum.applicationXWwwForm.getKey());
+        return postRequest;
+    }
+
     public static CrawlerHttpRequest postContentTypeJson(String url) {
         CrawlerHttpPostRequest postRequest = new CrawlerHttpPostRequest(url);
         postRequest.setContentType(ContentTypeEnum.applicationJson.getKey());
