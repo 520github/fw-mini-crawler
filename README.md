@@ -9,26 +9,26 @@ fw-mini-crawler是一整套java爬虫框架.
 
 ## 核心概念说明
 
-| 概念    | 说明                            | 接口                                                     |
-|-------|-------------------------------|--------------------------------------------------------|
-| CrawlerEnginer | 爬虫引擎，提供不同爬虫需求的快速入口            | org.sunso.mini.crawler.enginer.CrawlerEnginer          |
-| CrawlerTask | 爬虫任务,定义爬虫任务存储方式及执行方式          | org.sunso.mini.crawler.task.CrawlerTask                |
-| CrawlerDownloader      | 爬虫下载器，支持接口爬取和浏览器爬取            | org.sunso.mini.crawler.downloader.CrawlerDownloader    |
-| CrawlerParser | 爬虫解析器,支持html、json、xml等格式解析处理  | org.sunso.mini.crawler.parser.CrawlerParser            |
-| CrawlerHandler | 爬虫处理器,定义爬取数据后的业务处理            | org.sunso.mini.crawler.handler.CrawlerHandler          |
-| CrawlerFileStorage | 爬虫文件存储器，爬取文件自动存储本地或s3等        | org.sunso.mini.crawler.storage.file.CrawlerFileStorage |
-| CrawlerDataStorage | 爬虫数据存储,处理后的爬取数据可以自动存储到数据库     | org.sunso.mini.crawler.storage.data.CrawlerDataStorage |
-| CrawlerChecker | 爬虫校验器,对爬取的数据进行校验，以判断是否继续后面流程  | org.sunso.mini.crawler.checker.CrawlerChecker          |
-| Formatter | 对爬虫数据的格式化                     | org.sunso.mini.crawler.formatter.Formatter             |
-| CrawlerResult | 爬虫结果标记接口                      | org.sunso.mini.crawler.common.result.CrawlerResult                           |
-| CrawlerHttpRequest | 爬虫url请求参数                     | org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest            |
-| CrawlerHttpResponse | 爬虫url响应结果                     | org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse                       |
-| CrawlerHttpRequestEvent | 爬虫url请求触发事件,如点击按钮、滚动屏幕等       | org.sunso.mini.crawler.common.http.event.CrawlerHttpRequestEvent                  |
-| CrawlerResultDefine | 爬虫url自定义参数的注解,可定义处理器、下载器、存储器等 | org.sunso.mini.crawler.annotation.result.CrawlerResultDefine                |
-| HtmlCssPath | 从html内容提取数据的注解                | org.sunso.mini.crawler.annotation.html.HtmlCssPath             |
-| JsonPath | 从json内容提取数据的注解                | org.sunso.mini.crawler.annotation.json.JsonPath                   |
-| HtmlPageUrl | 通过接口读取所有分页数据的注解               | org.sunso.mini.crawler.annotation.html.HtmlPageUrl                       |
-| HtmlPageSingleButton | 通过页面点击分页按钮获取所有分页数据的注解         | org.sunso.mini.crawler.annotation.html.HtmlPageSingleButton                         |
+| 概念    | 说明                                        | 接口                                                     |
+|-------|-------------------------------------------|--------------------------------------------------------|
+| CrawlerEnginer | 爬虫引擎，提供不同爬虫需求的快速入口                        | org.sunso.mini.crawler.enginer.CrawlerEnginer          |
+| CrawlerTask | 爬虫任务,定义爬虫任务存储方式及执行方式                      | org.sunso.mini.crawler.task.CrawlerTask                |
+| CrawlerDownloader      | 爬虫下载器，支持接口爬取和浏览器爬取                        | org.sunso.mini.crawler.downloader.CrawlerDownloader    |
+| CrawlerParser | 爬虫解析器,支持html、json、xml等格式解析处理              | org.sunso.mini.crawler.parser.CrawlerParser            |
+| CrawlerHandler | 爬虫处理器,定义爬取数据后的业务处理                        | org.sunso.mini.crawler.handler.CrawlerHandler          |
+| CrawlerFileStorage | 爬虫文件存储器，爬取文件自动存储本地或s3等                    | org.sunso.mini.crawler.storage.file.CrawlerFileStorage |
+| CrawlerDataStorage | 爬虫数据存储,处理后的爬取数据可以自动存储到数据库                 | org.sunso.mini.crawler.storage.data.CrawlerDataStorage |
+| CrawlerChecker | 爬虫校验器,对爬取的数据进行校验，以判断是否继续后面流程              | org.sunso.mini.crawler.checker.CrawlerChecker          |
+| Formatter | 对爬虫数据的格式化                                 | org.sunso.mini.crawler.formatter.Formatter             |
+| CrawlerResult | 爬虫结果标记接口                                  | org.sunso.mini.crawler.common.result.CrawlerResult                           |
+| CrawlerHttpRequest | 爬虫url请求参数                                 | org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest            |
+| CrawlerHttpResponse | 爬虫url响应结果                                 | org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse                       |
+| CrawlerHttpRequestEvent | 爬虫url请求触发事件,如点击按钮、滚动屏幕等                   | org.sunso.mini.crawler.common.http.event.CrawlerHttpRequestEvent                  |
+| CrawlerResultDefine | 爬虫url自定义参数的注解,可定义处理器、下载器、存储器等             | org.sunso.mini.crawler.annotation.result.CrawlerResultDefine                |
+| HtmlCssPath | 从html内容提取数据的注解                            | org.sunso.mini.crawler.annotation.html.HtmlCssPath             |
+| JsonPath | 从json内容提取数据的注解                            | org.sunso.mini.crawler.annotation.json.JsonPath                   |
+| HtmlPageUrl | 通过接口读取所有分页数据的注解                           | org.sunso.mini.crawler.annotation.html.HtmlPageUrl                       |
+| HtmlPageSingleButton | 通过页面点击分页按钮获取所有分页数据的注解                     | org.sunso.mini.crawler.annotation.html.HtmlPageSingleButton                         |
 
 
 ## 功能特性
@@ -213,7 +213,6 @@ public class ConvertibleBondsDetailCrawlerResult implements CrawlerResult {
     @FieldDefine(defaultValue = "-1")
     private double forcedRedemptionTriggerPrice;
 
-    //到期
     @HtmlCssPath(value = ".jbzl_table tbody tr:eq(6) td:eq(5)", formatter = ReplaceHorizontalLine2ZeroFormatter.class)
     @FieldDefine(defaultValue = "-1")
     private double expireBackPrice;
