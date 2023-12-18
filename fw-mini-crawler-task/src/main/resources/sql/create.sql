@@ -1,5 +1,9 @@
-DROP TABLE IF EXISTS zz_official.`crawler_url_log`;
-create table zz_official.crawler_url_log (
+
+CREATE DATABASE `finance` CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+
+DROP TABLE IF EXISTS finance.`crawler_url_log`;
+create table finance.crawler_url_log (
   `id` int NOT NULL AUTO_INCREMENT,
   `biz_type` varchar(128) not null COMMENT '业务类型',
   `request_id` varchar(64)  not null COMMENT '请求id--唯一--针对每次url爬取',
