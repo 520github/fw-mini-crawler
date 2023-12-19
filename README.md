@@ -34,6 +34,7 @@ fw-mini-crawler是一整套java爬虫框架.
 
 
 ## 功能特性
+- 支持分布式网络爬虫。
 - 同时支持HttpClient和浏览器方式爬取数据。
 - 支持html、json、xml等爬取数据解析方式。
 - 采用类css selector方式的字段选择器。

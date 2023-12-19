@@ -7,7 +7,7 @@ import org.sunso.mini.crawler.common.result.CrawlerResult;
 /**
  * @author sunso520
  * @Title:CrawlerRedisTask
- * @Description: <br>
+ * @Description: redis分布式爬虫任务<br>
  * @Created on 2023/11/1 17:18
  */
 public class CrawlerRedisTask extends AbstractCrawlerTask {

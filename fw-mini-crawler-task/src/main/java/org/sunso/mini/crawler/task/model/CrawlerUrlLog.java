@@ -13,32 +13,53 @@ import java.util.Map;
 /**
  * @author sunso520
  * @Title:CrawlerUrlLog
- * @Description: <br>
+ * @Description: 爬虫url日志表<br>
  * @Created on 2023/11/2 10:14
  */
 
 @Data
 public class CrawlerUrlLog {
+    //主键id
     private Integer id;
+    //业务类型
     private String bizType;
+    //请求id
     private String requestId;
+    //请求url
     private String requestUrl;
+    //请求class类
     private String requestClass;
+    //请求json数据
     private String requestJsonData;
+    //请求扩展json数据
     private String requestExtendJsonData;
+    //读取请求线程
     private String requestReadSpider;
+    //处理请求线性
     private String requestHandleSpider;
+    //下载url返回状态
     private String urlResponseStatus;
+    //下载url返回数据
     private String urlResponseData;
+    //爬虫处理结果
     private String crawlerResult;
+    //爬虫异常
     private String crawlerException;
+    //爬虫所处步骤
     private String crawlerStep;
+    //爬虫开始时间
     private Date crawlerStartTime;
+    //爬虫结束时间
     private Date crawlerEndTime;
+    //重试次数
     private int retryNum;
+    //排序
     private int sort;
+    //状态
     private String status;
+    //创建时间
     private Date createTime;
+    //更新时间
     private Date updateTime;
 
     public static CrawlerUrlLog newInstance(String bizType, CrawlerHttpRequest request) {

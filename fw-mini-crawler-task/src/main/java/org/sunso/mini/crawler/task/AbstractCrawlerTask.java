@@ -5,11 +5,14 @@ import cn.hutool.core.util.StrUtil;
 /**
  * @author sunso520
  * @Title:AbstractCrawlerTask
- * @Description: <br>
+ * @Description: 爬虫任务抽象类<br>
  * @Created on 2023/11/2 10:56
  */
 public abstract class AbstractCrawlerTask implements CrawlerTask {
 
+    /**
+     * 任务对应业务类型
+     */
     protected String bizType = "default";
 
     public String getBizType() {

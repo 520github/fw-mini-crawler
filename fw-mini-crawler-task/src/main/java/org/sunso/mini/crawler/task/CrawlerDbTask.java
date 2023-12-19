@@ -7,6 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.sunso.mini.crawler.common.db.DbDataInsert;
 import org.sunso.mini.crawler.common.db.DbDataSqlQuery;
 import org.sunso.mini.crawler.common.db.DbDataSqlUpdate;
@@ -25,19 +26,25 @@ import java.util.Map;
 /**
  * @author sunso520
  * @Title:CrawlerDbTask
- * @Description: <br>
+ * @Description: 数据库方式的爬虫任务<br>
  * @Created on 2023/11/1 17:18
  */
+@Slf4j
 public class CrawlerDbTask extends AbstractCrawlerTask {
 
+    //请求对应事件key
     private static String eventsKey = "events";
 
+    // 爬虫日志表
     private static String tableName = "crawler_url_log";
 
+    //responseBody保存到文件
     private boolean responseBodySave2File = false;
 
+    //是否忽略ResponseBody
     private boolean ignoreResponseBody = false;
 
+    //文件存储根目录
     private String fileBasePath = "/tmp";
 
     public CrawlerDbTask setResponseBodySave2File(boolean responseBodySave2File) {
@@ -61,25 +68,22 @@ public class CrawlerDbTask extends AbstractCrawlerTask {
         HuToolDb.insertData(getDbDataInsert(), crawlerUrlLog);
     }
 
-    private DbDataInsert getDbDataInsert() {
-        DbDataInsert insert = new DbDataInsert();
-        insert.setTableName(tableName);
-        return insert;
-    }
-
     @Override
     public CrawlerHttpRequest pollTask() {
         DbDataSqlQuery query = new DbDataSqlQuery();
+        //查所属当前线程的未处理任务
         query.setSql(getCurrentSpiderSql());
         CrawlerUrlLog crawlerUrlLog = HuToolDb.getDataOne(query, CrawlerUrlLog.class);
         if (crawlerUrlLog != null) {
             return parse2CrawlerHttpRequest(crawlerUrlLog);
         }
+        //查所属default的未处理任务
         query.setSql(getDefaultSpiderSql());
         crawlerUrlLog = HuToolDb.getDataOne(query, CrawlerUrlLog.class);
         if (crawlerUrlLog != null) {
             return parse2CrawlerHttpRequest(crawlerUrlLog);
         }
+        //查所属当前线程的失败、异常任务
         query.setSql(getFailSql());
         crawlerUrlLog = HuToolDb.getDataOne(query, CrawlerUrlLog.class);
         if (crawlerUrlLog != null) {
@@ -88,11 +92,19 @@ public class CrawlerDbTask extends AbstractCrawlerTask {
         return null;
     }
 
+    private DbDataInsert getDbDataInsert() {
+        DbDataInsert insert = new DbDataInsert();
+        insert.setTableName(tableName);
+        return insert;
+    }
+
+    /**
+     * 把CrawlerUrlLog转化成CrawlerHttpRequest
+     * @param crawlerUrlLog
+     * @return
+     */
     @SneakyThrows
     private CrawlerHttpRequest parse2CrawlerHttpRequest(CrawlerUrlLog crawlerUrlLog) {
-
-        System.out.println("crawlerUrlLog: " + crawlerUrlLog);
-
         DbDataSqlUpdate update = new DbDataSqlUpdate();
         update.setSql(getDoingSql(crawlerUrlLog.getRequestId()));
         HuToolDb.updateData(update);
@@ -106,16 +118,25 @@ public class CrawlerDbTask extends AbstractCrawlerTask {
         }
 
         CrawlerHttpRequest request =  (CrawlerHttpRequest)JSONUtil.toBean(requestJsonData, Class.forName(crawlerUrlLog.getRequestClass()));
+        //处理请求事件
         Map<String, CrawlerHttpRequestEvent> eventMap = getCrawlerHttpRequestEventMap(eventsJsonData, crawlerUrlLog.getRequestExtendJsonData());
         if (eventMap != null && !eventMap.isEmpty()) {
             request.setEvents(eventMap);
         }
+        //处理请求id
         if (!crawlerUrlLog.getRequestId().equalsIgnoreCase(request.getRequestId())) {
             request.setRequestId(crawlerUrlLog.getRequestId());
         }
         return request;
     }
 
+    /**
+     * 根据json数据还原请求事件对象
+     *
+     * @param eventsJsonData 事件的json数据
+     * @param requestExtendJsonData  事件key对应具体事件类的json扩展数据
+     * @return
+     */
     @SneakyThrows
     private Map<String, CrawlerHttpRequestEvent> getCrawlerHttpRequestEventMap(JSONObject eventsJsonData, String requestExtendJsonData) {
         if (eventsJsonData == null) {
@@ -147,14 +168,26 @@ public class CrawlerDbTask extends AbstractCrawlerTask {
         return query;
     }
 
+    /**
+     * 获取属于当前线程未处理的任务
+     * @return
+     */
     private String getCurrentSpiderSql() {
         return String.format(getSqlTable() + " where biz_type='%s' and request_read_spider='%s' and status in ('init') order by sort desc limit 1", getBizType(), currentSpider());
     }
 
+    /**
+     * 获取归属default的未处理任务
+     * @return
+     */
     private String getDefaultSpiderSql() {
         return String.format(getSqlTable() + " where biz_type='%s' and request_read_spider='default' and status in ('init') order by sort desc limit 1", getBizType());
     }
 
+    /**
+     * 获取归属当前线程失败或异常的任务
+     * @return
+     */
     private String getFailSql() {
         return String.format(getSqlTable() + " where biz_type='%s' and request_handle_spider='%s' and status in ('fail','exception') order by sort desc limit 1", getBizType(), currentSpider());
     }
@@ -176,7 +209,7 @@ public class CrawlerDbTask extends AbstractCrawlerTask {
         param[1] = getCrawlerResultJsonData(crawlerResult);
         update.setParams(param);
         HuToolDb.updateData(update);
-        System.out.println(String.format("doneTask url[%s], responseStatus[%d]", request.getUrl(), response.status()));
+        log.info("doneTask url[{}], responseStatus[{}]", request.getUrl(), response.status());
     }
 
     private String getDoingSql(String requestId) {
@@ -201,6 +234,14 @@ public class CrawlerDbTask extends AbstractCrawlerTask {
         return "'" + value + "'";
     }
 
+    /**
+     * 最后更新爬虫任务执行结果
+     *
+     * @param request  http请求
+     * @param response http请求返回结果
+     * @param crawlerResult 爬虫最终处理结果
+     * @return
+     */
     private String getFinishSql(CrawlerHttpRequest request, CrawlerHttpResponse response, CrawlerResult crawlerResult) {
         StringBuilder sb = new StringBuilder();
         sb.append("update ").append(tableName).append(" set ");
