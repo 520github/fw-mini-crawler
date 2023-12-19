@@ -12,7 +12,8 @@ fw-mini-crawler是一整套java爬虫框架.
 | 概念    | 说明                            | 接口-basePackage=org.sunso.mini.crawler                           |
 |-------|-------------------------------|-----------------------------------------------------------------|
 | CrawlerEnginer | 爬虫引擎，提供不同爬虫需求的快速入口            | $basePackage.enginer.CrawlerEnginer                             |
-| CrawlerTask | 爬虫任务,定义爬虫任务存储方式及执行方式          | $basePackage.task.CrawlerTask                         |
+| CrawlerTask | 爬虫任务,定义爬虫任务的存储方式              | $basePackage.task.CrawlerTask                         |
+| CrawlerSpider | 爬虫执行器,定义爬虫任务的执行方式             | $basePackage.spider.CrawlerSpider                         |
 | CrawlerDownloader      | 爬虫下载器，支持接口爬取和浏览器爬取            | $basePackage.downloader.CrawlerDownloader             |
 | CrawlerParser | 爬虫解析器,支持html、json、xml等格式解析处理  | $basePackage.parser.CrawlerParser                     |
 | CrawlerHandler | 爬虫处理器,定义爬取数据后的业务处理            | $basePackage.handler.CrawlerHandler                   |
