@@ -95,9 +95,9 @@ public class CrawlerContextBuilder {
         if (requestList.isEmpty()) {
             throw new IllegalArgumentException("requestList parameter is must");
         }
-        if (queue == null) {
-            queue = new CrawlerLinkedBlockingQueue();
-        }
+//        if (queue == null) {
+//            queue = new CrawlerLinkedBlockingQueue();
+//        }
 //        if (downloader == null) {
 //            downloader = new HutoolCrawlerDownloader();
 //        }
@@ -110,7 +110,7 @@ public class CrawlerContextBuilder {
         CrawlerContext context = new CrawlerContext();
         context.setBizType(bizType);
         context.setTask(task);
-        context.setQueue(queue);
+        //context.setQueue(queue);
         context.setDownloader(downloader);
         context.setParser(parser);
         //context.setHandler(handler);

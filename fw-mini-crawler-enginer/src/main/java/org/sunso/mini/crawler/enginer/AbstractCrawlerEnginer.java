@@ -45,11 +45,11 @@ public abstract class AbstractCrawlerEnginer extends Thread implements CrawlerEn
         return (CrawlerSpider)constructor.newInstance(this.getCrawlerContext());
     }
 
-    protected void setHttpRequest2Queue() {
-        for(CrawlerHttpRequest request: context.getRequestList()) {
-            context.getQueue().offer(request);
-        }
-    }
+//    protected void setHttpRequest2Queue() {
+//        for(CrawlerHttpRequest request: context.getRequestList()) {
+//            context.getQueue().offer(request);
+//        }
+//    }
 
     protected void setHttpRequest2Task() {
         for(CrawlerHttpRequest request: context.getRequestList()) {

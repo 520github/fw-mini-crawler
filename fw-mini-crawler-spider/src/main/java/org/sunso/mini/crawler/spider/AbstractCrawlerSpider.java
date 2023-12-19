@@ -46,9 +46,9 @@ public abstract class AbstractCrawlerSpider implements CrawlerSpider {
         return CrawlerParserFactory.getDefaultCrawlerParser();
     }
 
-    protected CrawlerHttpRequest getRequestFromCrawlerQueue() {
-        return context.getQueue().poll();
-    }
+//    protected CrawlerHttpRequest getRequestFromCrawlerQueue() {
+//        return context.getQueue().poll();
+//    }
 
 
     protected CrawlerHttpRequest getRequestFromCrawlerTask() {

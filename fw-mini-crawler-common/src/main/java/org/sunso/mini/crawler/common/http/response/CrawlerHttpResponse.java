@@ -8,6 +8,19 @@ import lombok.Setter;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
+/**
+ * @author sunso520
+ * @Title:CrawlerHttpResponse
+ * @Description: 爬虫Http请求的响应结果
+ * 该响应结果包含：
+ * <ul>
+ *     <li>响应状态码</li>
+ *     <li>响应字符集</li>
+ *     <li>响应数据流</li>
+ *     <li>响应数据字节流</li>
+ * </ul>
+ * @Created on 2023/10/12 10:27
+ */
 @Setter
 public class CrawlerHttpResponse {
     /**
@@ -18,9 +31,21 @@ public class CrawlerHttpResponse {
      * 编码
      */
     protected Charset charset = DEFAULT_CHARSET;
+
+    /**
+     * 响应数据字节流
+     */
     private byte[] bodyBytes;
+
+    /**
+     * 响应状态码
+     */
     private int status;
     private boolean charsetFromResponse;
+
+    /**
+     * 响应数据流
+     */
     private InputStream in;
 
     public CrawlerHttpResponse() {
@@ -87,7 +112,4 @@ public class CrawlerHttpResponse {
         }
         return "json";
     }
-
-
-
 }
