@@ -1,6 +1,7 @@
 package org.sunso.mini.crawler.spider;
 
 import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.sunso.mini.crawler.annotation.result.CrawlerResultDefine;
 import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
@@ -17,6 +18,13 @@ import org.sunso.mini.crawler.task.CrawlerTask;
 
 import java.util.Map;
 
+/**
+ * @author sunso520
+ * @Title:AbstractCrawlerSpider
+ * @Description: 爬虫执行器的抽象处理类
+ * @Created on 2023/10/12 11:05
+ */
+@Slf4j
 public abstract class AbstractCrawlerSpider implements CrawlerSpider {
     protected CrawlerContext context;
 
@@ -24,6 +32,12 @@ public abstract class AbstractCrawlerSpider implements CrawlerSpider {
         this.context = context;
     }
 
+    /**
+     * 获取爬虫下载器
+     *
+     * @param clazz 爬虫任务对应的最终处理结果类
+     * @return 返回爬虫下载器
+     */
     protected CrawlerDownloader getDownloader(Class<? extends CrawlerResult> clazz) {
         CrawlerResultDefine crawlerResultDefine = getCrawlerResultDefine(clazz);
         if (crawlerResultDefine != null &&  !EmptyCrawlerDownloader.class.equals(crawlerResultDefine.downloader())) {
@@ -35,6 +49,12 @@ public abstract class AbstractCrawlerSpider implements CrawlerSpider {
         return CrawlerDownloaderFactory.getDefaultCrawlerDownloader();
     }
 
+    /**
+     * 获取爬虫分析器
+     *
+     * @param clazz 爬虫任务对应的最终处理结果类
+     * @return 返回爬虫分析器
+     */
     protected CrawlerParser getCrawlerParser(Class<? extends CrawlerResult> clazz) {
         CrawlerResultDefine crawlerResultDefine = getCrawlerResultDefine(clazz);
         if (crawlerResultDefine != null && !EmptyCrawlerParser.class.equals(crawlerResultDefine.parser())) {
@@ -46,51 +66,70 @@ public abstract class AbstractCrawlerSpider implements CrawlerSpider {
         return CrawlerParserFactory.getDefaultCrawlerParser();
     }
 
-//    protected CrawlerHttpRequest getRequestFromCrawlerQueue() {
-//        return context.getQueue().poll();
-//    }
-
-
+    /**
+     * 获取CrawlerHttpRequest
+     *
+     * @return 返回CrawlerHttpRequest
+     */
     protected CrawlerHttpRequest getRequestFromCrawlerTask() {
         return context.getTask().pollTask();
     }
 
+    /**
+     * 获取爬虫任务
+     *
+     * @return 返回CrawlerTask
+     */
     protected CrawlerTask getCrawlerTask() {
         return context.fetchTask();
     }
 
+    /**
+     * 处理CrawlerHttpRequest
+     */
     protected void doRequest() {
         doRequest(getRequestFromCrawlerTask());
     }
 
+    /**
+     * 处理CrawlerHttpRequest
+     *
+     * @param request CrawlerHttpRequest
+     */
     protected void doRequest(CrawlerHttpRequest request) {
         if (request == null) {
-            System.out.println("没有需要爬取的url，退出");
+            log.info("本次处理的CrawlerHttpRequest为空，退出当前处理逻辑");
             return ;
         }
-        System.out.println("start download:" + Thread.currentThread().getName());
         Class<? extends CrawlerResult> clazz = getCrawlerResultClass(request);
         if (clazz == null) {
             return ;
         }
+        // 下载url对应结果
         CrawlerHttpResponse response = getDownloader(clazz).download(request);
-        //System.out.println("body:" + response.body());
+        // 根据下载结果，对CrawlerResult定义的字段进行解析，并设置对应值
         CrawlerResult crawlerResult = getCrawlerParser(clazz).parse(clazz, request, response);
-        //System.out.println("crawlerResult:" + crawlerResult);
-
+        // 完成本次的爬虫任务
         getCrawlerTask().doneTask(request, response, crawlerResult);
     }
-
 
     protected CrawlerResultDefine getCrawlerResultDefine(Class<? extends CrawlerResult> clazz) {
         return clazz.getAnnotation(CrawlerResultDefine.class);
     }
 
+    /**
+     * 获取CrawlerHttpRequest对应的CrawlerResult类
+     *
+     * @param request CrawlerHttpRequest
+     * @return 返回CrawlerResult类
+     */
     protected Class<? extends CrawlerResult> getCrawlerResultClass(CrawlerHttpRequest request) {
         Map<String, Class<? extends CrawlerResult>> urlCrawlerResultMap =  context.getUrlCrawlerResultMap();
         if (urlCrawlerResultMap == null || urlCrawlerResultMap.size() == 0) {
+            log.info("CrawlerHttpRequest[{}] no corresponding class[CrawlerResult] found, it must be set.", request);
             return null;
         }
+        // 根据url获取CrawlerResult类
         for(String url: urlCrawlerResultMap.keySet()) {
             Map<String,String> parameterMap = UrlUtils.urlMatch(url, request.getUrl());
             if (parameterMap != null) {
@@ -98,10 +137,14 @@ public abstract class AbstractCrawlerSpider implements CrawlerSpider {
                 return urlCrawlerResultMap.get(url);
             }
         }
+        // 根据url别名获取CrawlerResult类
         String urlAlias = request.getUrlAlias();
         if (StrUtil.isNotBlank(urlAlias)) {
             return urlCrawlerResultMap.get(urlAlias);
         }
+
+        log.info("CrawlerHttpRequest[{}] no corresponding class[CrawlerResult] found, it must be set.", request);
+
         return null;
     }
 
