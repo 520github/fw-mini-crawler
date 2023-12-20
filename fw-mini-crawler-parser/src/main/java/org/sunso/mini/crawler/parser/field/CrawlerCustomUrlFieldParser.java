@@ -8,7 +8,7 @@ import org.sunso.mini.crawler.context.CrawlerContextThreadLocal;
 /**
  * @author sunso520
  * @Title:CrawlerCustomUrlFieldParser
- * @Description: <br>
+ * @Description: 自定义url字段解析处理<br>
  * @Created on 2023/11/23 16:20
  */
 public class CrawlerCustomUrlFieldParser extends AbstractCrawlerFieldParser {

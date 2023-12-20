@@ -3,7 +3,7 @@ package org.sunso.mini.crawler.parser.field;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import io.netty.util.internal.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.sunso.mini.crawler.annotation.html.HtmlPageSingleButton;
 import org.sunso.mini.crawler.common.enums.HttpRequestEventTypeEnum;
 import org.sunso.mini.crawler.common.http.event.CrawlerHttpRequestEvent;
@@ -21,19 +21,21 @@ import java.util.List;
 /**
  * @author sunso520
  * @Title:CrawlerPageButtonFieldParser
- * @Description: <br>
+ * @Description: 字段为浏览器点击按钮获取分页数据的解析器<br>
  * @Created on 2023/10/27 17:30
  */
+@Slf4j
 public class CrawlerPageSingleButtonFieldParser extends AbstractCrawlerFieldParser{
     @Override
     public Object parseField(CrawlerFieldParserRequest request) {
         Field field = request.getField();
         HtmlPageSingleButton htmlPageButton = getHtmlPageButton(field);
         List<Object> resultList = null;
-        //单页面点击按钮，不断追加数据
+        // 单页面点击按钮，不断追加数据
         if (htmlPageButton.singlePageAppendData()) {
             resultList = handleSinglePageAppendData(htmlPageButton, request);
         }
+        // 每次分页数据都需要重新打开一个浏览器进行操作
         else {
             resultList =  handleAlonePageData(htmlPageButton, request);
         }
@@ -43,22 +45,29 @@ public class CrawlerPageSingleButtonFieldParser extends AbstractCrawlerFieldPars
         if (htmlPageButton.startDataIndex() <=0 && htmlPageButton.endDataIndex() >= resultList.size()-1) {
             return resultList;
         }
+        // 指定数据的开始位置和结束位置
         return resultList.subList(htmlPageButton.startDataIndex(), htmlPageButton.endDataIndex());
     }
 
-    private  CrawlerFieldParser getCrawlerFieldParser() {
-        return new CrawlerHtmlFieldParser();
-    }
-
+    /**
+     * 处理在一个页面上点击分页按钮，不断追加分页数据的情况
+     *
+     * @param htmlPageButton HtmlPageSingleButton注解
+     * @param request 字段解析请求参数
+     * @return
+     */
     private List<Object> handleSinglePageAppendData(HtmlPageSingleButton htmlPageButton, CrawlerFieldParserRequest request) {
         CrawlerHttpResponse response =  seleniumDownload(htmlPageButton, request, 1);
         return parseResponse(request, response);
     }
 
-    private List<Object> parseResponse(CrawlerFieldParserRequest request, CrawlerHttpResponse response) {
-        return (List<Object>) getCrawlerFieldParser().parseField(newCrawlerFieldParserRequest(request, response));
-    }
-
+    /**
+     * 处理在一个页面上点击分页按钮，只显示当前页数据的情况
+     *
+     * @param htmlPageButton HtmlPageSingleButton注解
+     * @param request 字段解析请求参数
+     * @return
+     */
     private List<Object> handleAlonePageData(HtmlPageSingleButton htmlPageButton, CrawlerFieldParserRequest request) {
         List<Object> resultList = new ArrayList<>();
         for(int i=htmlPageButton.startPage(); i<=htmlPageButton.eventDoMaxNum(); i++) {
@@ -72,6 +81,28 @@ public class CrawlerPageSingleButtonFieldParser extends AbstractCrawlerFieldPars
         return resultList;
     }
 
+    private  CrawlerFieldParser getCrawlerFieldParser() {
+        return new CrawlerHtmlFieldParser();
+    }
+
+    /**
+     * 解析处理每一页的数据结果
+     * @param request 字段解析请求参数
+     * @param response 分页每一页的数据结果
+     * @return
+     */
+    private List<Object> parseResponse(CrawlerFieldParserRequest request, CrawlerHttpResponse response) {
+        return (List<Object>) getCrawlerFieldParser().parseField(newCrawlerFieldParserRequest(request, response));
+    }
+
+    /**
+     * 通过selenium获取指定页的分页数据
+     *
+     * @param htmlPageButton HtmlPageSingleButton注解
+     * @param request 字段解析请求参数
+     * @param currentPage 指定分页数
+     * @return
+     */
     private CrawlerHttpResponse seleniumDownload(HtmlPageSingleButton htmlPageButton, CrawlerFieldParserRequest request, int currentPage) {
         String url = htmlPageButton.url();
         url = UrlUtils.replaceParams(url, request.fetchAllReplaceParams());
@@ -84,6 +115,13 @@ public class CrawlerPageSingleButtonFieldParser extends AbstractCrawlerFieldPars
         return CrawlerDownloaderFactory.getSeleniumCrawlerDownloader().download(pageRequest);
     }
 
+    /**
+     * 获取分页对应的请求触发事件
+     *
+     * @param htmlPageButton HtmlPageSingleButton 注解
+     * @param currentPage 当前页数
+     * @return
+     */
     private CrawlerHttpRequestEvent getCrawlerHttpRequestEvent(HtmlPageSingleButton htmlPageButton, int currentPage) {
         if (HttpRequestEventTypeEnum.click == htmlPageButton.eventType()) {
             return CrawlerHttpRequestEventFactory.getClickEvent(htmlPageButton.eventEndFlag().getKey(), htmlPageButton.eventDoMaxNum());
@@ -110,6 +148,13 @@ public class CrawlerPageSingleButtonFieldParser extends AbstractCrawlerFieldPars
         return getExtendDataValue(htmlPageButton, "inputCssPath");
     }
 
+    /**
+     * 根据指定key获取对应扩展参数值
+     *
+     * @param htmlPageButton HtmlPageSingleButton注解
+     * @param key 扩展参数key
+     * @return 返回对应扩展参数值
+     */
     private String getExtendDataValue(HtmlPageSingleButton htmlPageButton, String key) {
         if (htmlPageButton == null) {
             return null;
@@ -122,8 +167,7 @@ public class CrawlerPageSingleButtonFieldParser extends AbstractCrawlerFieldPars
             JSONObject jsonObject = JSONUtil.parseObj(extendData);
             return jsonObject.getStr(key);
         }catch (Exception e) {
-            e.printStackTrace();
-            // todo  log
+            log.error(String.format("CrawlerPageSingleButtonFieldParser get key[%s] value from extendData exception[%s]", key, e.getMessage()), e);
         }
         return null;
     }

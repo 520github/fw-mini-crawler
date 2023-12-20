@@ -1,6 +1,7 @@
 package org.sunso.mini.crawler.parser.field;
 
 import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.sunso.mini.crawler.annotation.html.HtmlAjax;
 import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
 import org.sunso.mini.crawler.annotation.json.JsonPath;
@@ -15,12 +16,20 @@ import org.sunso.mini.crawler.parser.dto.HtmlAjaxDTO;
 
 import java.lang.reflect.Field;
 
+/**
+ * @author sunso520
+ * @Title: CrawlerAjaxFieldParser
+ * @Description: ajax字段解析处理<br>
+ * @Created on 2023/10/12 11:07
+ */
+@Slf4j
 public class CrawlerAjaxFieldParser extends AbstractCrawlerFieldParser {
 
     @Override
     public Object parseField(CrawlerFieldParserRequest request) {
         CrawlerFieldParser fieldParser = getCrawlerFieldParser(request.getField());
         if (fieldParser == null) {
+            log.warn("CrawlerAjaxFieldParser parse field[{}] not found CrawlerFieldParser", request.getField().getName());
             return null;
         }
         return fieldParser.parseField(newCrawlerFieldParserRequest(request));
@@ -30,6 +39,12 @@ public class CrawlerAjaxFieldParser extends AbstractCrawlerFieldParser {
         return newCrawlerFieldParserRequest(request, ajaxDownload(request));
     }
 
+    /**
+     * 获取字段解析器类型
+     *
+     * @param field 字段
+     * @return 返回字段解析器类型
+     */
     private  CrawlerFieldParser getCrawlerFieldParser(Field field) {
         if (field.isAnnotationPresent(HtmlCssPath.class)) {
             return new CrawlerHtmlFieldParser();
@@ -43,18 +58,22 @@ public class CrawlerAjaxFieldParser extends AbstractCrawlerFieldParser {
         return null;
     }
 
+    /**
+     * 判断是否含有文件存储的注解
+     *
+     * @param field 字段
+     * @return
+     */
     private boolean isFileStorage(Field field) {
         return ReflectUtils.isAnnotationPresentRecursion(field, FileStorage.class);
     }
 
-    private String ajaxDownloadBody(CrawlerFieldParserRequest request) {
-        return ajaxDownload(request).body();
-    }
-
-    private byte[] ajaxDownloadBytes(CrawlerFieldParserRequest request) {
-        return ajaxDownload(request).bodyBytes();
-    }
-
+    /**
+     * 执行ajax请求，获取返回结果
+     *
+     * @param request 字段解析请求参数
+     * @return 返回ajax请求结果
+     */
     private CrawlerHttpResponse ajaxDownload(CrawlerFieldParserRequest request) {
         HtmlAjax htmlAjax = request.getField().getAnnotation(HtmlAjax.class);
         HtmlAjaxDTO ajaxDTO = request.getHtmlAjaxDTO();

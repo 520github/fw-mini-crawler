@@ -4,6 +4,13 @@ import lombok.SneakyThrows;
 
 import java.lang.reflect.Constructor;
 
+/**
+ * @author sunso520
+ * @Title:HtmlFieldParserFactory
+ * @Description: html解析器工厂类
+ *
+ * @Created on 2023/10/12 11:13
+ */
 public class HtmlFieldParserFactory {
 
     @SneakyThrows

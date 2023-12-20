@@ -9,7 +9,7 @@ public class JsonUtilsTest extends BaseTest {
 
     @Test
     public void getMultiJsonPathTest() {
-        String jsonPath = "data.li[0].list[1,].type.id[6]";
+        String jsonPath = "data.li[0].list[1,2,3].type.id[6]";
         List<String> result = JsonUtils.getMultiJsonPath(jsonPath);
         print(result);
     }

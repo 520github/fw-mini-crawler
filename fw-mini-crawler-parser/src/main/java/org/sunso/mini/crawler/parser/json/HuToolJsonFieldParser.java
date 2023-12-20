@@ -1,7 +1,7 @@
 package org.sunso.mini.crawler.parser.json;
 
 import cn.hutool.json.*;
-import org.checkerframework.checker.units.qual.A;
+import lombok.extern.slf4j.Slf4j;
 import org.sunso.mini.crawler.annotation.json.JsonPath;
 import org.sunso.mini.crawler.common.utils.JsonUtils;
 
@@ -9,6 +9,14 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author sunso520
+ * @Title:HuToolJsonFieldParser
+ * @Description: 用于解析json的HuToolJson解析器
+ *
+ * @Created on 2023/10/12 11:18
+ */
+@Slf4j
 public class HuToolJsonFieldParser extends AbstractJsonFieldParser {
     JSON jsonObject = null;
     public HuToolJsonFieldParser(String jsonContent) {
@@ -19,6 +27,10 @@ public class HuToolJsonFieldParser extends AbstractJsonFieldParser {
     @Override
     public Object selectorObject(Field field) {
         String jsonPath = getJsonPath(field);
+        /**
+         * 简单单一的jsonPath情况
+         * 如：data.li[0].list[1].type.id[6]
+         */
         if (!jsonPath.contains(",")) {
             Object result = jsonObject.getByPath(jsonPath);
             if (result == null) {
@@ -29,6 +41,15 @@ public class HuToolJsonFieldParser extends AbstractJsonFieldParser {
             }
             return result;
         }
+        /**
+         * 非单一的jsonPath情况
+         *
+         * 如：data.li[0].list[1,2,3].type.id[6]
+         * 需要被解析成：
+         * data.li[0].list[1].type.id[6]
+         * data.li[0].list[2].type.id[6]
+         * data.li[0].list[3].type.id[6]]
+         */
         List<String> jsonPathList = getMultiJsonPath(jsonPath);
         List<Object> list = null;
         JSONArray jsonArray = null;
@@ -47,7 +68,6 @@ public class HuToolJsonFieldParser extends AbstractJsonFieldParser {
                 list.add(data);
             }
         }
-        //TODO 进行格式化处理
         return list != null? list: jsonArray;
     }
 
@@ -60,6 +80,9 @@ public class HuToolJsonFieldParser extends AbstractJsonFieldParser {
         return JsonUtils.getMultiJsonPath(jsonPath);
     }
 
+    /**
+     * json字符串初始化成json对象
+     */
     private void initJson() {
         String jsonContent = getJsonContent();
         if (jsonContent.startsWith("{")) {
@@ -69,7 +92,7 @@ public class HuToolJsonFieldParser extends AbstractJsonFieldParser {
             jsonObject = JSONUtil.parseArray(jsonContent);
         }
         else  {
-            System.out.println("未知的json数据格式："  + jsonContent);
+            log.error("HuToolJsonFieldParser found unknown json format data[{}]", jsonContent);
         }
     }
 }

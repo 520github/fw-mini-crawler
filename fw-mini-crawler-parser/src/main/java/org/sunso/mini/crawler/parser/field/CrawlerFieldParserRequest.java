@@ -21,17 +21,26 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author sunso520
+ * @Title: CrawlerFieldParserRequest
+ * @Description: 爬虫字段解析请求参数<br>
+ * @Created on 2023/10/12 10:06
+ */
 @Data
 public class CrawlerFieldParserRequest {
+    // http请求
     private CrawlerHttpRequest request;
+    // http请求响应结果
     private CrawlerHttpResponse response;
+    // 待解析字段
     private Field field;
+    // 爬虫解析器
     private CrawlerParser crawlerParser;
+    // 爬虫最终结果类
     private Class<? extends CrawlerResult> clazz;
-
+    // html Ajax dto对象
     private HtmlAjaxDTO htmlAjaxDTO;
-
-    //private Map<String, Object> beanDataMap;
 
 
     public static CrawlerFieldParserRequest newInstance(CrawlerHttpRequest request, CrawlerHttpResponse response, CrawlerParser crawlerParser, Class<? extends CrawlerResult> clazz) {
@@ -43,6 +52,10 @@ public class CrawlerFieldParserRequest {
         return instance;
     }
 
+    /**
+     * 克隆一份CrawlerFieldParserRequest， 排除掉CrawlerHttpResponse
+     * @return
+     */
     public CrawlerFieldParserRequest cloneExcludeResponse() {
         CrawlerFieldParserRequest instance = new CrawlerFieldParserRequest();
         instance.setField(field);
@@ -122,6 +135,13 @@ public class CrawlerFieldParserRequest {
         return getRequest().getAttributes().get(name);
     }
 
+    /**
+     * 生成一个子CrawlerHttpRequest
+     *
+     * @param htmlUrl HtmlUrl注解
+     * @param subUrl 子请求url
+     * @return 返回CrawlerHttpRequest
+     */
     public CrawlerHttpRequest subRequest(HtmlUrl htmlUrl, String subUrl) {
         CrawlerHttpRequest subRequest = CrawlerHttpRequestBuilder.get(subUrl);
         subRequest.setWaitTime(htmlUrl.waitTime());
@@ -140,6 +160,14 @@ public class CrawlerFieldParserRequest {
         return subRequest;
     }
 
+    /**
+     * 生成一个子CrawlerHttpRequest
+     *
+     * @param customUrl CustomUrl注解
+     * @param subUrl 子请求url
+     *
+     * @return 返回CrawlerHttpRequest
+     */
     public CrawlerHttpRequest subRequest(CustomUrl customUrl, String subUrl) {
         CrawlerHttpRequest subRequest = CrawlerHttpRequestBuilder.get(subUrl);
         subRequest.setWaitTime(customUrl.waitTime());

@@ -1,10 +1,8 @@
 package org.sunso.mini.crawler.common.db;
 
-import com.sun.org.apache.xpath.internal.operations.String;
 import lombok.Data;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author sunso520

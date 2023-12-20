@@ -4,7 +4,6 @@ import cn.hutool.core.util.StrUtil;
 import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
 import org.sunso.mini.crawler.annotation.html.HtmlRepairTypeEnum;
 import org.sunso.mini.crawler.annotation.result.CrawlerResultDefine;
-import org.sunso.mini.crawler.common.http.request.CrawlerHttpEmptyRequest;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
 import org.sunso.mini.crawler.common.utils.ReflectUtils;
@@ -17,6 +16,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author sunso520
+ * @Title: CrawlerHtmlFieldParser
+ * @Description: 字段为html类型的解析处理器<br>
+ * @Created on 2023/10/12 10:08
+ */
 public class CrawlerHtmlFieldParser extends AbstractCrawlerFieldParser {
     @Override
     public Object parseField(CrawlerFieldParserRequest request) {
@@ -25,16 +30,18 @@ public class CrawlerHtmlFieldParser extends AbstractCrawlerFieldParser {
         Class<?> type = field.getType();
         boolean isArray = type.isArray();
         boolean isList = containSuperType(type, List.class);
+        // 字段为列表
         if (isList) {
             return handleList(request, htmlFieldParser);
         }
+        // 字段为数组
         if (isArray) {
             return handleArray(request, htmlFieldParser);
         }
+        // 字段类型实现了CrawlerResult接口
         if (containSuperType(type, CrawlerResult.class)) {
             return handleCrawlerResult(request, htmlFieldParser);
         }
-
         return htmlFieldParser.selectorObject(field);
     }
 
@@ -44,11 +51,25 @@ public class CrawlerHtmlFieldParser extends AbstractCrawlerFieldParser {
         return request.getCrawlerParser().parse((Class<? extends CrawlerResult>)field.getType(), request.getRequest(), CrawlerHttpResponse.create(subHtml));
     }
 
+    /**
+     * 解析处理字段为数组类型的
+     *
+     * @param request 字段解析请求参数
+     * @param htmlFieldParser html字段类型解析器
+     * @return
+     */
     private Object[] handleArray(CrawlerFieldParserRequest request, HtmlFieldParser htmlFieldParser) {
         Class genericClass = request.getField().getType().getComponentType();
         return handleList(genericClass, request, htmlFieldParser).toArray();
     }
 
+    /**
+     * 解析处理字段为列表类型的
+     *
+     * @param request 字段解析请求参数
+     * @param htmlFieldParser html字段类型解析器
+     * @return
+     */
     private List<Object> handleList(CrawlerFieldParserRequest request, HtmlFieldParser htmlFieldParser) {
         Field field = request.getField();
         //获取泛型的类型
@@ -57,6 +78,14 @@ public class CrawlerHtmlFieldParser extends AbstractCrawlerFieldParser {
         return handleList(genericClass, request, htmlFieldParser);
     }
 
+    /**
+     * 解析处理字段为列表类型的
+     *
+     * @param genericClass  字段对应类型
+     * @param request 字段解析请求参数
+     * @param htmlFieldParser html字段类型解析器
+     * @return
+     */
     private List<Object> handleList(Class genericClass, CrawlerFieldParserRequest request, HtmlFieldParser htmlFieldParser) {
         Field field = request.getField();
         if (containSuperType(genericClass, CrawlerResult.class)) {
@@ -72,6 +101,12 @@ public class CrawlerHtmlFieldParser extends AbstractCrawlerFieldParser {
         return checkFilter(field, htmlFieldParser.selectorObjectList(field));
     }
 
+    /**
+     * 获取html解析器
+     *
+     * @param request 字段解析请求参数
+     * @return
+     */
     private HtmlFieldParser getHtmlFieldParser(CrawlerFieldParserRequest request) {
         String body = getResponseBody(request);
         return HtmlFieldParserFactory.getHtmlFieldParser(request.fetchRequestUrl(), body, JsoupHtmlFieldParser.class);
@@ -82,10 +117,6 @@ public class CrawlerHtmlFieldParser extends AbstractCrawlerFieldParser {
         if (StrUtil.isBlank(body)) {
             return body;
         }
-//        HtmlCssPath htmlCssPath = request.fetchHtmlCssPath();
-//        if (htmlCssPath == null) {
-//            return body;
-//        }
         HtmlRepairTypeEnum repairTypeEnum = getHtmlRepairTypeEnum(request);
         if (repairTypeEnum == null) {
             return body;
@@ -114,8 +145,4 @@ public class CrawlerHtmlFieldParser extends AbstractCrawlerFieldParser {
         }
         return repairTypeEnum;
     }
-
-//    private boolean containSuperType(Class<?> type, Class<?> superType) {
-//        return ReflectUtils.containSuperType(type, superType);
-//    }
 }

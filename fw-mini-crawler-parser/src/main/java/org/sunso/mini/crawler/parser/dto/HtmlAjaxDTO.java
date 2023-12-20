@@ -9,7 +9,7 @@ import org.sunso.mini.crawler.downloader.CrawlerDownloader;
 /**
  * @author sunso520
  * @Title:HtmlAjaxDTO
- * @Description: <br>
+ * @Description: html Ajax dto对象
  * @Created on 2023/10/27 15:09
  */
 @Data

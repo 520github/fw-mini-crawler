@@ -3,6 +3,12 @@ package org.sunso.mini.crawler.parser.field;
 import org.sunso.mini.crawler.annotation.request.Response;
 import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
 
+/**
+ * @author sunso520
+ * @Title:CrawlerResponseFieldParser
+ * @Description: 字段为响应结果的解析处理<br>
+ * @Created on 2023/10/16 10:05
+ */
 public class CrawlerResponseFieldParser extends AbstractCrawlerFieldParser {
     @Override
     public Object parseField(CrawlerFieldParserRequest request) {

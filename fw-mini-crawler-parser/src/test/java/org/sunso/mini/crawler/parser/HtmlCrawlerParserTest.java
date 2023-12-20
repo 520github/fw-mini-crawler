@@ -11,9 +11,6 @@ import org.sunso.mini.crawler.common.result.CrawlerResult;
 import java.util.List;
 
 public class HtmlCrawlerParserTest extends BaseTest {
-
-    private HtmlCrawlerParser parser = new HtmlCrawlerParser();
-
     private UnionCrawlerParser unionCrawlerParser = new UnionCrawlerParser();
 
     @Test

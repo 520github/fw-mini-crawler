@@ -5,7 +5,7 @@ import lombok.SneakyThrows;
 /**
  * @author sunso520
  * @Title:CrawlerParserFactory
- * @Description: <br>
+ * @Description: 爬虫解析器工厂类<br>
  * @Created on 2023/10/26 10:00
  */
 public class CrawlerParserFactory {
