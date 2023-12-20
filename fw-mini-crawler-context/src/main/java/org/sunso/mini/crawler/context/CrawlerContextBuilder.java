@@ -4,28 +4,36 @@ import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
 import org.sunso.mini.crawler.common.result.CrawlerResult;
 import org.sunso.mini.crawler.spider.CrawlerSpider;
 import org.sunso.mini.crawler.downloader.CrawlerDownloader;
-import org.sunso.mini.crawler.handler.CrawlerHandler;
 import org.sunso.mini.crawler.parser.CrawlerParser;
-import org.sunso.mini.crawler.queue.CrawlerLinkedBlockingQueue;
-import org.sunso.mini.crawler.queue.CrawlerQueue;
 import org.sunso.mini.crawler.task.CrawlerTask;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author sunso520
+ * @Title:CrawlerContext
+ * @Description: 爬虫上下文构造器
+ *
+ * @Created on 2023/10/12 10:13
+ */
 public class CrawlerContextBuilder {
+    // 业务类型
     private String bizType;
+    // 爬虫请求列表
     private List<CrawlerHttpRequest> requestList = new ArrayList<>();
-
+    // 爬虫任务
     private CrawlerTask task;
-    private CrawlerQueue queue;
+    // 爬虫下载器
     private CrawlerDownloader downloader;
+    // 爬虫解析器
     private CrawlerParser parser;
-    //private CrawlerHandler handler;
+    // 爬虫CrawlerSpider执行器
     private Class<? extends CrawlerSpider> spiderClassType;
-
+    // 爬虫请求与CrawlerResult映射关系
     private Map<String, Class<? extends CrawlerResult>> urlCrawlerResultMap;
+    // 爬虫线程数
     private int spiderNum;
 
     private CrawlerContextBuilder() {
@@ -56,11 +64,6 @@ public class CrawlerContextBuilder {
         return this;
     }
 
-    public CrawlerContextBuilder queue(CrawlerQueue queue) {
-        this.queue = queue;
-        return this;
-    }
-
     public CrawlerContextBuilder downloader(CrawlerDownloader downloader) {
         this.downloader = downloader;
         return this;
@@ -70,11 +73,6 @@ public class CrawlerContextBuilder {
         this.parser = parser;
         return this;
     }
-
-//    public CrawlerContextBuilder handler(CrawlerHandler handler) {
-//        this.handler = handler;
-//        return this;
-//    }
 
     public CrawlerContextBuilder spiderClassType(Class<? extends CrawlerSpider> spiderClassType) {
         this.spiderClassType = spiderClassType;
@@ -95,25 +93,11 @@ public class CrawlerContextBuilder {
         if (requestList.isEmpty()) {
             throw new IllegalArgumentException("requestList parameter is must");
         }
-//        if (queue == null) {
-//            queue = new CrawlerLinkedBlockingQueue();
-//        }
-//        if (downloader == null) {
-//            downloader = new HutoolCrawlerDownloader();
-//        }
-//        if (parser == null) {
-//            parser = new UnionCrawlerParser();
-//        }
-//        if (handler == null) {
-//            handler = null;
-//        }
         CrawlerContext context = new CrawlerContext();
         context.setBizType(bizType);
         context.setTask(task);
-        //context.setQueue(queue);
         context.setDownloader(downloader);
         context.setParser(parser);
-        //context.setHandler(handler);
         context.setRequestList(requestList);
         context.setSpiderClassType(spiderClassType);
         context.setUrlCrawlerResultMap(urlCrawlerResultMap);
