@@ -11,5 +11,6 @@ import lombok.Data;
 @Data
 public class DbDataInsert extends DbDataTable {
 
-    private String[] checkExistColumns;
+	private String[] checkExistColumns;
+
 }

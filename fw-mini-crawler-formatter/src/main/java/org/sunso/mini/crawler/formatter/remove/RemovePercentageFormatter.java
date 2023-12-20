@@ -7,7 +7,9 @@ package org.sunso.mini.crawler.formatter.remove;
  * @Created on 2023/11/24 17:40
  */
 public class RemovePercentageFormatter extends AbstractRemoveFormatter {
-    public RemovePercentageFormatter() {
-        this.removeKey = "%";
-    }
+
+	public RemovePercentageFormatter() {
+		this.removeKey = "%";
+	}
+
 }

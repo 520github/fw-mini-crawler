@@ -12,8 +12,10 @@ import org.sunso.mini.crawler.common.result.CrawlerResult;
  */
 public class EmptyCrawlerParser implements CrawlerParser {
 
-    @Override
-    public CrawlerResult parse(Class<? extends CrawlerResult> clazz, CrawlerHttpRequest request, CrawlerHttpResponse response) {
-        return null;
-    }
+	@Override
+	public CrawlerResult parse(Class<? extends CrawlerResult> clazz, CrawlerHttpRequest request,
+			CrawlerHttpResponse response) {
+		return null;
+	}
+
 }

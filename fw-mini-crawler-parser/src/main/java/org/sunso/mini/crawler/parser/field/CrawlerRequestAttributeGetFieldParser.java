@@ -11,17 +11,19 @@ import org.sunso.mini.crawler.annotation.request.RequestParameter;
  * @Created on 2023/10/17 10:22
  */
 public class CrawlerRequestAttributeGetFieldParser extends AbstractCrawlerFieldParser {
-    @Override
-    public Object parseField(CrawlerFieldParserRequest request) {
-        return getRequestParameterValue(request);
-    }
 
-    private Object getRequestParameterValue(CrawlerFieldParserRequest request) {
-        RequestAttributeGet parameter = request.fetchFieldAnnotation(RequestAttributeGet.class);
-        String name = parameter.value();
-        if (StrUtil.isBlank(name)) {
-            name = request.fetchFieldName();
-        }
-        return request.fetchRequestAttributeValue(name);
-    }
+	@Override
+	public Object parseField(CrawlerFieldParserRequest request) {
+		return getRequestParameterValue(request);
+	}
+
+	private Object getRequestParameterValue(CrawlerFieldParserRequest request) {
+		RequestAttributeGet parameter = request.fetchFieldAnnotation(RequestAttributeGet.class);
+		String name = parameter.value();
+		if (StrUtil.isBlank(name)) {
+			name = request.fetchFieldName();
+		}
+		return request.fetchRequestAttributeValue(name);
+	}
+
 }

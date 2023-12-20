@@ -26,115 +26,120 @@ import java.util.concurrent.CountDownLatch;
 
 public class CrawlerEnginerBuilderJsonTest extends BaseTest {
 
-    @Test
-    public void CrawlerEnginerBuilderTest() {
-        String url = "https://dev-cqb.lddstp.com/zz-official/article/info/page/list";
-        CrawlerEnginerBuilder.create()
-                .request(
-                        CrawlerHttpRequestBuilder.postContentTypeJson(url)
-                                .addData("pageNum", "1")
-                                .addData("pageSize", "3")
-                                .addData("config", Config.newInstance())
-                                .addData("configList", Arrays.asList(Config.newInstance(), Config.newInstance()))
-                )
-                .urlCrawlerResult(url, ArticleList.class)
-                .defaultSingleCrawlerEnginer()
-                .startCrawler();
-        CountDownLatch countDownLatch = new CountDownLatch(1);
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	@Test
+	public void CrawlerEnginerBuilderTest() {
+		String url = "https://dev-cqb.lddstp.com/zz-official/article/info/page/list";
+		CrawlerEnginerBuilder.create()
+				.request(CrawlerHttpRequestBuilder.postContentTypeJson(url).addData("pageNum", "1")
+						.addData("pageSize", "3").addData("config", Config.newInstance())
+						.addData("configList", Arrays.asList(Config.newInstance(), Config.newInstance())))
+				.urlCrawlerResult(url, ArticleList.class).defaultSingleCrawlerEnginer().startCrawler();
+		CountDownLatch countDownLatch = new CountDownLatch(1);
+		try {
+			countDownLatch.await();
+		}
+		catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    @Data
-    @CrawlerResultDefine(handlers = ConsoleCrawlerHandler.class)
-    class ArticleList implements CrawlerResult {
-        @Response
-        private CrawlerHttpResponse response;
+	@Data
+	@CrawlerResultDefine(handlers = ConsoleCrawlerHandler.class)
+	class ArticleList implements CrawlerResult {
 
-        @ResponseStatus
-        private String responseStatus;
+		@Response
+		private CrawlerHttpResponse response;
 
-        //@ResponseBody
-        private String responseBody;
+		@ResponseStatus
+		private String responseStatus;
 
-        @RequestData("pageNum")
-        private Integer pageNum;
+		// @ResponseBody
+		private String responseBody;
 
-        @RequestData("pageSize")
-        private Integer pageSize;
+		@RequestData("pageNum")
+		private Integer pageNum;
 
-        @RequestData("configList")
-        private List<Config> configList;
+		@RequestData("pageSize")
+		private Integer pageSize;
 
-        @RequestData("config.loadConfig")
-        private String loadConfig;
+		@RequestData("configList")
+		private List<Config> configList;
 
-        @JsonPath("code")
-        private String code;
-        @JsonPath("msg")
-        private String msg;
-        @JsonPath("data.total")
-        private Integer total;
+		@RequestData("config.loadConfig")
+		private String loadConfig;
 
-        @JsonPath(value = "data.total", formatter = {BigDecimalFormatter.class, Money2ChineseFormatter.class})
-        private String chinese;
+		@JsonPath("code")
+		private String code;
 
-        @JsonPath(value = "data.list.viewNum", expressionFilter = "viewNumList>0 && viewNumList<=5")
-        private List<Integer> viewNumList;
+		@JsonPath("msg")
+		private String msg;
 
-        @JsonPath(value = "data.list", expressionFilter = "viewNum>0")
-        private List<ArticleListOne> articleList;
-    }
+		@JsonPath("data.total")
+		private Integer total;
 
-    @Data
-    @CrawlerResultDefine(handlers = ConsoleCrawlerHandler.class)
-    class ArticleListOne implements CrawlerResult {
-        @Response
-        private CrawlerHttpResponse response;
+		@JsonPath(value = "data.total", formatter = { BigDecimalFormatter.class, Money2ChineseFormatter.class })
+		private String chinese;
 
-        @Request
-        private CrawlerHttpRequest request;
+		@JsonPath(value = "data.list.viewNum", expressionFilter = "viewNumList>0 && viewNumList<=5")
+		private List<Integer> viewNumList;
 
-        //@ResponseBody
-        private String responseBody;
+		@JsonPath(value = "data.list", expressionFilter = "viewNum>0")
+		private List<ArticleListOne> articleList;
 
-        @ResponseStatus
-        private String responseStatus;
+	}
 
-        @RequestData("pageNum")
-        private Integer pageNum;
+	@Data
+	@CrawlerResultDefine(handlers = ConsoleCrawlerHandler.class)
+	class ArticleListOne implements CrawlerResult {
 
-        @RequestData("pageSize")
-        private Integer pageSize;
+		@Response
+		private CrawlerHttpResponse response;
 
-        @JsonPath("coverImg")
-        private String img;
+		@Request
+		private CrawlerHttpRequest request;
 
-        @JsonPath("title")
-        private String title;
+		// @ResponseBody
+		private String responseBody;
 
-        @JsonPath(value = "createDate", formatter = DateNormyyyyMMddFormatter.class)
-        private Date time;
+		@ResponseStatus
+		private String responseStatus;
 
-        @JsonPath("viewNum")
-        private Integer viewNum;
-    }
+		@RequestData("pageNum")
+		private Integer pageNum;
 
-    @Data
-    static class Config implements CrawlerResult {
-        @JsonPath("loadConfig")
-        private String loadConfig;
-        @JsonPath("listConfig")
-        private String listConfig;
+		@RequestData("pageSize")
+		private Integer pageSize;
 
-        public static Config newInstance() {
-            Config config = new Config();
-            config.setLoadConfig("load");
-            config.setListConfig("list");
-            return config;
-        }
-    }
+		@JsonPath("coverImg")
+		private String img;
+
+		@JsonPath("title")
+		private String title;
+
+		@JsonPath(value = "createDate", formatter = DateNormyyyyMMddFormatter.class)
+		private Date time;
+
+		@JsonPath("viewNum")
+		private Integer viewNum;
+
+	}
+
+	@Data
+	static class Config implements CrawlerResult {
+
+		@JsonPath("loadConfig")
+		private String loadConfig;
+
+		@JsonPath("listConfig")
+		private String listConfig;
+
+		public static Config newInstance() {
+			Config config = new Config();
+			config.setLoadConfig("load");
+			config.setListConfig("list");
+			return config;
+		}
+
+	}
+
 }

@@ -8,16 +8,17 @@ import java.lang.annotation.Target;
 /**
  * @author sunso520
  * @Title:ResponseBody
- * @Description: ResponseBody注解
- * 获取request请求对应的响应数据
+ * @Description: ResponseBody注解 获取request请求对应的响应数据
  * @Created on 2023/10/16 10:25
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ResponseBody {
-    /**
-     * 父Request的级别
-     * @return
-     */
-    int parentLevel() default 0;
+
+	/**
+	 * 父Request的级别
+	 * @return
+	 */
+	int parentLevel() default 0;
+
 }

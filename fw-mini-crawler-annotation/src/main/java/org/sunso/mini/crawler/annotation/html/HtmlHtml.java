@@ -12,10 +12,11 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HtmlHtml {
-    /**
-     * 是否包含当前元素
-     * @return
-     */
-    boolean isOwn() default false;
+
+	/**
+	 * 是否包含当前元素
+	 * @return
+	 */
+	boolean isOwn() default false;
 
 }

@@ -10,25 +10,27 @@ import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
  * @Created on 2023/10/16 10:05
  */
 public class CrawlerResponseFieldParser extends AbstractCrawlerFieldParser {
-    @Override
-    public Object parseField(CrawlerFieldParserRequest request) {
-        return getResponseData(request);
-    }
 
-    protected CrawlerHttpResponse getResponseData(CrawlerFieldParserRequest request) {
-        Response response = request.fetchFieldAnnotation(Response.class);
-        if (response == null) {
-            return null;
-        }
-        int parentLevel = response.parentLevel();
-        return getResponseData(parentLevel, request);
-    }
+	@Override
+	public Object parseField(CrawlerFieldParserRequest request) {
+		return getResponseData(request);
+	}
 
-    protected CrawlerHttpResponse getResponseData(int parentLevel, CrawlerFieldParserRequest request) {
-        if (parentLevel == 0) {
-            return request.getResponse();
-        }
-        //TODO  多级的情况，获取前N级的结果
-        return null;
-    }
+	protected CrawlerHttpResponse getResponseData(CrawlerFieldParserRequest request) {
+		Response response = request.fetchFieldAnnotation(Response.class);
+		if (response == null) {
+			return null;
+		}
+		int parentLevel = response.parentLevel();
+		return getResponseData(parentLevel, request);
+	}
+
+	protected CrawlerHttpResponse getResponseData(int parentLevel, CrawlerFieldParserRequest request) {
+		if (parentLevel == 0) {
+			return request.getResponse();
+		}
+		// TODO 多级的情况，获取前N级的结果
+		return null;
+	}
+
 }

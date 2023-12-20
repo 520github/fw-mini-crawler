@@ -11,22 +11,23 @@ import java.lang.annotation.Target;
 /**
  * @author sunso520
  * @Title:RequestAttributeGet
- * @Description: RequestAttributeGet注解
- * 从RequestAttribute获取对应值
+ * @Description: RequestAttributeGet注解 从RequestAttribute获取对应值
  * @Created on 2023/10/17 11:25
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RequestAttributeGet {
-    /**
-     * 需要从RequestAttribute里获取值对应的name
-     * @return
-     */
-    String value() default "";
 
-    /**
-     * 数据格式化
-     * @return
-     */
-    Class<? extends Formatter>[] formatter() default NoneFormatter.class;
+	/**
+	 * 需要从RequestAttribute里获取值对应的name
+	 * @return
+	 */
+	String value() default "";
+
+	/**
+	 * 数据格式化
+	 * @return
+	 */
+	Class<? extends Formatter>[] formatter() default NoneFormatter.class;
+
 }

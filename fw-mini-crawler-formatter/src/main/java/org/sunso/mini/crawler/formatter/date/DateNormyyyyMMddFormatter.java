@@ -11,8 +11,9 @@ import org.sunso.mini.crawler.formatter.AbstractFormatter;
  */
 public class DateNormyyyyMMddFormatter extends AbstractFormatter {
 
-    @Override
-    protected Object doFormat(Object value) {
-        return DateUtil.parseDate(value.toString());
-    }
+	@Override
+	protected Object doFormat(Object value) {
+		return DateUtil.parseDate(value.toString());
+	}
+
 }

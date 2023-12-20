@@ -13,19 +13,18 @@ import org.sunso.mini.crawler.context.CrawlerContextThreadLocal;
  */
 public class CrawlerCustomUrlFieldParser extends AbstractCrawlerFieldParser {
 
-    @Override
-    public Object parseField(CrawlerFieldParserRequest request) {
-        CustomUrl customUrl = request.fetchCustomUrl();
-        String url = customUrl.url();
-        url = UrlUtils.replaceParams(url, request.fetchAllReplaceParams());
-        if (StrUtil.isBlank(url) || !url.startsWith("http")) {
-            return url;
-        }
-        if (customUrl.triggerClick()) {
-            CrawlerContextThreadLocal.offerRequest(request.subRequest(customUrl, url));
-        }
-        return url;
-    }
-
+	@Override
+	public Object parseField(CrawlerFieldParserRequest request) {
+		CustomUrl customUrl = request.fetchCustomUrl();
+		String url = customUrl.url();
+		url = UrlUtils.replaceParams(url, request.fetchAllReplaceParams());
+		if (StrUtil.isBlank(url) || !url.startsWith("http")) {
+			return url;
+		}
+		if (customUrl.triggerClick()) {
+			CrawlerContextThreadLocal.offerRequest(request.subRequest(customUrl, url));
+		}
+		return url;
+	}
 
 }

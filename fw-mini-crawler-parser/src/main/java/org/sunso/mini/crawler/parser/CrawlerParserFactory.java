@@ -10,15 +10,16 @@ import lombok.SneakyThrows;
  */
 public class CrawlerParserFactory {
 
-    @SneakyThrows
-    public static CrawlerParser getCrawlerParser(Class<? extends CrawlerParser> clazz) {
-        if (clazz == null) {
-            return getDefaultCrawlerParser();
-        }
-        return clazz.newInstance();
-    }
+	@SneakyThrows
+	public static CrawlerParser getCrawlerParser(Class<? extends CrawlerParser> clazz) {
+		if (clazz == null) {
+			return getDefaultCrawlerParser();
+		}
+		return clazz.newInstance();
+	}
 
-    public static CrawlerParser getDefaultCrawlerParser() {
-        return new UnionCrawlerParser();
-    }
+	public static CrawlerParser getDefaultCrawlerParser() {
+		return new UnionCrawlerParser();
+	}
+
 }

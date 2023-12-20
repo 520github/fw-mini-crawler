@@ -19,51 +19,53 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HtmlAjax {
-    /**
-     * 请求url
-     * @return
-     */
-    String url();
 
-    /**
-     * 请求方法
-     * @return
-     */
-    HttpRequestMethodEnum method() default HttpRequestMethodEnum.GET;
+	/**
+	 * 请求url
+	 * @return
+	 */
+	String url();
 
-    /**
-     * 请求对应的爬虫下载器
-     * @return
-     */
-    Class<? extends CrawlerDownloader> downloader() default EmptyCrawlerDownloader.class;
+	/**
+	 * 请求方法
+	 * @return
+	 */
+	HttpRequestMethodEnum method() default HttpRequestMethodEnum.GET;
 
-    /**
-     * contentType
-     * @return
-     */
-    ContentTypeEnum contentType() default ContentTypeEnum.applicationXWwwForm;
+	/**
+	 * 请求对应的爬虫下载器
+	 * @return
+	 */
+	Class<? extends CrawlerDownloader> downloader() default EmptyCrawlerDownloader.class;
 
-    /**
-     * ajax结果作为requestAttribute属性值对应的name
-     * @return
-     */
-    String requestAttributeName() default "";
+	/**
+	 * contentType
+	 * @return
+	 */
+	ContentTypeEnum contentType() default ContentTypeEnum.applicationXWwwForm;
 
-    /**
-     * 是否copy父Request的请求头
-     * @return
-     */
-    boolean copyHeader() default false;
+	/**
+	 * ajax结果作为requestAttribute属性值对应的name
+	 * @return
+	 */
+	String requestAttributeName() default "";
 
-    /**
-     * 是否copy父Request的cookies
-     * @return
-     */
-    boolean copyCookies() default false;
+	/**
+	 * 是否copy父Request的请求头
+	 * @return
+	 */
+	boolean copyHeader() default false;
 
-    /**
-     * 是否copy父Request的Attribute
-     * @return
-     */
-    boolean copyAttribute() default false;
+	/**
+	 * 是否copy父Request的cookies
+	 * @return
+	 */
+	boolean copyCookies() default false;
+
+	/**
+	 * 是否copy父Request的Attribute
+	 * @return
+	 */
+	boolean copyAttribute() default false;
+
 }

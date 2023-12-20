@@ -10,8 +10,10 @@ import org.sunso.mini.crawler.storage.file.CrawlerFileStorage;
  * @Created on 2023/11/14 15:33
  */
 public class CrawlerCheckerFactory {
-    @SneakyThrows
-    public static CrawlerChecker getCrawlerChecker(Class<? extends CrawlerChecker> clazz) {
-        return clazz.newInstance();
-    }
+
+	@SneakyThrows
+	public static CrawlerChecker getCrawlerChecker(Class<? extends CrawlerChecker> clazz) {
+		return clazz.newInstance();
+	}
+
 }

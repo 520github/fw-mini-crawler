@@ -10,7 +10,11 @@ import lombok.Data;
  */
 @Data
 public class UserConsult {
-    private String name;
-    private String mobile;
-    private String content;
+
+	private String name;
+
+	private String mobile;
+
+	private String content;
+
 }

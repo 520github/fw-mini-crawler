@@ -13,5 +13,6 @@ import java.util.Collection;
 @Data
 public class DbDataQuery extends DbDataTable {
 
-    private Collection<String> queryColumns;
+	private Collection<String> queryColumns;
+
 }

@@ -10,8 +10,9 @@ import org.sunso.mini.crawler.common.enums.HttpRequestEventTypeEnum;
  */
 public class CrawlerHttpRequestInputSetAndMoveCursorEvent extends AbstractCrawlerHttpRequestEvent {
 
-    public CrawlerHttpRequestInputSetAndMoveCursorEvent(String value) {
-        setEventType(HttpRequestEventTypeEnum.inputSetAndMoveCursor.getKey());
-        setEventValue(value);
-    }
+	public CrawlerHttpRequestInputSetAndMoveCursorEvent(String value) {
+		setEventType(HttpRequestEventTypeEnum.inputSetAndMoveCursor.getKey());
+		setEventValue(value);
+	}
+
 }

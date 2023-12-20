@@ -4,15 +4,16 @@ import lombok.Getter;
 
 @Getter
 public enum ContentTypeEnum {
-    applicationJson("application/json", ""),
-    applicationXWwwForm("application/x-www-form-urlencoded", "")
-    ;
 
-    private String key;
-    private String remark;
+	applicationJson("application/json", ""), applicationXWwwForm("application/x-www-form-urlencoded", "");
 
-    ContentTypeEnum(String key, String remark) {
-        this.key = key;
-        this.remark = remark;
-    }
+	private String key;
+
+	private String remark;
+
+	ContentTypeEnum(String key, String remark) {
+		this.key = key;
+		this.remark = remark;
+	}
+
 }

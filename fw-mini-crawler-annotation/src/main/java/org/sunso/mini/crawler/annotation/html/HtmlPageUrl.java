@@ -14,21 +14,22 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HtmlPageUrl {
 
-    /**
-     * 开始页数
-     * @return
-     */
-    int startPageNo() default 1;
+	/**
+	 * 开始页数
+	 * @return
+	 */
+	int startPageNo() default 1;
 
-    /**
-     * 结束页面
-     * @return
-     */
-    int endPageNo() default Integer.MAX_VALUE;
+	/**
+	 * 结束页面
+	 * @return
+	 */
+	int endPageNo() default Integer.MAX_VALUE;
 
-    /**
-     * 分页数对应的key
-     * @return
-     */
-    String pageNoKey();
+	/**
+	 * 分页数对应的key
+	 * @return
+	 */
+	String pageNoKey();
+
 }

@@ -10,6 +10,9 @@ import lombok.Data;
  */
 @Data
 public class ConvertibleBond {
-    private String bondCode;
-    private String bondName;
+
+	private String bondCode;
+
+	private String bondName;
+
 }

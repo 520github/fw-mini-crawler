@@ -10,13 +10,15 @@ import lombok.Data;
  */
 @Data
 public class DbSqlInsert extends DbDataSource {
-    private String sql;
 
-    private Object[] params;
+	private String sql;
 
-    public static DbSqlInsert newInstance(String sql) {
-        DbSqlInsert insert = new DbSqlInsert();
-        insert.setSql(sql);
-        return insert;
-    }
+	private Object[] params;
+
+	public static DbSqlInsert newInstance(String sql) {
+		DbSqlInsert insert = new DbSqlInsert();
+		insert.setSql(sql);
+		return insert;
+	}
+
 }

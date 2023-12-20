@@ -14,9 +14,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FieldDefine {
-    /**
-     * 设置默认值
-     * @return
-     */
-    String defaultValue();
+
+	/**
+	 * 设置默认值
+	 * @return
+	 */
+	String defaultValue();
+
 }

@@ -29,160 +29,161 @@ import java.util.Map;
  */
 @Data
 public class CrawlerFieldParserRequest {
-    // http请求
-    private CrawlerHttpRequest request;
-    // http请求响应结果
-    private CrawlerHttpResponse response;
-    // 待解析字段
-    private Field field;
-    // 爬虫解析器
-    private CrawlerParser crawlerParser;
-    // 爬虫最终结果类
-    private Class<? extends CrawlerResult> clazz;
-    // html Ajax dto对象
-    private HtmlAjaxDTO htmlAjaxDTO;
 
+	// http请求
+	private CrawlerHttpRequest request;
 
-    public static CrawlerFieldParserRequest newInstance(CrawlerHttpRequest request, CrawlerHttpResponse response, CrawlerParser crawlerParser, Class<? extends CrawlerResult> clazz) {
-        CrawlerFieldParserRequest instance = new CrawlerFieldParserRequest();
-        instance.setRequest(request);
-        instance.setResponse(response);
-        instance.setCrawlerParser(crawlerParser);
-        instance.setClazz(clazz);
-        return instance;
-    }
+	// http请求响应结果
+	private CrawlerHttpResponse response;
 
-    /**
-     * 克隆一份CrawlerFieldParserRequest， 排除掉CrawlerHttpResponse
-     * @return
-     */
-    public CrawlerFieldParserRequest cloneExcludeResponse() {
-        CrawlerFieldParserRequest instance = new CrawlerFieldParserRequest();
-        instance.setField(field);
-        instance.setCrawlerParser(crawlerParser);
-        instance.setRequest(request);
-        return instance;
-    }
+	// 待解析字段
+	private Field field;
 
+	// 爬虫解析器
+	private CrawlerParser crawlerParser;
 
-    public String fetchRequestUrl() {
-        return request.getUrl();
-    }
+	// 爬虫最终结果类
+	private Class<? extends CrawlerResult> clazz;
 
-    public String fetchResponseBody() {
-        if (response == null) {
-            return null;
-        }
-        return response.body();
-    }
+	// html Ajax dto对象
+	private HtmlAjaxDTO htmlAjaxDTO;
 
-    public <T extends Annotation> T fetchFieldAnnotation(Class<T> annotationClass) {
-        return getField().getAnnotation(annotationClass);
-    }
+	public static CrawlerFieldParserRequest newInstance(CrawlerHttpRequest request, CrawlerHttpResponse response,
+			CrawlerParser crawlerParser, Class<? extends CrawlerResult> clazz) {
+		CrawlerFieldParserRequest instance = new CrawlerFieldParserRequest();
+		instance.setRequest(request);
+		instance.setResponse(response);
+		instance.setCrawlerParser(crawlerParser);
+		instance.setClazz(clazz);
+		return instance;
+	}
 
-    public HtmlCssPath fetchHtmlCssPath() {
-        return fetchFieldAnnotation(HtmlCssPath.class);
-    }
+	/**
+	 * 克隆一份CrawlerFieldParserRequest， 排除掉CrawlerHttpResponse
+	 * @return
+	 */
+	public CrawlerFieldParserRequest cloneExcludeResponse() {
+		CrawlerFieldParserRequest instance = new CrawlerFieldParserRequest();
+		instance.setField(field);
+		instance.setCrawlerParser(crawlerParser);
+		instance.setRequest(request);
+		return instance;
+	}
 
-    public CustomUrl fetchCustomUrl() {
-        return fetchFieldAnnotation(CustomUrl.class);
-    }
+	public String fetchRequestUrl() {
+		return request.getUrl();
+	}
 
-    public CrawlerResultDefine fetchCrawlerResultDefine() {
-        if (clazz == null) {
-            return null;
-        }
-        return clazz.getAnnotation(CrawlerResultDefine.class);
-    }
+	public String fetchResponseBody() {
+		if (response == null) {
+			return null;
+		}
+		return response.body();
+	}
 
+	public <T extends Annotation> T fetchFieldAnnotation(Class<T> annotationClass) {
+		return getField().getAnnotation(annotationClass);
+	}
 
-    public Option fetchOption() {
-        return request.getOption();
-    }
+	public HtmlCssPath fetchHtmlCssPath() {
+		return fetchFieldAnnotation(HtmlCssPath.class);
+	}
 
-    public String fetchFieldName() {
-        return getField().getName();
-    }
+	public CustomUrl fetchCustomUrl() {
+		return fetchFieldAnnotation(CustomUrl.class);
+	}
 
-    public String fetchRequestParameterValue(String name) {
-        return getRequest().getParameter(name);
-    }
+	public CrawlerResultDefine fetchCrawlerResultDefine() {
+		if (clazz == null) {
+			return null;
+		}
+		return clazz.getAnnotation(CrawlerResultDefine.class);
+	}
 
-    public Map<String,Object> fetchRequestData() {
-        return getRequest().getData();
-    }
+	public Option fetchOption() {
+		return request.getOption();
+	}
 
-    public JSON fetchRequestDataJson() {
-        return JSONUtil.parseObj(fetchRequestData());
-    }
+	public String fetchFieldName() {
+		return getField().getName();
+	}
 
+	public String fetchRequestParameterValue(String name) {
+		return getRequest().getParameter(name);
+	}
 
-    public Map<String,Object> fetchAllReplaceParams() {
-        Map<String,Object> parasMap = new HashMap<>();
-        parasMap.putAll(request.getParameters());
-        parasMap.putAll(request.getAttributes());
-        return parasMap;
-    }
+	public Map<String, Object> fetchRequestData() {
+		return getRequest().getData();
+	}
 
-    public void commitRequestAttribute(String name, Object value) {
-        if (getRequest() == null) {
-            return;
-        }
-        getRequest().setAttribute(name, value);
-    }
+	public JSON fetchRequestDataJson() {
+		return JSONUtil.parseObj(fetchRequestData());
+	}
 
-    public Object fetchRequestAttributeValue(String name) {
-        return getRequest().getAttributes().get(name);
-    }
+	public Map<String, Object> fetchAllReplaceParams() {
+		Map<String, Object> parasMap = new HashMap<>();
+		parasMap.putAll(request.getParameters());
+		parasMap.putAll(request.getAttributes());
+		return parasMap;
+	}
 
-    /**
-     * 生成一个子CrawlerHttpRequest
-     *
-     * @param htmlUrl HtmlUrl注解
-     * @param subUrl 子请求url
-     * @return 返回CrawlerHttpRequest
-     */
-    public CrawlerHttpRequest subRequest(HtmlUrl htmlUrl, String subUrl) {
-        CrawlerHttpRequest subRequest = CrawlerHttpRequestBuilder.get(subUrl);
-        subRequest.setWaitTime(htmlUrl.waitTime());
-        if (htmlUrl.copyHeader()) {
-            subRequest.setHeaders(getRequest().getHeaders());
-        }
-        if (htmlUrl.copyCookies()) {
-            subRequest.setCookies(getRequest().getCookies());
-        }
-        if (htmlUrl.copyAttribute()) {
-            subRequest.setAttributes(getRequest().getAttributes());
-        }
-        if (StrUtil.isNotBlank(htmlUrl.urlAlias())) {
-            subRequest.setUrlAlias(htmlUrl.urlAlias());
-        }
-        return subRequest;
-    }
+	public void commitRequestAttribute(String name, Object value) {
+		if (getRequest() == null) {
+			return;
+		}
+		getRequest().setAttribute(name, value);
+	}
 
-    /**
-     * 生成一个子CrawlerHttpRequest
-     *
-     * @param customUrl CustomUrl注解
-     * @param subUrl 子请求url
-     *
-     * @return 返回CrawlerHttpRequest
-     */
-    public CrawlerHttpRequest subRequest(CustomUrl customUrl, String subUrl) {
-        CrawlerHttpRequest subRequest = CrawlerHttpRequestBuilder.get(subUrl);
-        subRequest.setWaitTime(customUrl.waitTime());
-        if (customUrl.copyHeader()) {
-            subRequest.setHeaders(getRequest().getHeaders());
-        }
-        if (customUrl.copyCookies()) {
-            subRequest.setCookies(getRequest().getCookies());
-        }
-        if (customUrl.copyAttribute()) {
-            subRequest.setAttributes(getRequest().getAttributes());
-        }
-        if (StrUtil.isNotBlank(customUrl.urlAlias())) {
-            subRequest.setUrlAlias(customUrl.urlAlias());
-        }
-        return subRequest;
-    }
+	public Object fetchRequestAttributeValue(String name) {
+		return getRequest().getAttributes().get(name);
+	}
+
+	/**
+	 * 生成一个子CrawlerHttpRequest
+	 * @param htmlUrl HtmlUrl注解
+	 * @param subUrl 子请求url
+	 * @return 返回CrawlerHttpRequest
+	 */
+	public CrawlerHttpRequest subRequest(HtmlUrl htmlUrl, String subUrl) {
+		CrawlerHttpRequest subRequest = CrawlerHttpRequestBuilder.get(subUrl);
+		subRequest.setWaitTime(htmlUrl.waitTime());
+		if (htmlUrl.copyHeader()) {
+			subRequest.setHeaders(getRequest().getHeaders());
+		}
+		if (htmlUrl.copyCookies()) {
+			subRequest.setCookies(getRequest().getCookies());
+		}
+		if (htmlUrl.copyAttribute()) {
+			subRequest.setAttributes(getRequest().getAttributes());
+		}
+		if (StrUtil.isNotBlank(htmlUrl.urlAlias())) {
+			subRequest.setUrlAlias(htmlUrl.urlAlias());
+		}
+		return subRequest;
+	}
+
+	/**
+	 * 生成一个子CrawlerHttpRequest
+	 * @param customUrl CustomUrl注解
+	 * @param subUrl 子请求url
+	 * @return 返回CrawlerHttpRequest
+	 */
+	public CrawlerHttpRequest subRequest(CustomUrl customUrl, String subUrl) {
+		CrawlerHttpRequest subRequest = CrawlerHttpRequestBuilder.get(subUrl);
+		subRequest.setWaitTime(customUrl.waitTime());
+		if (customUrl.copyHeader()) {
+			subRequest.setHeaders(getRequest().getHeaders());
+		}
+		if (customUrl.copyCookies()) {
+			subRequest.setCookies(getRequest().getCookies());
+		}
+		if (customUrl.copyAttribute()) {
+			subRequest.setAttributes(getRequest().getAttributes());
+		}
+		if (StrUtil.isNotBlank(customUrl.urlAlias())) {
+			subRequest.setUrlAlias(customUrl.urlAlias());
+		}
+		return subRequest;
+	}
+
 }

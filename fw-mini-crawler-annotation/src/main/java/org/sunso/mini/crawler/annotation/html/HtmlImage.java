@@ -15,10 +15,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HtmlImage {
 
-    /**
-     * 获取图片值的属性字段
-     * @return
-     */
-    String[] value() default "src";
+	/**
+	 * 获取图片值的属性字段
+	 * @return
+	 */
+	String[] value() default "src";
 
 }

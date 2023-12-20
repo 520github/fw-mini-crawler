@@ -16,9 +16,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CrawlerResultChecker {
-    /**
-     * 设置检查器
-     * @return
-     */
-    Class<? extends CrawlerChecker> checker();
+
+	/**
+	 * 设置检查器
+	 * @return
+	 */
+	Class<? extends CrawlerChecker> checker();
+
 }

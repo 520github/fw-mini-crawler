@@ -11,31 +11,32 @@ import org.sunso.mini.crawler.common.BaseTest;
  */
 public class DbDataInsertOrUpdateTest extends BaseTest {
 
-    @Test
-    public void dbDataInsertOrUpdateTest() {
-        int result = HuToolDb.insertOrUpdateData(newDbDataInsertOrUpdate(), newConvertibleBond());
-        print(result);
-    }
+	@Test
+	public void dbDataInsertOrUpdateTest() {
+		int result = HuToolDb.insertOrUpdateData(newDbDataInsertOrUpdate(), newConvertibleBond());
+		print(result);
+	}
 
-    private DbDataInsertOrUpdate newDbDataInsertOrUpdate() {
-        DbDataInsertOrUpdate insertOrUpdate = new DbDataInsertOrUpdate();
-        insertOrUpdate.setTableName("convertible_bond");
-        insertOrUpdate.setCheckExistColumns(new String[]{"bond_code"});
-        return insertOrUpdate;
-    }
+	private DbDataInsertOrUpdate newDbDataInsertOrUpdate() {
+		DbDataInsertOrUpdate insertOrUpdate = new DbDataInsertOrUpdate();
+		insertOrUpdate.setTableName("convertible_bond");
+		insertOrUpdate.setCheckExistColumns(new String[] { "bond_code" });
+		return insertOrUpdate;
+	}
 
-    private ConvertibleBond newConvertibleBond() {
-        ConvertibleBond convertibleBond = new ConvertibleBond();
-        convertibleBond.setBondCode("123456");
-        convertibleBond.setBondName("haha--ddd");
-        return convertibleBond;
-    }
+	private ConvertibleBond newConvertibleBond() {
+		ConvertibleBond convertibleBond = new ConvertibleBond();
+		convertibleBond.setBondCode("123456");
+		convertibleBond.setBondName("haha--ddd");
+		return convertibleBond;
+	}
 
-    private UserConsult newUserConsult() {
-        UserConsult userConsult = new UserConsult();
-        userConsult.setName("liming_dddd");
-        userConsult.setMobile("1349999999");
-        userConsult.setContent("k快递寄快递dddd");
-        return userConsult;
-    }
+	private UserConsult newUserConsult() {
+		UserConsult userConsult = new UserConsult();
+		userConsult.setName("liming_dddd");
+		userConsult.setMobile("1349999999");
+		userConsult.setContent("k快递寄快递dddd");
+		return userConsult;
+	}
+
 }

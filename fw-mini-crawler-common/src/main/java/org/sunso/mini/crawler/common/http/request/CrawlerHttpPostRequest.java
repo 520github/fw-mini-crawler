@@ -7,11 +7,13 @@ package org.sunso.mini.crawler.common.http.request;
  * @Created on 2023/10/12 11:21
  */
 public class CrawlerHttpPostRequest extends AbstractCrawlerHttpRequest {
-    public CrawlerHttpPostRequest() {
 
-    }
+	public CrawlerHttpPostRequest() {
 
-    public CrawlerHttpPostRequest(String url) {
-        super(url);
-    }
+	}
+
+	public CrawlerHttpPostRequest(String url) {
+		super(url);
+	}
+
 }

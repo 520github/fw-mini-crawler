@@ -20,77 +20,77 @@ import java.util.concurrent.CountDownLatch;
 
 public class CrawlerEnginerBuilderTest extends BaseTest {
 
-    @Test
-    public void CrawlerEnginerBuilderTest() {
-        String url = "http://www.zhongzhenglawyer.com/Content/2232432.html";
-        CrawlerEnginerBuilder.create()
-                .request(
-                        CrawlerHttpRequestBuilder.get(url)
-                                .addParameter("name", "你是我的家")
-                                .addParameter("age", "23")
-                )
-                .urlCrawlerResult(url, ArticleList.class)
-                .defaultSingleCrawlerEnginer()
-                .startCrawler();
-        CountDownLatch countDownLatch = new CountDownLatch(1);
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	@Test
+	public void CrawlerEnginerBuilderTest() {
+		String url = "http://www.zhongzhenglawyer.com/Content/2232432.html";
+		CrawlerEnginerBuilder.create()
+				.request(CrawlerHttpRequestBuilder.get(url).addParameter("name", "你是我的家").addParameter("age", "23"))
+				.urlCrawlerResult(url, ArticleList.class).defaultSingleCrawlerEnginer().startCrawler();
+		CountDownLatch countDownLatch = new CountDownLatch(1);
+		try {
+			countDownLatch.await();
+		}
+		catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    @Data
-    @CrawlerResultDefine(handlers = ConsoleCrawlerHandler.class)
-    class ArticleList implements CrawlerResult {
-        @Response
-        private CrawlerHttpResponse response;
+	@Data
+	@CrawlerResultDefine(handlers = ConsoleCrawlerHandler.class)
+	class ArticleList implements CrawlerResult {
 
-        @ResponseStatus
-        private String responseStatus;
+		@Response
+		private CrawlerHttpResponse response;
 
-        //@ResponseBody
-        private String responseBody;
+		@ResponseStatus
+		private String responseStatus;
 
-        @HtmlText
-        @HtmlCssPath("div.ModuleNewsListGiant div.BodyCenter li")
-        private List<ArticleListOne> articleList;
-    }
+		// @ResponseBody
+		private String responseBody;
 
-    @Data
-    class ArticleListOne implements CrawlerResult {
-        @Response
-        private CrawlerHttpResponse response;
+		@HtmlText
+		@HtmlCssPath("div.ModuleNewsListGiant div.BodyCenter li")
+		private List<ArticleListOne> articleList;
 
-        @Request
-        private CrawlerHttpRequest request;
+	}
 
-        //@ResponseBody
-        private String responseBody;
+	@Data
+	class ArticleListOne implements CrawlerResult {
 
-        @ResponseStatus
-        private String responseStatus;
+		@Response
+		private CrawlerHttpResponse response;
 
-        @RequestParameter
-        private String name;
+		@Request
+		private CrawlerHttpRequest request;
 
-        @RequestParameter
-        private Integer age;
+		// @ResponseBody
+		private String responseBody;
 
-        @HtmlUrl(value = "href")
-        @HtmlCssPath("a")
-        private String detailUrl;
+		@ResponseStatus
+		private String responseStatus;
 
-        @HtmlAttr("data-src")
-        @HtmlCssPath("img")
-        private String img;
+		@RequestParameter
+		private String name;
 
-        @HtmlAttr("title")
-        @HtmlCssPath("img")
-        private String title;
+		@RequestParameter
+		private Integer age;
 
-        @HtmlText
-        @HtmlCssPath("time")
-        private String time;
-    }
+		@HtmlUrl(value = "href")
+		@HtmlCssPath("a")
+		private String detailUrl;
+
+		@HtmlAttr("data-src")
+		@HtmlCssPath("img")
+		private String img;
+
+		@HtmlAttr("title")
+		@HtmlCssPath("img")
+		private String title;
+
+		@HtmlText
+		@HtmlCssPath("time")
+		private String time;
+
+	}
+
 }

@@ -7,6 +7,9 @@ import java.lang.reflect.Field;
 
 @Data
 public class CrawlerFileStorageRequest {
-    private Field field;
-    CrawlerHttpResponse response;
+
+	private Field field;
+
+	CrawlerHttpResponse response;
+
 }

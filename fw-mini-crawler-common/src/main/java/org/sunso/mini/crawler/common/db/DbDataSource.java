@@ -10,8 +10,11 @@ import lombok.Data;
  */
 @Data
 public class DbDataSource {
-    private String url;
-    private String user;
-    private String password;
+
+	private String url;
+
+	private String user;
+
+	private String password;
 
 }

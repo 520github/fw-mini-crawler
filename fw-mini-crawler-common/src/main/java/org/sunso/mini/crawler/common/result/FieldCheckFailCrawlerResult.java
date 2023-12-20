@@ -10,14 +10,17 @@ import lombok.Data;
  */
 @Data
 public class FieldCheckFailCrawlerResult implements CrawlerResult {
-    private String message = "field check fail";
-    private String fieldName;
 
-    public FieldCheckFailCrawlerResult(String fieldName) {
-        this.fieldName = fieldName;
-    }
+	private String message = "field check fail";
 
-    public static FieldCheckFailCrawlerResult newInstance(String fieldName) {
-        return new FieldCheckFailCrawlerResult(fieldName);
-    }
+	private String fieldName;
+
+	public FieldCheckFailCrawlerResult(String fieldName) {
+		this.fieldName = fieldName;
+	}
+
+	public static FieldCheckFailCrawlerResult newInstance(String fieldName) {
+		return new FieldCheckFailCrawlerResult(fieldName);
+	}
+
 }

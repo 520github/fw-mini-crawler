@@ -8,7 +8,8 @@ package org.sunso.mini.crawler.formatter.remove;
  */
 public class RemoveYearUnitFormatter extends AbstractRemoveFormatter {
 
-    public RemoveYearUnitFormatter() {
-        this.removeKey = "年";
-    }
+	public RemoveYearUnitFormatter() {
+		this.removeKey = "年";
+	}
+
 }

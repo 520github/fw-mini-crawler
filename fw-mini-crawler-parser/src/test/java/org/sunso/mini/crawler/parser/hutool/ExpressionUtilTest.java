@@ -9,31 +9,32 @@ import java.util.Map;
 
 public class ExpressionUtilTest extends BaseTest {
 
-    @Test
-    public void expressionTest() {
-        //ExpressionUtil.getEngine()
-        Object result = ExpressionUtil.eval("(name=='liming' && age>30 && config.min==20) or config.max<50", getMap());
-        print(result.getClass().getName());
-        print(result);
-    }
+	@Test
+	public void expressionTest() {
+		// ExpressionUtil.getEngine()
+		Object result = ExpressionUtil.eval("(name=='liming' && age>30 && config.min==20) or config.max<50", getMap());
+		print(result.getClass().getName());
+		print(result);
+	}
 
-    @Test
-    public void expressionContainTest() {
-        Object result = ExpressionUtil.eval("url.startsWith('http')", getMap());
-        print(result.getClass().getName());
-        print(result);
-    }
+	@Test
+	public void expressionContainTest() {
+		Object result = ExpressionUtil.eval("url.startsWith('http')", getMap());
+		print(result.getClass().getName());
+		print(result);
+	}
 
-    private Map<String,Object> getMap() {
-        Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("url", "http://www.baidu.com");
-        dataMap.put("name", "liming");
-        dataMap.put("age", 40);
-        Map<String, Object> config = new HashMap<>();
-        config.put("min", 30);
-        config.put("max", 60);
+	private Map<String, Object> getMap() {
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("url", "http://www.baidu.com");
+		dataMap.put("name", "liming");
+		dataMap.put("age", 40);
+		Map<String, Object> config = new HashMap<>();
+		config.put("min", 30);
+		config.put("max", 60);
 
-        dataMap.put("config", config);
-        return dataMap;
-    }
+		dataMap.put("config", config);
+		return dataMap;
+	}
+
 }

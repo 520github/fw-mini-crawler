@@ -7,8 +7,10 @@ package org.sunso.mini.crawler.formatter.replace;
  * @Created on 2023/11/27 15:50
  */
 public class ReplaceHorizontalLine2ZeroFormatter extends AbstractReplaceFormatter {
-    public ReplaceHorizontalLine2ZeroFormatter() {
-        this.replaceKey = "-";
-        this.replaceValue = "0";
-    }
+
+	public ReplaceHorizontalLine2ZeroFormatter() {
+		this.replaceKey = "-";
+		this.replaceValue = "0";
+	}
+
 }

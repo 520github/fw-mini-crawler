@@ -14,10 +14,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HtmlAttr {
-    /**
-     * 属性key
-     * @return
-     */
-    String value();
+
+	/**
+	 * 属性key
+	 * @return
+	 */
+	String value();
 
 }

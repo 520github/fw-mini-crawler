@@ -8,15 +8,16 @@ package org.sunso.mini.crawler.common.http.option;
  */
 public class OptionFactory {
 
-    public static Option getDefault() {
-        return new Option();
-    }
+	public static Option getDefault() {
+		return new Option();
+	}
 
-    public static Option getDefaultSwitchArgTrue() {
-        Option option = new Option();
-        option.setSwitchArgHeadless(true);
-        option.setSwitchArgStartMaximized(true);
-        option.setSwitchArgDisableInfoBars(true);
-        return option;
-    }
+	public static Option getDefaultSwitchArgTrue() {
+		Option option = new Option();
+		option.setSwitchArgHeadless(true);
+		option.setSwitchArgStartMaximized(true);
+		option.setSwitchArgDisableInfoBars(true);
+		return option;
+	}
+
 }

@@ -15,46 +15,47 @@ import java.lang.reflect.Constructor;
  */
 public abstract class AbstractCrawlerEnginer extends Thread implements CrawlerEnginer {
 
-    protected CrawlerContext context;
+	protected CrawlerContext context;
 
-    public void run() {
-        setHttpRequest2Task();
-        initCrawlerSpider();
-        doRun();
-    }
+	public void run() {
+		setHttpRequest2Task();
+		initCrawlerSpider();
+		doRun();
+	}
 
-    protected abstract boolean doRun();
+	protected abstract boolean doRun();
 
-    @Override
-    public CrawlerEnginer startCrawler() {
-        super.start();
-        return this;
-    }
+	@Override
+	public CrawlerEnginer startCrawler() {
+		super.start();
+		return this;
+	}
 
-    @Override
-    public void setCrawlerContext(CrawlerContext context) {
-        this.context = context;
-    }
+	@Override
+	public void setCrawlerContext(CrawlerContext context) {
+		this.context = context;
+	}
 
-    @Override
-    public CrawlerContext getCrawlerContext() {
-        return context;
-    }
+	@Override
+	public CrawlerContext getCrawlerContext() {
+		return context;
+	}
 
-    @SneakyThrows
-    protected CrawlerSpider newCrawlerSpider() {
-        Constructor constructor = context.getSpiderClassType().getConstructor(CrawlerContext.class);
-        return (CrawlerSpider)constructor.newInstance(this.getCrawlerContext());
-    }
+	@SneakyThrows
+	protected CrawlerSpider newCrawlerSpider() {
+		Constructor constructor = context.getSpiderClassType().getConstructor(CrawlerContext.class);
+		return (CrawlerSpider) constructor.newInstance(this.getCrawlerContext());
+	}
 
-    protected void setHttpRequest2Task() {
-        for(CrawlerHttpRequest request: context.getRequestList()) {
-            context.fetchTask().offerTask(request);
-        }
-    }
+	protected void setHttpRequest2Task() {
+		for (CrawlerHttpRequest request : context.getRequestList()) {
+			context.fetchTask().offerTask(request);
+		}
+	}
 
-    protected void initCrawlerSpider() {
-        Thread thread = new Thread(newCrawlerSpider(), "spider-boot");
-        thread.start();
-    }
+	protected void initCrawlerSpider() {
+		Thread thread = new Thread(newCrawlerSpider(), "spider-boot");
+		thread.start();
+	}
+
 }

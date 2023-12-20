@@ -9,12 +9,14 @@ import org.sunso.mini.crawler.common.result.CrawlerResult;
  * @Created on 2023/10/12 11:17
  */
 public class ConsoleCrawlerHandler implements CrawlerHandler<CrawlerResult> {
-    @Override
-    public void handle(CrawlerResult crawlerResult) {
-        if (crawlerResult == null) {
-            System.out.println("CrawlerResult is null");
-            return;
-        }
-        System.out.println("print CrawlerResult:" + crawlerResult);
-    }
+
+	@Override
+	public void handle(CrawlerResult crawlerResult) {
+		if (crawlerResult == null) {
+			System.out.println("CrawlerResult is null");
+			return;
+		}
+		System.out.println("print CrawlerResult:" + crawlerResult);
+	}
+
 }

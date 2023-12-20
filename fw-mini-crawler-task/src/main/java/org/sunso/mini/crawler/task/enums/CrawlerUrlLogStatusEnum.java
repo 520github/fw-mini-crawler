@@ -11,18 +11,16 @@ import lombok.Getter;
 @Getter
 public enum CrawlerUrlLogStatusEnum {
 
-    init("init", "初始化"),
-    doing("doing", "处理中"),
-    success("success", "处理成功"),
-    fail("fail", "处理失败"),
-    exception("exception", "处理异常"),
-    ;
+	init("init", "初始化"), doing("doing", "处理中"), success("success", "处理成功"), fail("fail", "处理失败"),
+	exception("exception", "处理异常"),;
 
-    private String key;
-    private String remark;
+	private String key;
 
-    CrawlerUrlLogStatusEnum(String key, String remark) {
-        this.key = key;
-        this.remark = remark;
-    }
+	private String remark;
+
+	CrawlerUrlLogStatusEnum(String key, String remark) {
+		this.key = key;
+		this.remark = remark;
+	}
+
 }

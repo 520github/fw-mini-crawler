@@ -7,4 +7,5 @@ package org.sunso.mini.crawler.common.db;
  * @Created on 2023/11/23 17:14
  */
 public class DbDataInsertOrUpdate extends DbDataInsert {
+
 }

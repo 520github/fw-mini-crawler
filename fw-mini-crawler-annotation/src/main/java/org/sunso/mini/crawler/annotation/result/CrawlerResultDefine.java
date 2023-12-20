@@ -21,45 +21,46 @@ import java.lang.annotation.Target;
  *
  * 包含：
  * <ul>
- *     <li>定义爬虫处理器</li>
- *     <li>定义爬虫下载器</li>
- *     <li>定义爬虫数据存储器</li>
- *     <li>定义爬虫解析器</li>
- *     <li>定义修补方式</li>
+ * <li>定义爬虫处理器</li>
+ * <li>定义爬虫下载器</li>
+ * <li>定义爬虫数据存储器</li>
+ * <li>定义爬虫解析器</li>
+ * <li>定义修补方式</li>
  * </ul>
  * @Created on 2023/10/12 10:27
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CrawlerResultDefine {
-    /**
-     * 指定爬虫最终结果的处理器，可以指定多个
-     *
-     * @return
-     */
-    Class<? extends CrawlerHandler>[] handlers();
 
-    /**
-     * 指定爬虫最终结果的存储器
-     * @return
-     */
-    Class<? extends CrawlerDataStorage>[] dataStorages() default EmptyCrawlerDataStorage.class;
+	/**
+	 * 指定爬虫最终结果的处理器，可以指定多个
+	 * @return
+	 */
+	Class<? extends CrawlerHandler>[] handlers();
 
-    /**
-     * 指定该爬虫任务的下载器
-     * @return
-     */
-    Class<? extends CrawlerDownloader> downloader() default EmptyCrawlerDownloader.class;
+	/**
+	 * 指定爬虫最终结果的存储器
+	 * @return
+	 */
+	Class<? extends CrawlerDataStorage>[] dataStorages() default EmptyCrawlerDataStorage.class;
 
-    /**
-     * 指定该爬虫任务的解析器
-     * @return
-     */
-    Class<? extends CrawlerParser> parser() default EmptyCrawlerParser.class;
+	/**
+	 * 指定该爬虫任务的下载器
+	 * @return
+	 */
+	Class<? extends CrawlerDownloader> downloader() default EmptyCrawlerDownloader.class;
 
-    /**
-     * 针对一些缺失标签的，指定修补类型，自动修补缺失的标签
-     * @return
-     */
-    HtmlRepairTypeEnum repairType() default HtmlRepairTypeEnum.empty;
+	/**
+	 * 指定该爬虫任务的解析器
+	 * @return
+	 */
+	Class<? extends CrawlerParser> parser() default EmptyCrawlerParser.class;
+
+	/**
+	 * 针对一些缺失标签的，指定修补类型，自动修补缺失的标签
+	 * @return
+	 */
+	HtmlRepairTypeEnum repairType() default HtmlRepairTypeEnum.empty;
+
 }

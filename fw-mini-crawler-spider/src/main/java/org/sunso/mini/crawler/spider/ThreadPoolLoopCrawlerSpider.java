@@ -16,69 +16,72 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 public class ThreadPoolLoopCrawlerSpider extends AbstractCrawlerSpider {
 
-    /**
-     * 没有可执行任务时，休眠时间
-     */
-    private final long SLEEP_TIME = 10*1000;
+	/**
+	 * 没有可执行任务时，休眠时间
+	 */
+	private final long SLEEP_TIME = 10 * 1000;
 
-    /**
-     * 允许最大的休眠次数
-     */
-    private final int MAX_SLEEP_NUM = Integer.MAX_VALUE;
+	/**
+	 * 允许最大的休眠次数
+	 */
+	private final int MAX_SLEEP_NUM = Integer.MAX_VALUE;
 
-    /**
-     * 连续休眠的次数
-     */
-    private AtomicInteger continuousSleep = new AtomicInteger();
+	/**
+	 * 连续休眠的次数
+	 */
+	private AtomicInteger continuousSleep = new AtomicInteger();
 
-    /**
-     * 线程执行器
-     */
-    private ExecutorService executorService;
+	/**
+	 * 线程执行器
+	 */
+	private ExecutorService executorService;
 
-    public ThreadPoolLoopCrawlerSpider(CrawlerContext context) {
-        super(context);
-        executorService = new ThreadPoolExecutor(5, 10, 1, TimeUnit.MINUTES, new LinkedBlockingQueue<>(), new SpiderThreadFactory());
-    }
+	public ThreadPoolLoopCrawlerSpider(CrawlerContext context) {
+		super(context);
+		executorService = new ThreadPoolExecutor(5, 10, 1, TimeUnit.MINUTES, new LinkedBlockingQueue<>(),
+				new SpiderThreadFactory());
+	}
 
-    @Override
-    public void run() {
-        while (true) {
-            CrawlerHttpRequest request = getRequest();
-            if (request == null) {
-                setContinuousSleep();
-                sleep();
-                continue;
-            }
-            executorService.execute(() -> {
-                doRequest(request);
-            });
-        }
-    }
+	@Override
+	public void run() {
+		while (true) {
+			CrawlerHttpRequest request = getRequest();
+			if (request == null) {
+				setContinuousSleep();
+				sleep();
+				continue;
+			}
+			executorService.execute(() -> {
+				doRequest(request);
+			});
+		}
+	}
 
-    private int setContinuousSleep() {
-        if (continuousSleep.compareAndSet(MAX_SLEEP_NUM, 0)) {
-            log.info("执行器[ThreadPoolLoopCrawlerSpider]休眠次数已超过最大值[{}], 重新重置为0", MAX_SLEEP_NUM);
-        }
-        return continuousSleep.incrementAndGet();
-    }
+	private int setContinuousSleep() {
+		if (continuousSleep.compareAndSet(MAX_SLEEP_NUM, 0)) {
+			log.info("执行器[ThreadPoolLoopCrawlerSpider]休眠次数已超过最大值[{}], 重新重置为0", MAX_SLEEP_NUM);
+		}
+		return continuousSleep.incrementAndGet();
+	}
 
-    private long getSleepTime() {
-        long st = continuousSleep.get() * SLEEP_TIME;
-        return st;
-    }
+	private long getSleepTime() {
+		long st = continuousSleep.get() * SLEEP_TIME;
+		return st;
+	}
 
-    private void sleep() {
-        try {
-            long sleetTime = getSleepTime();
-            log.debug("执行器[ThreadPoolLoopCrawlerSpider]准备休眠[{}]毫秒", sleetTime);
-            Thread.sleep(sleetTime);
-        } catch (InterruptedException e) {
-            log.error("sleep exception", e);
-        }
-    }
+	private void sleep() {
+		try {
+			long sleetTime = getSleepTime();
+			log.debug("执行器[ThreadPoolLoopCrawlerSpider]准备休眠[{}]毫秒", sleetTime);
+			Thread.sleep(sleetTime);
+		}
+		catch (InterruptedException e) {
+			log.error("sleep exception", e);
+		}
+	}
 
-    private CrawlerHttpRequest getRequest() {
-        return getRequestFromCrawlerTask();
-    }
+	private CrawlerHttpRequest getRequest() {
+		return getRequestFromCrawlerTask();
+	}
+
 }

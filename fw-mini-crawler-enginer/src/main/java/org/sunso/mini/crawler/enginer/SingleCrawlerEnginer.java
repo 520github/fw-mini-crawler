@@ -8,14 +8,14 @@ package org.sunso.mini.crawler.enginer;
  */
 public class SingleCrawlerEnginer extends AbstractCrawlerEnginer {
 
-    @Override
-    protected boolean doRun() {
-        return false;
-    }
+	@Override
+	protected boolean doRun() {
+		return false;
+	}
 
+	@Override
+	public CrawlerEnginer startCrawler() {
+		return super.startCrawler();
+	}
 
-    @Override
-    public CrawlerEnginer startCrawler() {
-        return super.startCrawler();
-    }
 }

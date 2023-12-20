@@ -10,18 +10,18 @@ import org.sunso.mini.crawler.formatter.AbstractFormatter;
  */
 public abstract class AbstractRemoveFormatter extends AbstractFormatter {
 
-    protected String removeKey;
+	protected String removeKey;
 
+	@Override
+	protected Object doFormat(Object value) {
+		return doRemoveFormat(value);
+	}
 
-    @Override
-    protected Object doFormat(Object value) {
-        return doRemoveFormat(value);
-    }
+	protected Object doRemoveFormat(Object value) {
+		if (value == null) {
+			return null;
+		}
+		return value.toString().replaceAll(removeKey, "");
+	}
 
-    protected Object doRemoveFormat(Object value) {
-        if (value == null) {
-            return null;
-        }
-        return value.toString().replaceAll(removeKey, "");
-    }
 }

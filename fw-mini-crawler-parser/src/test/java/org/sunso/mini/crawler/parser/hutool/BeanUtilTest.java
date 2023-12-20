@@ -13,26 +13,31 @@ import java.util.Map;
 
 public class BeanUtilTest extends BaseTest {
 
+	@Test
+	public void map2Bean() {
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("name", "黎明");
+		dataMap.put("age", 22);
+		dataMap.put("cityList", Arrays.asList("bj", "sh"));
+		DefaultCrawlerResult child = new DefaultCrawlerResult();
+		child.setName("child");
+		child.setAge(1);
+		dataMap.put("child", child);
+		DefaultCrawlerResult result = BeanUtil.mapToBean(dataMap, DefaultCrawlerResult.class, true);
+		print(result);
+	}
 
-    @Test
-    public void map2Bean() {
-        Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("name", "黎明");
-        dataMap.put("age", 22);
-        dataMap.put("cityList", Arrays.asList("bj", "sh"));
-        DefaultCrawlerResult child = new DefaultCrawlerResult();
-        child.setName("child");
-        child.setAge(1);
-        dataMap.put("child", child);
-        DefaultCrawlerResult result = BeanUtil.mapToBean(dataMap, DefaultCrawlerResult.class, true);
-        print(result);
-    }
+	@Data
+	class DefaultCrawlerResult implements CrawlerResult {
 
-    @Data
-    class DefaultCrawlerResult implements CrawlerResult {
-        private String name;
-        private int age;
-        private List<String> cityList;
-        private DefaultCrawlerResult child;
-    }
+		private String name;
+
+		private int age;
+
+		private List<String> cityList;
+
+		private DefaultCrawlerResult child;
+
+	}
+
 }

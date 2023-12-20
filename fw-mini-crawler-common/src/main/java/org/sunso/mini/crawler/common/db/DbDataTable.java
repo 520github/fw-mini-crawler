@@ -10,11 +10,13 @@ import lombok.Data;
  */
 @Data
 public class DbDataTable extends DbDataSource {
-    private String tableName;
 
-    private String[] filterColumns;
+	private String tableName;
 
-    private boolean isToUnderlineCase = true;
+	private String[] filterColumns;
 
-    private boolean ignoreNullValue = true;
+	private boolean isToUnderlineCase = true;
+
+	private boolean ignoreNullValue = true;
+
 }

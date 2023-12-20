@@ -15,24 +15,26 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 @Slf4j
 public class CrawlerLinkedBlockingTask extends AbstractCrawlerTask {
-    private LinkedBlockingQueue<CrawlerHttpRequest> queue;
 
-    public CrawlerLinkedBlockingTask() {
-        queue = new LinkedBlockingQueue<>();
-    }
+	private LinkedBlockingQueue<CrawlerHttpRequest> queue;
 
-    @Override
-    public void offerTask(CrawlerHttpRequest request) {
-        queue.offer(request);
-    }
+	public CrawlerLinkedBlockingTask() {
+		queue = new LinkedBlockingQueue<>();
+	}
 
-    @Override
-    public CrawlerHttpRequest pollTask() {
-        return queue.poll();
-    }
+	@Override
+	public void offerTask(CrawlerHttpRequest request) {
+		queue.offer(request);
+	}
 
-    @Override
-    public void doneTask(CrawlerHttpRequest request, CrawlerHttpResponse response, CrawlerResult crawlerResult) {
-        log.info("doneTask url[%s], responseStatus[%d]", request.getUrl(), response.status());
-    }
+	@Override
+	public CrawlerHttpRequest pollTask() {
+		return queue.poll();
+	}
+
+	@Override
+	public void doneTask(CrawlerHttpRequest request, CrawlerHttpResponse response, CrawlerResult crawlerResult) {
+		log.info("doneTask url[%s], responseStatus[%d]", request.getUrl(), response.status());
+	}
+
 }

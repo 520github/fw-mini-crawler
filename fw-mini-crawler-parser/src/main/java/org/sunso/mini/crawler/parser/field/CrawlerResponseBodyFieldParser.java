@@ -10,17 +10,19 @@ import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
  * @Created on 2023/10/16 10:06
  */
 public class CrawlerResponseBodyFieldParser extends CrawlerResponseFieldParser {
-    @Override
-    public Object parseField(CrawlerFieldParserRequest request) {
-        return getResponseBody(request);
-    }
 
-    private String getResponseBody(CrawlerFieldParserRequest request) {
-        ResponseBody responseBody = request.fetchFieldAnnotation(ResponseBody.class);
-        CrawlerHttpResponse response =  getResponseData(responseBody.parentLevel(), request);
-        if (response == null) {
-            return null;
-        }
-        return response.body();
-    }
+	@Override
+	public Object parseField(CrawlerFieldParserRequest request) {
+		return getResponseBody(request);
+	}
+
+	private String getResponseBody(CrawlerFieldParserRequest request) {
+		ResponseBody responseBody = request.fetchFieldAnnotation(ResponseBody.class);
+		CrawlerHttpResponse response = getResponseData(responseBody.parentLevel(), request);
+		if (response == null) {
+			return null;
+		}
+		return response.body();
+	}
+
 }

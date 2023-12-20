@@ -10,19 +10,20 @@ import cn.hutool.core.util.StrUtil;
  */
 public abstract class AbstractCrawlerTask implements CrawlerTask {
 
-    /**
-     * 任务对应业务类型
-     */
-    protected String bizType = "default";
+	/**
+	 * 任务对应业务类型
+	 */
+	protected String bizType = "default";
 
-    public String getBizType() {
-        return bizType;
-    }
+	public String getBizType() {
+		return bizType;
+	}
 
-    public CrawlerTask setBizType(String bizType) {
-        if (StrUtil.isNotBlank(bizType)) {
-            this.bizType = bizType;
-        }
-        return this;
-    }
+	public CrawlerTask setBizType(String bizType) {
+		if (StrUtil.isNotBlank(bizType)) {
+			this.bizType = bizType;
+		}
+		return this;
+	}
+
 }

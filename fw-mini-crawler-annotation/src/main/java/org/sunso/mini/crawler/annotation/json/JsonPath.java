@@ -19,28 +19,31 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface JsonPath {
 
-    /**
-     * json选择器具体值
-     *
-     * <p>例子<p/>
-     * <ul>
-     *     <li>@JSONPath("$.Hits")</li>
-     *     <li>@JsonPath("result.records")</li>
-     *     <li>@JsonPath("name")</li>
-     * </ul>
-     * @return
-     */
-    String value();
+	/**
+	 * json选择器具体值
+	 *
+	 * <p>
+	 * 例子
+	 * <p/>
+	 * <ul>
+	 * <li>@JSONPath("$.Hits")</li>
+	 * <li>@JsonPath("result.records")</li>
+	 * <li>@JsonPath("name")</li>
+	 * </ul>
+	 * @return
+	 */
+	String value();
 
-    /**
-     * 数据格式化
-     * @return
-     */
-    Class<? extends Formatter>[] formatter() default NoneFormatter.class;
+	/**
+	 * 数据格式化
+	 * @return
+	 */
+	Class<? extends Formatter>[] formatter() default NoneFormatter.class;
 
-    /**
-     * 数据过滤
-     * @return
-     */
-    String expressionFilter() default "";
+	/**
+	 * 数据过滤
+	 * @return
+	 */
+	String expressionFilter() default "";
+
 }

@@ -15,32 +15,22 @@ import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequestBuilder;
  */
 public class Request2JsonTest extends BaseTest {
 
-    @Test
-    public void request2JsonTest() {
-        CrawlerHttpRequest request = getCrawlerHttpRequest();
-        String result = JSONUtil.toJsonStr(request);
-        print(result);
+	@Test
+	public void request2JsonTest() {
+		CrawlerHttpRequest request = getCrawlerHttpRequest();
+		String result = JSONUtil.toJsonStr(request);
+		print(result);
 
-        CrawlerHttpRequest copResult = JSONUtil.toBean(result, request.getClass());
-        print(copResult);
-    }
+		CrawlerHttpRequest copResult = JSONUtil.toBean(result, request.getClass());
+		print(copResult);
+	}
 
-    private CrawlerHttpRequest getCrawlerHttpRequest() {
-        return CrawlerHttpRequestBuilder
-                .get("http://www.zz.com")
-                .setWaitTime(100)
-                .addCookie("id", "1")
-                .addCookie("name", "limd")
-                .addParameter("p01", "01")
-                .addParameter("p02", "02")
-                .addData("d01", "d01")
-                .addData("d02", "d02")
-                .addHeader("ua", "my ua")
-                .addHeader("source", "lod")
-                .setAttribute("a01", "a01")
-                .setAttribute("a02", "b02")
-                .setEvent("div.load", CrawlerHttpRequestEventFactory.getInputSetAndMoveCursorEvent("2"))
-                ;
-    }
+	private CrawlerHttpRequest getCrawlerHttpRequest() {
+		return CrawlerHttpRequestBuilder.get("http://www.zz.com").setWaitTime(100).addCookie("id", "1")
+				.addCookie("name", "limd").addParameter("p01", "01").addParameter("p02", "02").addData("d01", "d01")
+				.addData("d02", "d02").addHeader("ua", "my ua").addHeader("source", "lod").setAttribute("a01", "a01")
+				.setAttribute("a02", "b02")
+				.setEvent("div.load", CrawlerHttpRequestEventFactory.getInputSetAndMoveCursorEvent("2"));
+	}
 
 }

@@ -15,21 +15,22 @@ import org.sunso.mini.crawler.context.CrawlerContextThreadLocal;
 @Slf4j
 public class OneTimeCrawlerSpider extends AbstractCrawlerSpider {
 
-    public OneTimeCrawlerSpider(CrawlerContext context) {
-        super(context);
-    }
+	public OneTimeCrawlerSpider(CrawlerContext context) {
+		super(context);
+	}
 
-    @SneakyThrows
-    @Override
-    public void run() {
-        CrawlerContextThreadLocal.set(this.context);
-        while (true) {
-            CrawlerHttpRequest request = getRequestFromCrawlerTask();
-            if (request == null) {
-                log.info("执行器[OneTimeCrawlerSpider]没有发现可执行的CrawlerHttpRequest，已退出服务");
-                break;
-            }
-            doRequest(request);
-        }
-    }
+	@SneakyThrows
+	@Override
+	public void run() {
+		CrawlerContextThreadLocal.set(this.context);
+		while (true) {
+			CrawlerHttpRequest request = getRequestFromCrawlerTask();
+			if (request == null) {
+				log.info("执行器[OneTimeCrawlerSpider]没有发现可执行的CrawlerHttpRequest，已退出服务");
+				break;
+			}
+			doRequest(request);
+		}
+	}
+
 }

@@ -7,8 +7,10 @@ package org.sunso.mini.crawler.parser.field;
  * @Created on 2023/10/30 15:06
  */
 public class CrawlerRequestUrlFieldParser extends AbstractCrawlerFieldParser {
-    @Override
-    public Object parseField(CrawlerFieldParserRequest request) {
-        return request.getRequest().getUrl();
-    }
+
+	@Override
+	public Object parseField(CrawlerFieldParserRequest request) {
+		return request.getRequest().getUrl();
+	}
+
 }

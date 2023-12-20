@@ -10,19 +10,20 @@ import org.sunso.mini.crawler.formatter.AbstractFormatter;
  */
 public abstract class AbstractReplaceFormatter extends AbstractFormatter {
 
-    protected String replaceKey;
-    protected String replaceValue;
+	protected String replaceKey;
 
+	protected String replaceValue;
 
-    @Override
-    protected Object doFormat(Object value) {
-        return doReplaceFormat(value);
-    }
+	@Override
+	protected Object doFormat(Object value) {
+		return doReplaceFormat(value);
+	}
 
-    protected Object doReplaceFormat(Object value) {
-        if (value == null) {
-            return null;
-        }
-        return value.toString().replaceAll(replaceKey, replaceValue);
-    }
+	protected Object doReplaceFormat(Object value) {
+		if (value == null) {
+			return null;
+		}
+		return value.toString().replaceAll(replaceKey, replaceValue);
+	}
+
 }

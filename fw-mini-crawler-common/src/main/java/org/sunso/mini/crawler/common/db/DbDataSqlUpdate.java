@@ -10,7 +10,9 @@ import lombok.Data;
  */
 @Data
 public class DbDataSqlUpdate extends DbDataTable {
-    private String sql;
 
-    private Object[] params;
+	private String sql;
+
+	private Object[] params;
+
 }

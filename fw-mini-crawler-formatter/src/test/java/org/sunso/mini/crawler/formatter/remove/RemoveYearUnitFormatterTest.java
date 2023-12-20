@@ -11,11 +11,12 @@ import org.sunso.mini.crawler.formatter.BaseTest;
  */
 public class RemoveYearUnitFormatterTest extends BaseTest {
 
-    RemoveYearUnitFormatter formatter = new RemoveYearUnitFormatter();
+	RemoveYearUnitFormatter formatter = new RemoveYearUnitFormatter();
 
-    @Test
-    public void formatterTest() {
-        Object result = formatter.format("年98年");
-        print(result);
-    }
+	@Test
+	public void formatterTest() {
+		Object result = formatter.format("年98年");
+		print(result);
+	}
+
 }

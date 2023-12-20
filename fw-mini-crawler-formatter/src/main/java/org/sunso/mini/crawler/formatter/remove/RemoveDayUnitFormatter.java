@@ -7,7 +7,9 @@ package org.sunso.mini.crawler.formatter.remove;
  * @Created on 2023/11/24 17:40
  */
 public class RemoveDayUnitFormatter extends AbstractRemoveFormatter {
-    public RemoveDayUnitFormatter() {
-        this.removeKey = "天";
-    }
+
+	public RemoveDayUnitFormatter() {
+		this.removeKey = "天";
+	}
+
 }

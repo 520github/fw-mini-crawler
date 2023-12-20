@@ -9,7 +9,9 @@ import org.sunso.mini.crawler.common.enums.HttpRequestEventTypeEnum;
  * @Created on 2023/11/9 16:37
  */
 public class CrawlerHttpRequestScrollToBottomEvent extends AbstractCrawlerHttpRequestEvent {
-    public CrawlerHttpRequestScrollToBottomEvent() {
-        setEventType(HttpRequestEventTypeEnum.scrollToBottom.getKey());
-    }
+
+	public CrawlerHttpRequestScrollToBottomEvent() {
+		setEventType(HttpRequestEventTypeEnum.scrollToBottom.getKey());
+	}
+
 }

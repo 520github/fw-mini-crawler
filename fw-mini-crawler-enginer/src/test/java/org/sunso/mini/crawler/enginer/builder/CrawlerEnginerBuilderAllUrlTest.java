@@ -17,40 +17,38 @@ import java.util.concurrent.CountDownLatch;
 
 public class CrawlerEnginerBuilderAllUrlTest extends BaseTest {
 
-    @Test
-    public void CrawlerEnginerBuilderTest() {
-        String url = "https://www.baidu.com";
-        CrawlerEnginerBuilder.create()
-                .request(
-                        CrawlerHttpRequestBuilder.get(url)
-                )
-                .urlCrawlerResult(url, BaiduUrl.class)
-                .defaultSingleCrawlerEnginer()
-                .startCrawler();
-        CountDownLatch countDownLatch = new CountDownLatch(1);
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	@Test
+	public void CrawlerEnginerBuilderTest() {
+		String url = "https://www.baidu.com";
+		CrawlerEnginerBuilder.create().request(CrawlerHttpRequestBuilder.get(url)).urlCrawlerResult(url, BaiduUrl.class)
+				.defaultSingleCrawlerEnginer().startCrawler();
+		CountDownLatch countDownLatch = new CountDownLatch(1);
+		try {
+			countDownLatch.await();
+		}
+		catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    @Data
-    @CrawlerResultDefine(handlers = ConsoleCrawlerHandler.class)
-    class BaiduUrl implements CrawlerResult {
-        @Response
-        private CrawlerHttpResponse response;
+	@Data
+	@CrawlerResultDefine(handlers = ConsoleCrawlerHandler.class)
+	class BaiduUrl implements CrawlerResult {
 
-        @ResponseStatus
-        private String responseStatus;
+		@Response
+		private CrawlerHttpResponse response;
 
-        //@ResponseBody
-        private String responseBody;
+		@ResponseStatus
+		private String responseStatus;
 
-        @HtmlMap(key = {"attr.href"}, value = {"attr.title","text"}, keyExpressionFilter = "key.startsWith('http')")
-        @HtmlCssPath("a[href]")
-        private Map<String, String> urlMap;
-    }
+		// @ResponseBody
+		private String responseBody;
 
+		@HtmlMap(key = { "attr.href" }, value = { "attr.title", "text" },
+				keyExpressionFilter = "key.startsWith('http')")
+		@HtmlCssPath("a[href]")
+		private Map<String, String> urlMap;
+
+	}
 
 }

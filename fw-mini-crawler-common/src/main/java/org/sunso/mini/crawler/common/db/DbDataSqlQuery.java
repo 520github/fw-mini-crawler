@@ -11,7 +11,8 @@ import lombok.Data;
 @Data
 public class DbDataSqlQuery extends DbDataTable {
 
-    private String sql;
+	private String sql;
 
-    private Object[] params;
+	private Object[] params;
+
 }

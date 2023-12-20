@@ -8,11 +8,12 @@ package org.sunso.mini.crawler.task;
  */
 public class CrawlerTaskFactory {
 
-    public static CrawlerTask getDefaultCrawlerTask() {
-        return getDefaultCrawlerTask(null);
-    }
+	public static CrawlerTask getDefaultCrawlerTask() {
+		return getDefaultCrawlerTask(null);
+	}
 
-    public static CrawlerTask getDefaultCrawlerTask(String bizKey) {
-        return new CrawlerLinkedBlockingTask().setBizType(bizKey);
-    }
+	public static CrawlerTask getDefaultCrawlerTask(String bizKey) {
+		return new CrawlerLinkedBlockingTask().setBizType(bizKey);
+	}
+
 }

@@ -11,11 +11,13 @@ import java.math.BigDecimal;
  * @Created on 2023/10/16 15:11
  */
 public class BigDecimalFormatter extends AbstractFormatter {
-    @Override
-    protected Object doFormat(Object value) {
-        if (value instanceof BigDecimal) {
-            return value;
-        }
-        return new BigDecimal(value.toString());
-    }
+
+	@Override
+	protected Object doFormat(Object value) {
+		if (value instanceof BigDecimal) {
+			return value;
+		}
+		return new BigDecimal(value.toString());
+	}
+
 }

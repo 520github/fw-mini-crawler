@@ -14,33 +14,34 @@ import org.sunso.mini.crawler.downloader.CrawlerDownloader;
  */
 @Data
 public class HtmlAjaxDTO {
-    private String url;
 
-    private HttpRequestMethodEnum method;
+	private String url;
 
-    private Class<? extends CrawlerDownloader> downloader;
+	private HttpRequestMethodEnum method;
 
-    private ContentTypeEnum contentType;
+	private Class<? extends CrawlerDownloader> downloader;
 
-    private String requestAttributeName;
+	private ContentTypeEnum contentType;
 
-    private boolean copyHeader;
+	private String requestAttributeName;
 
-    private boolean copyCookies;
+	private boolean copyHeader;
 
-    private boolean copyAttribute;
+	private boolean copyCookies;
 
+	private boolean copyAttribute;
 
-    public static HtmlAjaxDTO newInstance(HtmlAjax htmlAjax) {
-        HtmlAjaxDTO dto = new HtmlAjaxDTO();
-        dto.setUrl(htmlAjax.url());
-        dto.setMethod(htmlAjax.method());
-        dto.setContentType(htmlAjax.contentType());
-        dto.setDownloader(htmlAjax.downloader());
-        dto.setRequestAttributeName(htmlAjax.requestAttributeName());
-        dto.setCopyHeader(htmlAjax.copyHeader());
-        dto.setCopyCookies(htmlAjax.copyCookies());
-        dto.setCopyAttribute(htmlAjax.copyAttribute());
-        return dto;
-    }
+	public static HtmlAjaxDTO newInstance(HtmlAjax htmlAjax) {
+		HtmlAjaxDTO dto = new HtmlAjaxDTO();
+		dto.setUrl(htmlAjax.url());
+		dto.setMethod(htmlAjax.method());
+		dto.setContentType(htmlAjax.contentType());
+		dto.setDownloader(htmlAjax.downloader());
+		dto.setRequestAttributeName(htmlAjax.requestAttributeName());
+		dto.setCopyHeader(htmlAjax.copyHeader());
+		dto.setCopyCookies(htmlAjax.copyCookies());
+		dto.setCopyAttribute(htmlAjax.copyAttribute());
+		return dto;
+	}
+
 }

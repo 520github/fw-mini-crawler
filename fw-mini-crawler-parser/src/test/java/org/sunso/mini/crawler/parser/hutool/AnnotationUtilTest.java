@@ -5,7 +5,8 @@ import org.sunso.mini.crawler.parser.BaseTest;
 
 public class AnnotationUtilTest extends BaseTest {
 
-    public void getAnnotationTest() {
-        //AnnotationUtil.getAnnotation()
-    }
+	public void getAnnotationTest() {
+		// AnnotationUtil.getAnnotation()
+	}
+
 }

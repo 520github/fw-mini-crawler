@@ -15,45 +15,46 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HtmlUrl {
 
-    /**
-     * 获取链接值的属性key
-     * @return
-     */
-    String[] value() default "href";
+	/**
+	 * 获取链接值的属性key
+	 * @return
+	 */
+	String[] value() default "href";
 
-    /**
-     * 链接对应别名
-     * @return
-     */
-    String urlAlias() default "";
+	/**
+	 * 链接对应别名
+	 * @return
+	 */
+	String urlAlias() default "";
 
-    /**
-     * 是否触发点击链接
-     * @return
-     */
-    boolean triggerClick() default false;
+	/**
+	 * 是否触发点击链接
+	 * @return
+	 */
+	boolean triggerClick() default false;
 
-    /**
-     * 等待时间
-     * @return
-     */
-    long waitTime() default 0;
+	/**
+	 * 等待时间
+	 * @return
+	 */
+	long waitTime() default 0;
 
-    /**
-     * 是否copy父Request的请求头
-     * @return
-     */
-    boolean copyHeader() default false;
+	/**
+	 * 是否copy父Request的请求头
+	 * @return
+	 */
+	boolean copyHeader() default false;
 
-    /**
-     * 是否copy父Request的cookies
-     * @return
-     */
-    boolean copyCookies() default false;
+	/**
+	 * 是否copy父Request的cookies
+	 * @return
+	 */
+	boolean copyCookies() default false;
 
-    /**
-     * 是否copy父Request的Attribute
-     * @return
-     */
-    boolean copyAttribute() default false;
+	/**
+	 * 是否copy父Request的Attribute
+	 * @return
+	 */
+	boolean copyAttribute() default false;
+
 }

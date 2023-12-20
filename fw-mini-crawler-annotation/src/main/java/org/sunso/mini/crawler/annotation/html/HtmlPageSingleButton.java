@@ -17,75 +17,76 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HtmlPageSingleButton {
 
-    /**
-     * 访问的url
-     * @return
-     */
-    String url();
+	/**
+	 * 访问的url
+	 * @return
+	 */
+	String url();
 
-    /**
-     * 是否在当前页面直接追加分页数据
-     * @return
-     */
-    boolean singlePageAppendData() default false;
+	/**
+	 * 是否在当前页面直接追加分页数据
+	 * @return
+	 */
+	boolean singlePageAppendData() default false;
 
-    /**
-     * 加载页面后的等待时间
-     * @return
-     */
-    long waitTime() default 0;
+	/**
+	 * 加载页面后的等待时间
+	 * @return
+	 */
+	long waitTime() default 0;
 
-    /**
-     * 获取数据的开始下标
-     * @return
-     */
-    int startDataIndex() default 0;
+	/**
+	 * 获取数据的开始下标
+	 * @return
+	 */
+	int startDataIndex() default 0;
 
-    /**
-     * 获取数据的结束下标
-     * @return
-     */
-    int endDataIndex() default Integer.MAX_VALUE;
+	/**
+	 * 获取数据的结束下标
+	 * @return
+	 */
+	int endDataIndex() default Integer.MAX_VALUE;
 
-    /**
-     * 分页按钮的样式选择器
-     * @return
-     */
-    String cssSelector();
+	/**
+	 * 分页按钮的样式选择器
+	 * @return
+	 */
+	String cssSelector();
 
-    /**
-     * 触发事件类型
-     * @return
-     */
-    HttpRequestEventTypeEnum eventType() default HttpRequestEventTypeEnum.click;
+	/**
+	 * 触发事件类型
+	 * @return
+	 */
+	HttpRequestEventTypeEnum eventType() default HttpRequestEventTypeEnum.click;
 
-    /**
-     * 事件的结束标记
-     * @return
-     */
-    HttpRequestEventEndFlagEnum eventEndFlag() default HttpRequestEventEndFlagEnum.noSuchElement;
+	/**
+	 * 事件的结束标记
+	 * @return
+	 */
+	HttpRequestEventEndFlagEnum eventEndFlag() default HttpRequestEventEndFlagEnum.noSuchElement;
 
-    /**
-     * 事件允许最大处理次数
-     * @return
-     */
-    int eventDoMaxNum() default 100;
+	/**
+	 * 事件允许最大处理次数
+	 * @return
+	 */
+	int eventDoMaxNum() default 100;
 
-    /**
-     * 事件扩展数据
-     * @return
-     */
-    String extendData() default "";
+	/**
+	 * 事件扩展数据
+	 * @return
+	 */
+	String extendData() default "";
 
-    /**
-     * 是否复制浏览器扩展参数
-     * @return
-     */
-    boolean copyOption() default false;
+	/**
+	 * 是否复制浏览器扩展参数
+	 * @return
+	 */
+	boolean copyOption() default false;
 
-    /**
-     * 从第几页开始获取数据
-     * @return
-     */
-    int startPage() default 1;
+	/**
+	 * 从第几页开始获取数据
+	 * @return
+	 */
+	int startPage() default 1;
+
 }

@@ -14,9 +14,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FieldOrder {
-    /**
-     * 设置字段排序值
-     * @return
-     */
-    int sort() default 0;
+
+	/**
+	 * 设置字段排序值
+	 * @return
+	 */
+	int sort() default 0;
+
 }
