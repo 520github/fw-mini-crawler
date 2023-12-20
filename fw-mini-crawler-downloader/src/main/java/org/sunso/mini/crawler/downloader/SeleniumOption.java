@@ -9,7 +9,7 @@ import org.sunso.mini.crawler.downloader.enums.DownloaderExtendKeyEnum;
 /**
  * @author sunso520
  * @Title:SeleniumOption
- * @Description: <br>
+ * @Description: Selenium针对浏览器的扩展参数<br>
  * @Created on 2023/11/24 15:26
  */
 public class SeleniumOption {
@@ -29,21 +29,27 @@ public class SeleniumOption {
         if (option == null) {
             return options;
         }
+        // 开启无界面模式
         if (option.isSwitchArgHeadless()) {
             options.addArguments("--headless");
         }
+        //禁用gpu
         if (option.isSwitchArgDisableGpu()) {
             options.addArguments("--disable-gpu");
         }
+        //最大化窗口
         if (option.isSwitchArgStartMaximized()) {
             options.addArguments("--start-maximized");
         }
+        //禁用浏览器正在被自动化程序控制的提示
         if (option.isSwitchArgDisableInfoBars()) {
             options.addArguments("--disable-infobars");
         }
+        //隐身模式 (无痕模式)
         if (option.isSwitchArgIncognito()) {
             options.addArguments("--incognito");
         }
+        //禁用javascript
         if (option.isSwitchArgDisableJavascript()) {
             options.addArguments("--disable-javascript");
         }

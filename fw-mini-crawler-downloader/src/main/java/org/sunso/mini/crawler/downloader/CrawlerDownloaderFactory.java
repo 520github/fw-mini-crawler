@@ -2,6 +2,12 @@ package org.sunso.mini.crawler.downloader;
 
 import lombok.SneakyThrows;
 
+/**
+ * @author sunso520
+ * @Title:CrawlerDownloaderFactory
+ * @Description: 爬虫下载器工厂类<br>
+ * @Created on 2023/10/12 11:26
+ */
 public class CrawlerDownloaderFactory {
 
     @SneakyThrows

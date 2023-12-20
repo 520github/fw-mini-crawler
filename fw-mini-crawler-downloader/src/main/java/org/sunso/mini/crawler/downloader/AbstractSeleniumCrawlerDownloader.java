@@ -1,5 +1,6 @@
 package org.sunso.mini.crawler.downloader;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -19,11 +20,17 @@ import java.util.Map;
 /**
  * @author sunso520
  * @Title:AbstractSeleniumCrawlerDownloader
- * @Description: <br>
+ * @Description: 基于Selenium处理http请求的爬虫下载器抽象类<br>
  * @Created on 2023/10/30 09:03
  */
+@Slf4j
 public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownloader {
 
+    /**
+     * 下载爬虫http请求对应内容
+     * @param request 爬虫http请求对象
+     * @return
+     */
     protected CrawlerHttpResponse doDownload(CrawlerHttpRequest request) {
         WebDriver webDriver = null;
         try {
@@ -34,13 +41,18 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
             doEvent(webDriver, request);
             return getCrawlerHttpResponse(webDriver);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(String.format("AbstractSeleniumCrawlerDownloader download url[%s] exception[%s]", request.getUrl(), e.getMessage()), e);
         } finally {
             quit(webDriver);
         }
         return null;
     }
 
+    /**
+     * 触发多个事件
+     * @param webDriver WebDriver
+     * @param request 爬虫http请求对象
+     */
     protected void doEvent(WebDriver webDriver, CrawlerHttpRequest request) {
         Map<String, CrawlerHttpRequestEvent> events = request.getEvents();
         if (events == null || events.isEmpty()) {
@@ -70,6 +82,13 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
         }
     }
 
+    /**
+     * 触发一个事件
+     *
+     * @param eventKey   事件key
+     * @param eventValue 事件对应值
+     * @param webDriver  WebDriver
+     */
     protected void doOneEvent(String eventKey, CrawlerHttpRequestEvent eventValue, WebDriver webDriver) {
         if (HttpRequestEventTypeEnum.click.getKey().equalsIgnoreCase(eventValue.getEventType())) {
             doClickEvent(eventKey, eventValue, webDriver);
@@ -85,6 +104,13 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
         }
     }
 
+    /**
+     * 向本文框输入内容后，点击某个按钮
+     *
+     * @param eventKey   事件key
+     * @param eventValue 事件对应值
+     * @param webDriver  WebDriver
+     */
     protected void doInputSetAndClickButton(String eventKey, CrawlerHttpRequestInputSetAndClickButtonEvent eventValue, WebDriver webDriver) {
         WebElement inputElement = getWebElement(webDriver, eventValue.getInputCssPath());
         inputElement.clear();
@@ -94,6 +120,13 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
         sleep(eventValue.getClickWait());
     }
 
+    /**
+     * 点击按钮
+     *
+     * @param eventKey   事件key
+     * @param eventValue 事件对应值
+     * @param webDriver  WebDriver
+     */
     protected void doClickEvent(String eventKey, CrawlerHttpRequestEvent eventValue, WebDriver webDriver) {
         int doMaxNum = eventValue.getEventDoMaxNum();
         while (doMaxNum > 0) {
@@ -102,14 +135,21 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
                 WebElement webElement = getWebElement(webDriver, eventKey);
                 webElement.click();
             }catch (NoSuchElementException e) {
-                e.printStackTrace();
+                log.info("doClickEvent find NoSuchElementException by eventKey[{}]", eventKey);
                 break;
             }catch (Exception e) {
-                e.printStackTrace();
+                log.error("doClickEvent exception", e);
             }
         }
     }
 
+    /**
+     * 向输入框设置内容，并移开光标
+     *
+     * @param eventKey   事件key
+     * @param eventValue 事件对应值
+     * @param webDriver  WebDriver
+     */
     protected void doInputSetAndMoveCursor(String eventKey, CrawlerHttpRequestEvent eventValue, WebDriver webDriver) {
         try {
             WebElement webElement = getWebElement(webDriver, eventKey);
@@ -117,13 +157,18 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
             webElement.sendKeys(eventValue.getEventValue());
             emptyClick(webDriver);
         }catch (Exception e) {
-            e.printStackTrace();
+            log.error("doInputSetAndMoveCursor exception", e);
         }
     }
 
+    /**
+     * 滚动到浏览器窗口底部
+     * @param eventKey   事件key
+     * @param eventValue 事件对应值
+     * @param webDriver  WebDriver
+     */
     protected void doScrollToBottom(String eventKey, CrawlerHttpRequestEvent eventValue, WebDriver webDriver) {
         int lastHeight = getScrollHeight(webDriver);
-        System.out.println("lastHeight:" + lastHeight);
         int doMaxNum = eventValue.getEventDoMaxNum();
         while (doMaxNum > 0) {
             try {
@@ -141,6 +186,11 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
         }
     }
 
+    /**
+     * 获取浏览器屏幕滚动的高度
+     * @param webDriver
+     * @return
+     */
     private int getScrollHeight(WebDriver webDriver) {
         Object scrollHeight = getJavascriptExecutor(webDriver).executeScript("return document.body.scrollHeight");
         if (scrollHeight == null) {
@@ -149,15 +199,30 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
         return Integer.parseInt(scrollHeight.toString());
     }
 
+    /**
+     * 获取Javascript执行器
+     * @param webDriver
+     * @return
+     */
     protected JavascriptExecutor getJavascriptExecutor(WebDriver webDriver) {
         return (JavascriptExecutor)webDriver;
     }
 
+    /**
+     * 空点击
+     * @param webDriver WebDriver
+     */
     protected void emptyClick(WebDriver webDriver) {
         Actions actions = new Actions(webDriver);
         actions.click().perform();
     }
 
+    /**
+     * 根据事件key，获取事件对应的浏览器元素
+     * @param webDriver WebDriver
+     * @param eventKey 事件key
+     * @return
+     */
     protected WebElement getWebElement(WebDriver webDriver, String eventKey) {
         return webDriver.findElement(By.cssSelector(eventKey));
     }
@@ -169,6 +234,10 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
         return response;
     }
 
+    /**
+     * 退出浏览器
+     * @param webDriver
+     */
     protected void quit(WebDriver webDriver) {
         if (webDriver == null) {
             return;
@@ -176,6 +245,11 @@ public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownlo
         webDriver.quit();;
     }
 
+    /**
+     * 获取WebDriver对象
+     * @param request 爬虫http请求对象
+     * @return
+     */
     protected WebDriver getWebDriver(CrawlerHttpRequest request) {
         String browserType = request.getAttributeString(DownloaderExtendKeyEnum.browserType.getKey());
         ChromiumOptions options = SeleniumOption.getOption(request);
