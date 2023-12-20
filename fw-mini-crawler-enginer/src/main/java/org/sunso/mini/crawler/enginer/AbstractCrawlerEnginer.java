@@ -6,16 +6,18 @@ import org.sunso.mini.crawler.spider.CrawlerSpider;
 import org.sunso.mini.crawler.context.CrawlerContext;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * @author sunso520
+ * @Title:AbstractCrawlerEnginer
+ * @Description:爬虫引擎抽象类
+ * @Created on 2023/10/12 11:11
+ */
 public abstract class AbstractCrawlerEnginer extends Thread implements CrawlerEnginer {
 
     protected CrawlerContext context;
-    protected List<CrawlerSpider> spiderList;
 
     public void run() {
-        //setHttpRequest2Queue();
         setHttpRequest2Task();
         initCrawlerSpider();
         doRun();
@@ -45,12 +47,6 @@ public abstract class AbstractCrawlerEnginer extends Thread implements CrawlerEn
         return (CrawlerSpider)constructor.newInstance(this.getCrawlerContext());
     }
 
-//    protected void setHttpRequest2Queue() {
-//        for(CrawlerHttpRequest request: context.getRequestList()) {
-//            context.getQueue().offer(request);
-//        }
-//    }
-
     protected void setHttpRequest2Task() {
         for(CrawlerHttpRequest request: context.getRequestList()) {
             context.fetchTask().offerTask(request);
@@ -60,12 +56,5 @@ public abstract class AbstractCrawlerEnginer extends Thread implements CrawlerEn
     protected void initCrawlerSpider() {
         Thread thread = new Thread(newCrawlerSpider(), "spider-boot");
         thread.start();
-//        spiderList = new ArrayList<>();
-//        for(int i=0; i<context.getSpiderNum(); i++) {
-//            CrawlerSpider spider = newCrawlerSpider();
-//            spiderList.add(spider);
-//            Thread thread = new Thread(spider, "spider-"+i);
-//            thread.start();
-//        }
     }
 }

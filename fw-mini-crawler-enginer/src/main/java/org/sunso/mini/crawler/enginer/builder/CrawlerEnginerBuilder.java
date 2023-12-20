@@ -8,9 +8,7 @@ import org.sunso.mini.crawler.context.CrawlerContextBuilder;
 import org.sunso.mini.crawler.downloader.CrawlerDownloader;
 import org.sunso.mini.crawler.enginer.CrawlerEnginer;
 import org.sunso.mini.crawler.enginer.SingleCrawlerEnginer;
-import org.sunso.mini.crawler.handler.CrawlerHandler;
 import org.sunso.mini.crawler.parser.CrawlerParser;
-import org.sunso.mini.crawler.queue.CrawlerQueue;
 import org.sunso.mini.crawler.spider.OneTimeCrawlerSpider;
 import org.sunso.mini.crawler.task.CrawlerTask;
 import org.sunso.mini.crawler.task.CrawlerTaskFactory;
@@ -20,17 +18,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author sunso520
+ * @Title:CrawlerEnginerBuilder
+ * @Description:爬虫引擎构建器
+ * @Created on 2023/10/12 11:13
+ */
 public class CrawlerEnginerBuilder {
+    // 业务类型
     private String bizType;
+    // 爬虫请求url列表
     private List<CrawlerHttpRequest> requestList = new ArrayList<>();
+    // 爬虫任务
     private CrawlerTask task;
-    private CrawlerQueue queue;
+    // 爬虫下载器
     private CrawlerDownloader downloader;
+    // 爬虫解析器
     private CrawlerParser parser;
-    //private CrawlerHandler handler;
+    // 爬虫执行器类型
     private Class<? extends CrawlerSpider> spiderClassType;
-
+    // 爬虫请求url与CrawlerResult映射关系
     private Map<String, Class<? extends CrawlerResult>> urlCrawlerResultMap;
+    // 爬虫线程数
     private int spiderNum;
 
 
@@ -60,10 +69,6 @@ public class CrawlerEnginerBuilder {
         this.task = task;
         return this;
     }
-    public CrawlerEnginerBuilder queue(CrawlerQueue queue) {
-        this.queue = queue;
-        return this;
-    }
 
     public CrawlerEnginerBuilder downloader(CrawlerDownloader downloader) {
         this.downloader = downloader;
@@ -74,11 +79,6 @@ public class CrawlerEnginerBuilder {
         this.parser = parser;
         return this;
     }
-
-//    public CrawlerEnginerBuilder handler(CrawlerHandler handler) {
-//        this.handler = handler;
-//        return this;
-//    }
 
     public CrawlerEnginerBuilder spiderClassType(Class<? extends CrawlerSpider> spiderClassType) {
         this.spiderClassType = spiderClassType;
@@ -110,6 +110,10 @@ public class CrawlerEnginerBuilder {
         return singleCrawlerEnginer;
     }
 
+    public CrawlerEnginer buildOfSingleCrawlerEnginer() {
+        return defaultSingleCrawlerEnginer();
+    }
+
     private CrawlerContext getCrawlerContext() {
         if (spiderClassType == null) {
             spiderClassType = OneTimeCrawlerSpider.class;
@@ -121,14 +125,11 @@ public class CrawlerEnginerBuilder {
                 .bizType(bizType)
                 .requestList(requestList)
                 .task(task)
-                .queue(queue)
                 .downloader(downloader)
                 .parser(parser)
-                //.handler(handler)
                 .spiderClassType(spiderClassType)
                 .urlCrawlerResultMap(urlCrawlerResultMap)
                 .spiderNum(spiderNum)
                 .build();
     }
-
 }
