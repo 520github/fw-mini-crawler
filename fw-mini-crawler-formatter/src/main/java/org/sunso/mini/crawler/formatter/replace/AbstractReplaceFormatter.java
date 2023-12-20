@@ -4,8 +4,8 @@ import org.sunso.mini.crawler.formatter.AbstractFormatter;
 
 /**
  * @author sunso520
- * @Title:AbstractRemoveFormatter
- * @Description: <br>
+ * @Title:AbstractReplaceFormatter
+ * @Description: 替换掉指定值格式化抽象类<br>
  * @Created on 2023/11/24 17:33
  */
 public abstract class AbstractReplaceFormatter extends AbstractFormatter {

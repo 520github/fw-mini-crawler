@@ -4,6 +4,12 @@ import org.sunso.mini.crawler.formatter.AbstractFormatter;
 
 import java.math.BigDecimal;
 
+/**
+ * @author sunso520
+ * @Title:Money2ChineseFormatter
+ * @Description: 金额转中文格式化类<br>
+ * @Created on 2023/10/16 15:26
+ */
 public class Money2ChineseFormatter extends AbstractFormatter {
     private static final String[] CN_UPPER_NUMBER = { "零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖" };
     private static final String[] CN_UPPER_MONETRAY_UNIT = { "分", "角", "元", "拾", "佰", "仟", "万", "拾", "佰", "仟", "亿", "拾", "佰", "仟" };

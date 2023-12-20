@@ -5,6 +5,12 @@ import lombok.SneakyThrows;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author sunso520
+ * @Title:FormatterFactory
+ * @Description: 数据格式化工厂类<br>
+ * @Created on 2023/10/16 15:26
+ */
 public class FormatterFactory {
 
     @SneakyThrows
