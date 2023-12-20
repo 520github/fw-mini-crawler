@@ -10,32 +10,49 @@ import org.sunso.mini.crawler.common.http.option.OptionFactory;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author sunso520
+ * @Title:AbstractCrawlerHttpRequest
+ * @Description: 爬虫Http请求定义抽象类<br>
+ * @Created on 2023/10/12 11:21
+ */
 public abstract class AbstractCrawlerHttpRequest implements CrawlerHttpRequest {
-
+    // 请求ulr
     protected String url;
 
+    //请求别名
     protected String urlAlias;
 
+    // 请求id
     protected String requestId;
 
+    // 请求排序
     protected int sort = 0;
 
+    // 请求等待时间
     protected long waitTime = 0;
 
     protected String contentType;
 
+    // 请求参数
     private Map<String, String> parameters = new HashMap<>();
 
+    // 请求数据
     private Map<String, Object> data = new HashMap<>();
 
+    // 请求属性值
     private Map<String, Object> attributes = new HashMap<>();
 
+    // 请求事件
     private Map<String, CrawlerHttpRequestEvent> events = new HashMap<>();
 
+    // 请求cookies
     private Map<String, String> cookies = new HashMap<>();
 
+    // 请求头
     private Map<String, String> headers = new HashMap<>();
 
+    // 请求浏览器扩展参数
     private Option option = OptionFactory.getDefaultSwitchArgTrue();
 
 

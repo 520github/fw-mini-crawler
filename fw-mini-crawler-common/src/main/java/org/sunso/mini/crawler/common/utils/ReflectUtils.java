@@ -9,35 +9,10 @@ import java.util.Set;
 public class ReflectUtils {
 
     public static boolean isAnnotationPresentRecursion(Field field, Class<? extends Annotation> annotationClass) {
-//        if (field.isAnnotationPresent(annotationClass)) {
-//            return true;
-//        }
-//        Annotation annotations[] = field.getAnnotations();
-//        for (Annotation annotation: annotations) {
-//            boolean result = isAnnotationPresent(annotation.annotationType(), annotationClass);
-//            if (result) {
-//                return true;
-//            }
-//        }
-//        return false;
         return getAnnotationRecursion(field, annotationClass) != null;
     }
 
     public static boolean isAnnotationPresentRecursion(Class<? extends Annotation> targetClass, Class<? extends Annotation> annotationClass) {
-//        if (targetClass == annotationClass) {
-//            return true;
-//        }
-//        Annotation annotations[] = targetClass.getAnnotations();
-//        for (Annotation annotation: annotations) {
-//            if (annotation.annotationType() == annotationClass) {
-//                return true;
-//            }
-//            boolean result = isAnnotationPresent(annotation.annotationType(), annotationClass);
-//            if (result) {
-//                return true;
-//            }
-//        }
-//        return false;
         return getAnnotationRecursion(targetClass, annotationClass) != null;
     }
 

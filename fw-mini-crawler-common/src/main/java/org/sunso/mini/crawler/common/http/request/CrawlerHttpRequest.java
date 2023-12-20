@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * @author sunso520
  * @Title:CrawlerHttpRequest
- * @Description: 爬虫Http请求接口
+ * @Description: 爬虫Http请求定义接口
  * 该接口包含：
  * <ul>
  *     <li>请求url</li>

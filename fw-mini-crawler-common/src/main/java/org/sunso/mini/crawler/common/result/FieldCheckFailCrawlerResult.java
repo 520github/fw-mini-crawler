@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * @author sunso520
  * @Title:FieldCheckFailCrawlerResult
- * @Description: <br>
+ * @Description: 字段检查失败的爬虫结果<br>
  * @Created on 2023/11/14 15:42
  */
 @Data
