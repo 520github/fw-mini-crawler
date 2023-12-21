@@ -323,3 +323,6 @@ public class BaiduCrawler {
 
 ### DsLandPriceCrawler例子about json
 - [`DsLandPriceCrawler`](/fw-mini-crawler-demo/src/main/java/org/sunso/mini/crawler/demo/json/dslandprice/DsLandPriceCrawler.java)
+- [`ProvinceListCrawlerResult`](/fw-mini-crawler-demo/src/main/java/org/sunso/mini/crawler/demo/json/dslandprice/ProvinceListCrawlerResult.java)
+- [`ProvinceCrawlerResult`](/fw-mini-crawler-demo/src/main/java/org/sunso/mini/crawler/demo/json/dslandprice/ProvinceCrawlerResult.java)
+- [`ProvinceCrawlerResultHandler`](/fw-mini-crawler-demo/src/main/java/org/sunso/mini/crawler/demo/json/dslandprice/ProvinceCrawlerResultHandler.java)
