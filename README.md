@@ -311,10 +311,10 @@ public class BaiduCrawler {
 	public static void main(String[] args) {
 		String url = "https://www.baidu.com/";
 		CrawlerEnginerBuilder.create()
-		        .request(CrawlerHttpRequestBuilder.get(url)) // 请求对象
-				.urlCrawlerResult(url, BaiduCrawlerResult.class) // url对应的爬取结果类
-				.buildOfSingleCrawlerEnginer() // 采用SingleCrawlerEnginer引擎
-				.startCrawler(); // 启动爬虫
+		    .request(CrawlerHttpRequestBuilder.get(url)) // 请求对象
+		    .urlCrawlerResult(url, BaiduCrawlerResult.class) // url对应的爬取结果类
+		    .buildOfSingleCrawlerEnginer() // 采用SingleCrawlerEnginer引擎
+		    .startCrawler(); // 启动爬虫
 		System.out.println("baidu  crawler finish!");
 	}
 
