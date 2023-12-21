@@ -38,7 +38,7 @@ fw-mini-crawler是一整套java爬虫框架.
 - 基于java注解的实现方式。
 - 同时支持HttpClient和浏览器方式爬取数据。
 - 支持html、json、xml等爬取数据解析方式。
-- 采用类css selector方式的字段选择器。
+- 采用类css selector方式的字段注解选择器。
 - 爬虫任务可存储于本地内存、数据库、redis等。
 - 针对爬取文件可自动存储到本地、S3等。
 - 针对爬取的数据可自动入库。
@@ -249,3 +249,75 @@ public class ConvertibleBondsDetailCrawlerResult implements CrawlerResult {
 
 
 ## demo
+### 爬取baidu首页demo
+- 定义CrawlerResult
+~~~
+package org.sunso.mini.crawler.demo.simple.baidu;
+
+import lombok.Data;
+import org.sunso.mini.crawler.annotation.html.HtmlAttr;
+import org.sunso.mini.crawler.annotation.html.HtmlCssPath;
+import org.sunso.mini.crawler.annotation.html.HtmlImage;
+import org.sunso.mini.crawler.annotation.result.CrawlerResultDefine;
+import org.sunso.mini.crawler.common.result.CrawlerResult;
+
+/**
+ * 百度首页爬取结果字段定义
+ */
+@CrawlerResultDefine(handlers = { BaiduCrawlerResultHandler.class })
+@Data
+public class BaiduCrawlerResult implements CrawlerResult {
+
+	@HtmlCssPath("div#lg>img")
+	@HtmlImage
+	private String baiduLog; // 百度logo
+
+	@HtmlCssPath("input#su")
+	@HtmlAttr("value")
+	private String baiduSubmitValue; // 百度搜索按钮的名称
+
+}
+~~~
+
+- 定义CrawlerHandler
+~~~
+package org.sunso.mini.crawler.demo.simple.baidu;
+
+import org.sunso.mini.crawler.handler.CrawlerHandler;
+
+/**
+ * 针对BaiduCrawlerResult爬取结果的处理
+ */
+public class BaiduCrawlerResultHandler implements CrawlerHandler<BaiduCrawlerResult> {
+
+	@Override
+	public void handle(BaiduCrawlerResult crawlerResult) {
+	    //简单打印爬取的结果
+            System.out.println("crawlerResult: " + crawlerResult);
+	}
+
+}
+~~~
+
+- 启动爬虫
+~~~
+package org.sunso.mini.crawler.demo.simple.baidu;
+
+import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequestBuilder;
+import org.sunso.mini.crawler.enginer.builder.CrawlerEnginerBuilder;
+
+public class BaiduCrawler {
+
+	public static void main(String[] args) {
+		String url = "https://www.baidu.com/";
+		CrawlerEnginerBuilder.create()
+		        .request(CrawlerHttpRequestBuilder.get(url)) // 请求对象
+				.urlCrawlerResult(url, BaiduCrawlerResult.class) // url对应的爬取结果类
+				.buildOfSingleCrawlerEnginer() // 采用SingleCrawlerEnginer引擎
+				.startCrawler(); // 启动爬虫
+		System.out.println("baidu  crawler finish!");
+	}
+
+}
+~~~
+

@@ -9,6 +9,7 @@ public class BaiduCrawlerResultHandler implements CrawlerHandler<BaiduCrawlerRes
 
 	@Override
 	public void handle(BaiduCrawlerResult crawlerResult) {
+		// 简单打印爬取的结果
 		System.out.println("crawlerResult: " + crawlerResult);
 	}
 

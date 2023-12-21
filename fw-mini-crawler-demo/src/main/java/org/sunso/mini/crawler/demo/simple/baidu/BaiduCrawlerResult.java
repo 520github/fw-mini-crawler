@@ -16,10 +16,10 @@ public class BaiduCrawlerResult implements CrawlerResult {
 
 	@HtmlCssPath("div#lg>img")
 	@HtmlImage
-	private String baiduLog;
+	private String baiduLog; // 百度logo
 
 	@HtmlCssPath("input#su")
 	@HtmlAttr("value")
-	private String baiduSubmitValue;
+	private String baiduSubmitValue; // 百度搜索按钮的名称
 
 }
