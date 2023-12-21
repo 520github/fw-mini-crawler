@@ -50,6 +50,13 @@ fw-mini-crawler是一整套java爬虫框架.
 - 支持父子url之间的cookies、header、attribute等传递。
 - 支持父子url之间爬取字段值的传递。
 
+## 主要第三方依赖包
+- hutool
+- jsoup
+- selenium
+- jexl3
+- lombok
+
 ## 爬取字段定义解析方式
 
 ### json数据字段解析
