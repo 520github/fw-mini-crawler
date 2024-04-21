@@ -1,5 +1,6 @@
 package org.sunso.mini.crawler.common.http.request;
 
+import cn.hutool.core.util.StrUtil;
 import org.sunso.mini.crawler.common.http.event.CrawlerHttpRequestEvent;
 import org.sunso.mini.crawler.common.http.option.Option;
 
@@ -275,5 +276,18 @@ public interface CrawlerHttpRequest {
 	 * @return
 	 */
 	Option getOption();
+
+	default String getFileUrl() {
+		String url = getUrl();
+		if (StrUtil.isEmpty(url)) {
+			return null;
+		}
+		String fileTag = "file:";
+		if (!url.startsWith(fileTag)) {
+			return null;
+		}
+		int index = url.indexOf(fileTag);
+		return url.substring(index + fileTag.length());
+	}
 
 }

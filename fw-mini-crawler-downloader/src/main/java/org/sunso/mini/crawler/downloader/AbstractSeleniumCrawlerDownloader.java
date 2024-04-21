@@ -24,7 +24,7 @@ import java.util.Map;
  * @Created on 2023/10/30 09:03
  */
 @Slf4j
-public abstract class AbstractSeleniumCrawlerDownloader implements CrawlerDownloader {
+public abstract class AbstractSeleniumCrawlerDownloader extends AbstractCrawlerDownloader {
 
 	/**
 	 * 下载爬虫http请求对应内容

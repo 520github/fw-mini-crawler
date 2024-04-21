@@ -16,10 +16,10 @@ import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
  * @Created on 2023/10/12 11:26
  */
 @Slf4j
-public class HutoolCrawlerDownloader implements CrawlerDownloader {
+public class HutoolCrawlerDownloader extends AbstractCrawlerDownloader {
 
 	@Override
-	public CrawlerHttpResponse download(CrawlerHttpRequest request) {
+	public CrawlerHttpResponse doDownload(CrawlerHttpRequest request) {
 		if (request instanceof CrawlerHttpEmptyRequest) {
 			return null;
 		}

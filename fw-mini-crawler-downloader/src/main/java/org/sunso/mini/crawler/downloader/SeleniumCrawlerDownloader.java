@@ -1,8 +1,5 @@
 package org.sunso.mini.crawler.downloader;
 
-import org.sunso.mini.crawler.common.http.request.CrawlerHttpRequest;
-import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
-
 /**
  * @author sunso520
  * @Title:AbstractSeleniumCrawlerDownloader
@@ -10,10 +7,5 @@ import org.sunso.mini.crawler.common.http.response.CrawlerHttpResponse;
  * @Created on 2023/10/25 15:03
  */
 public class SeleniumCrawlerDownloader extends AbstractSeleniumCrawlerDownloader {
-
-	@Override
-	public CrawlerHttpResponse download(CrawlerHttpRequest request) {
-		return doDownload(request);
-	}
 
 }
